@@ -614,22 +614,29 @@ export const businessSlice = createSlice({
             };
         },
         updateLevelOne: (state = initialState, actions) => {
-            // state.value.name = actions.payload
+            const name = actions?.payload?.name
+            const categories = state.value.categories
+            categories.forEach((singleCat) => {
+                if (singleCat.name === name) {
+                    singleCat.isActive = !singleCat.isActive;
+                    console.log(singleCat.name, "name")
+                    console.log(singleCat.isActive, "value")
+                }
+            })
         },
         updateLevelTwo: (state = initialState, actions) => {
             const name = actions?.payload?.name
-            // const isActive = actions?.payload?.isActive
             const categories = state.value.categories
             categories.forEach((singleCat) => {
                 if (singleCat) {
                     singleCat?.subcategories?.forEach((subcategory) => {
-                        subcategory?.subMenu?.forEach((item) => {
-                            if (item.name === name) {
-                                item.isActive = !item.isActive;
-                                console.log(item.name, "name")
-                                console.log(item.isActive, "value")
-                            }
-                        });
+                        // subcategory?.subMenu?.forEach((item) => {
+                        if (subcategory.name === name) {
+                            subcategory.isActive = !subcategory.isActive;
+                            console.log(subcategory.name, "name")
+                            console.log(subcategory.isActive, "value")
+                        }
+                        // });
                     });
                 }
             })

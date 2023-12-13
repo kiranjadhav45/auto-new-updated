@@ -7,8 +7,10 @@ import {
   Col,
   Breadcrumb,
 } from "react-bootstrap";
-
+import { useSelector, useDispatch } from 'react-redux'
+import { updateLevelOne, updateLevelTwo, updateLevelThree } from '../../features/business/businessSlice'
 const MasterComponent = ({ categories }) => {
+  const dispatch = useDispatch()
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
 
@@ -40,7 +42,7 @@ const MasterComponent = ({ categories }) => {
         id={`category-switch-${category.name}`}
         label=""
         checked={category.isActive}
-        onChange={() => {}}
+        onChange={() => { dispatch(updateLevelOne(category)) }}
       />
     </ListGroup.Item>
   );
@@ -65,7 +67,7 @@ const MasterComponent = ({ categories }) => {
         id={`subcategory-switch-${subcategory.name}`}
         label=""
         checked={subcategory.isActive}
-        onChange={() => {}}
+        onChange={() => { dispatch(updateLevelTwo(subcategory)) }}
       />
     </ListGroup.Item>
   );
@@ -87,7 +89,7 @@ const MasterComponent = ({ categories }) => {
         id={`submenu-switch-${menuItem.name}`}
         label=""
         checked={menuItem.isActive}
-        onChange={() => {}}
+        onChange={() => { dispatch(updateLevelThree(menuItem)) }}
       />
     </ListGroup.Item>
   );
@@ -98,7 +100,7 @@ const MasterComponent = ({ categories }) => {
         <Col xs={12}>
           <Breadcrumb>
             <Breadcrumb.Item onClick={() => setSelectedCategory(null)}>
-             Masters
+              Masters
             </Breadcrumb.Item>
             {selectedCategory && (
               <Breadcrumb.Item onClick={() => setSelectedSubcategory(null)}>
