@@ -617,24 +617,39 @@ export const businessSlice = createSlice({
             // state.value.name = actions.payload
         },
         updateLevelTwo: (state = initialState, actions) => {
-            // state.value.name = actions.payload
+            const name = actions?.payload?.name
+            // const isActive = actions?.payload?.isActive
+            const categories = state.value.categories
+            categories.forEach((singleCat) => {
+                if (singleCat) {
+                    singleCat?.subcategories?.forEach((subcategory) => {
+                        subcategory?.subMenu?.forEach((item) => {
+                            if (item.name === name) {
+                                item.isActive = !item.isActive;
+                                console.log(item.name, "name")
+                                console.log(item.isActive, "value")
+                            }
+                        });
+                    });
+                }
+            })
         },
         updateLevelThree: (state = initialState, actions) => {
             const name = actions?.payload?.name
-            const isActive = actions?.payload?.isActive
-            const mastersCategory = state?.value?.categories?.find((category) => category?.name === 'Masters');
-
-            if (mastersCategory) {
-                mastersCategory?.subcategories?.forEach((subcategory) => {
-                    subcategory?.subMenu?.forEach((item) => {
-                        if (item.name === name) {
-                            item.isActive = !item.isActive;
-                            console.log(item.name, "name")
-                            console.log(item.isActive, "value")
-                        }
+            const categories = state.value.categories
+            categories.forEach((singleCat) => {
+                if (singleCat) {
+                    singleCat?.subcategories?.forEach((subcategory) => {
+                        subcategory?.subMenu?.forEach((item) => {
+                            if (item.name === name) {
+                                item.isActive = !item.isActive;
+                                console.log(item.name, "name")
+                                console.log(item.isActive, "value")
+                            }
+                        });
                     });
-                });
-            }
+                }
+            })
         },
     },
 })
