@@ -602,7 +602,6 @@ const initialState = {
             }
         ]
     },
-
 }
 
 export const businessSlice = createSlice({
@@ -621,8 +620,21 @@ export const businessSlice = createSlice({
             // state.value.name = actions.payload
         },
         updateLevelThree: (state = initialState, actions) => {
-            const master = state.categories.find((item) => (item.name == "Masters"))
+            const name = actions?.payload?.name
+            const isActive = actions?.payload?.isActive
+            const mastersCategory = state?.value?.categories?.find((category) => category?.name === 'Masters');
 
+            if (mastersCategory) {
+                mastersCategory?.subcategories?.forEach((subcategory) => {
+                    subcategory?.subMenu?.forEach((item) => {
+                        if (item.name === name) {
+                            item.isActive = !item.isActive;
+                            console.log(item.name, "name")
+                            console.log(item.isActive, "value")
+                        }
+                    });
+                });
+            }
         },
     },
 })

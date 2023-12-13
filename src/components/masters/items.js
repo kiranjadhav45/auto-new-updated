@@ -8,13 +8,20 @@ import {
   Col,
   Breadcrumb,
 } from "react-bootstrap";
+import { useSelector, useDispatch } from 'react-redux'
+import { updateLevelThree } from '../../features/business/businessSlice'
 
 const ItemsMaster = ({ currentActiveMenu }) => {
+  const dispatch = useDispatch()
+  const businessData = useSelector((state) => state.business.value)
   const [selectedSubMenu, setSelectedSubMenu] = useState(null);
-
+  const master = businessData.categories.find((item) => item.name == "Masters")
   const handleSubMenuSelect = (menuItem) => {
     setSelectedSubMenu(menuItem);
   };
+
+
+
 
   const renderSubMenu = (menuItem) => (
     <ListGroup.Item
@@ -35,7 +42,7 @@ const ItemsMaster = ({ currentActiveMenu }) => {
         id={`submenu-switch-${menuItem.name}`}
         label=""
         checked={menuItem.isActive}
-        onChange={() => {}}
+        onChange={() => { dispatch(updateLevelThree(menuItem)) }}
       />
     </ListGroup.Item>
   );
