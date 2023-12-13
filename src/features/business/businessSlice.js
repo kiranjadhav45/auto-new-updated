@@ -610,11 +610,23 @@ export const businessSlice = createSlice({
     initialState,
     reducers: {
         updateBusiness: (state = initialState, actions) => {
-            state.value.name = actions.payload
+            return {
+                value: actions.payload,
+            };
+        },
+        updateLevelOne: (state = initialState, actions) => {
+            // state.value.name = actions.payload
+        },
+        updateLevelTwo: (state = initialState, actions) => {
+            // state.value.name = actions.payload
+        },
+        updateLevelThree: (state = initialState, actions) => {
+            const master = state.categories.find(() => (item.name == "Masters"))
+
         },
     },
 })
 
-export const { updateBusiness } = businessSlice.actions
+export const { updateBusiness, updateLevelOne, updateLevelTwo, updateLevelThree } = businessSlice.actions
 
 export default businessSlice.reducer
