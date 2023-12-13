@@ -10,7 +10,15 @@ import VendorsPage from "./pages/Vendors";
 import OrdersPage from "./pages/Orders";
 import LoginPage from "./pages/Auth/LoginPage";
 import RegisterPage from "./pages/Auth/RegisterPage";
+import { useSelector, useDispatch } from 'react-redux'
+import { updateBusiness } from './features/business/businessSlice'
+import { useEffect } from "react";
+import data from './data.json'
 function App() {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(updateBusiness(data))
+  }, [])
   return (
     <BrowserRouter>
       <Routes>
