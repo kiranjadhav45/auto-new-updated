@@ -1,0 +1,48 @@
+// CustomColors.scss
+
+// Primary Colors
+$primary: #1D1128;
+
+
+// Secondary Colors
+$secondary: #514F59;
+
+
+// Success Colors
+$success: #6D72C3;
+
+
+// Danger Colors
+$danger: #FAA381;
+
+
+// Warning Colors
+$warning: #E5D4ED;
+
+
+// Info Colors
+$info: #5941A9;
+
+
+// Light and Dark Colors
+$light: #f8f9fa;
+$dark: #343a40;
+
+// Bootstrap Default Colors
+$white: #fff;
+$gray-100: #f8f9fa;
+$gray-200: #e9ecef;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #6c757d;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
+$black: #000;
+
+// Customize the grid system
+$grid-columns: 24;
+$grid-gutter-width: 16px;
+
+@import "~bootstrap/scss/bootstrap";

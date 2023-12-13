@@ -1,0 +1,114 @@
+.button-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.box {
+  margin-top: 5px; /* Add some spacing between button and box */
+}
+
+/* input css */
+.formInput {
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+}
+
+.customeInputBox {
+  padding: 15px;
+  margin: 10px 0px;
+  border-radius: 5px;
+  border: 1px solid gray;
+}
+
+.inputBoxLable {
+  font-size: 12px;
+  color: gray;
+}
+
+.inputBoxError {
+  font-size: 12px;
+  padding: 3px;
+  color: red;
+  display: none;
+}
+
+.customeInputBox:invalid[focused="true"] {
+  border: 1px solid red;
+}
+
+.customeInputBox:invalid[focused="true"] ~ .inputBoxError {
+  display: block;
+}
+
+/* upload css */
+
+.file-upload-button {
+  padding: 6px 16px;
+  border-radius: 5px;
+  background-color: blueviolet;
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* top navbar */
+
+.top-nav-icons {
+  position: relative;
+}
+.list-items-top-navbar{
+  position: absolute;
+  left: 50%;
+  top: 50px;
+  transform: translateX(-50%);
+  width: 200px;
+}
+.list-items-top-profile{
+  position: absolute;
+  /* left: 50%; */
+  top: 50px;
+  /* transform: translateX(-50%); */
+  width: 200px;
+  right: -30px;
+  z-index: 1000000 !important;
+}
+.top-nav-icon-search{
+  display: flex; 
+}
+.top-nav-input{
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 2px 5px;
+  border: 1px solid #ccc;
+  
+}
+.top-nav-input:focus{
+  outline: none;
+}
+.profile-photo-style{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.buttons-profile{
+  font-size: 14px;
+}
+.profile-pop-up-container{
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  position: relative;
+  z-index: 1000000;
+}
+.tail-notification{
+  width: 40px;
+  height: 40px;
+  border: 1px solid #ccc;
+  rotate: 45deg;
+  position: absolute;
+  border-radius: 2px;
+  top: 44px;
+  /* z-index: ; */
+}

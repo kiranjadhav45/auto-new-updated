@@ -1,0 +1,54 @@
+$theme-colors: (
+  // "primary": #3aafa9,
+  // "secondary": #d1e8e2,
+  // "success": #5cdb95,
+  // "danger": #ffb48f,
+  // "warning": #f2c75b,
+  // "info": #8ee4af,
+  // "dark": #16213e,
+  // "light": #e6e5de,
+  // "indigo": #94a1b2,
+  // "malibu": #57bee6,
+  // "veryLight": #f8f8f8,
+  // "blue": #0d6efd,
+  // "white": #edf5e1,
+  // "darker": #303c6c,
+  // "orange": #ff652f,
+  // "moreLight": #f8f9fa,
+  // "darkBlue": #748da6,
+  "primary": #2563eb,
+  "black": #0f172a,
+  "white": #fff,
+  "pink": #ed4f9d,
+  "gray-50": #f0f1f3,
+  "gray-200": #e2e8f0,
+  "gray-400": #94a3b8,
+  "gray-500": #64748b,
+  "gray-600": #475569,
+  "background": #fafafa,
+  "background-new": #eef0f2,
+  "yellow": #f6a723
+);
+/* This pen is using external base CSS stylesheet(s) in the CSS Settings */
+// $input-btn-focus-width: 0.07rem;
+// $input-btn-focus-color: #d1e8e2;
+// $white: #fff;
+// $black: #172521;
+// $enable-gradients: false;
+
+// $input-color: $black;
+// $cyan: rgb(51, 92, 103);
+// $table-bg-level: -20;
+// $enable-shadows: true;
+// $enable-responsive-font-sizes: true;
+
+// $enable-caret: true;
+// $enable-rounded: true;
+// $enable-transitions: true;
+// $enable-prefers-reduced-motion-media-query: true;
+// $enable-grid-classes: true;
+// $enable-print-styles: true;
+// $enable-validation-icons: true;
+$grid-columns: 24;
+
+@import "../node_modules/bootstrap/scss/bootstrap";
