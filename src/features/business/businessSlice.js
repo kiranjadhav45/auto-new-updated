@@ -621,7 +621,7 @@ export const businessSlice = createSlice({
             // state.value.name = actions.payload
         },
         updateLevelThree: (state = initialState, actions) => {
-            const master = state.categories.find(() => (item.name == "Masters"))
+            const master = state.categories.find((item) => (item.name == "Masters"))
 
         },
     },
