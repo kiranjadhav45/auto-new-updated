@@ -12,16 +12,18 @@ import { useSelector, useDispatch } from 'react-redux'
 import { updateLevelThree } from '../../features/business/businessSlice'
 
 const ItemsMaster = ({ currentActiveMenu }) => {
+
+
   const dispatch = useDispatch()
   const businessData = useSelector((state) => state.business.value)
+  const [newItemsData, setNewItemsData] = useState(businessData?.categories[1]?.subcategories[1].subMenu)
+  // console.log(businessData.categories[1].subcategories[1].subMenu)
+  console.log(newItemsData)
   const [selectedSubMenu, setSelectedSubMenu] = useState(null);
   const master = businessData.categories.find((item) => item.name == "Masters")
   const handleSubMenuSelect = (menuItem) => {
     setSelectedSubMenu(menuItem);
   };
-
-
-
 
   const renderSubMenu = (menuItem) => (
     <ListGroup.Item
@@ -52,9 +54,16 @@ const ItemsMaster = ({ currentActiveMenu }) => {
       <h2>Items</h2>
       <Row>
         <Col xs={12} md={4}>
-          {currentActiveMenu?.subMenu && (
+          {/* {currentActiveMenu?.subMenu && (
             <ListGroup>
               {currentActiveMenu.subMenu.map((menuItem) =>
+                renderSubMenu(menuItem)
+              )}
+            </ListGroup>
+          )} */}
+          {newItemsData && (
+            <ListGroup>
+              {businessData?.categories[1]?.subcategories[1].subMenu?.map((menuItem) =>
                 renderSubMenu(menuItem)
               )}
             </ListGroup>
