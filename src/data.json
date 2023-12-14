@@ -1,6 +1,6 @@
 {
   "type": "resto",
-  "name": "HR Resortssss",
+  "name": "HR From Data ",
   "defaultMenu": [
     { "name": "top10", "title": "Top 10" },
     { "name": "onGoing", "title": "On Going" },

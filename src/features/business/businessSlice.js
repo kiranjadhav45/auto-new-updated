@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import produce from 'immer';
 const initialState = {
     value: {
         "type": "resto",
@@ -613,50 +613,152 @@ export const businessSlice = createSlice({
                 value: actions.payload,
             };
         },
-        updateLevelOne: (state = initialState, actions) => {
-            const name = actions?.payload?.name
-            const categories = state.value.categories
-            categories.forEach((singleCat) => {
+        // updateLevelOne: (state = initialState, actions) => {
+        //     const name = actions?.payload?.name
+        //     const categories = state.value.categories
+        //     categories.forEach((singleCat) => {
+        //         if (singleCat.name === name) {
+        //             singleCat.isActive = !singleCat.isActive;
+        //             console.log(singleCat.name, "name")
+        //             console.log(singleCat.isActive, "value")
+        //         }
+        //     })
+        // },
+        updateLevelOne: (state, action) => {
+            const { name } = action.payload;
+
+            const updatedCategories = state.value.categories.map(singleCat => {
                 if (singleCat.name === name) {
-                    singleCat.isActive = !singleCat.isActive;
-                    console.log(singleCat.name, "name")
-                    console.log(singleCat.isActive, "value")
+                    // Create a new object for the updated category
+                    return {
+                        ...singleCat,
+                        isActive: !singleCat.isActive,
+                    };
                 }
-            })
+                return singleCat; // Return unchanged category
+            });
+
+            // Create a new state object with updated categories
+            return {
+                ...state,
+                value: {
+                    ...state.value,
+                    categories: updatedCategories,
+                },
+            };
         },
-        updateLevelTwo: (state = initialState, actions) => {
-            const name = actions?.payload?.name
-            const categories = state.value.categories
-            categories.forEach((singleCat) => {
-                if (singleCat) {
-                    singleCat?.subcategories?.forEach((subcategory) => {
-                        // subcategory?.subMenu?.forEach((item) => {
+        // updateLevelTwo: (state = initialState, actions) => {
+        //     const name = actions?.payload?.name
+        //     const categories = state.value.categories
+        //     categories.forEach((singleCat) => {
+        //         if (singleCat) {
+        //             singleCat?.subcategories?.forEach((subcategory) => {
+        //                 // subcategory?.subMenu?.forEach((item) => {
+        //                 if (subcategory.name === name) {
+        //                     subcategory.isActive = !subcategory.isActive;
+        //                     console.log(subcategory.name, "name")
+        //                     console.log(subcategory.isActive, "value")
+        //                 }
+        //                 // });
+        //             });
+        //         }
+        //     })
+        // },
+        updateLevelTwo: (state, action) => {
+            const { name } = action.payload;
+
+            const updatedCategories = state.value.categories.map(singleCat => {
+                if (singleCat && singleCat.subcategories) {
+                    const updatedSubcategories = singleCat.subcategories.map(subcategory => {
                         if (subcategory.name === name) {
-                            subcategory.isActive = !subcategory.isActive;
-                            console.log(subcategory.name, "name")
-                            console.log(subcategory.isActive, "value")
+                            // Create a new object for the updated subcategory
+                            return {
+                                ...subcategory,
+                                isActive: !subcategory.isActive,
+                            };
                         }
-                        // });
+                        return subcategory; // Return unchanged subcategory
                     });
+
+                    // Create a new object for the category with updated subcategories
+                    return {
+                        ...singleCat,
+                        subcategories: updatedSubcategories,
+                    };
                 }
-            })
+                return singleCat; // Return unchanged category
+            });
+
+            // Create a new state object with updated categories
+            return {
+                ...state,
+                value: {
+                    ...state.value,
+                    categories: updatedCategories,
+                },
+            };
         },
-        updateLevelThree: (state = initialState, actions) => {
-            const name = actions?.payload?.name
-            const categories = state.value.categories
-            categories.forEach((singleCat) => {
-                if (singleCat) {
-                    singleCat?.subcategories?.forEach((subcategory) => {
-                        subcategory?.subMenu?.forEach((item) => {
-                            if (item.name === name) {
-                                item.isActive = !item.isActive;
-                                console.log(item.name, "name")
-                                console.log(item.isActive, "value")
-                            }
-                        });
+        // updateLevelThree: (state = initialState, actions) => {
+        //     const name = actions?.payload?.name
+        //     const categories = state.value.categories
+        //     categories.forEach((singleCat) => {
+        //         if (singleCat) {
+        //             singleCat?.subcategories?.forEach((subcategory) => {
+        //                 subcategory?.subMenu?.forEach((item) => {
+        //                     if (item.name === name) {
+        //                         item.isActive = !item.isActive;
+        //                         console.log(item.name, "name")
+        //                         console.log(item.isActive, "value")
+        //                     }
+        //                 });
+        //             });
+        //         }
+        //     })
+        // },
+        updateLevelThree: (state, action) => {
+            const { name } = action.payload;
+
+            const updatedCategories = state.value.categories.map(singleCat => {
+                if (singleCat && singleCat.subcategories) {
+                    const updatedSubcategories = singleCat.subcategories.map(subcategory => {
+                        if (subcategory && subcategory.subMenu) {
+                            const updatedSubMenu = subcategory.subMenu.map(item => {
+                                if (item.name === name) {
+                                    // Create a new object for the updated item
+                                    return {
+                                        ...item,
+                                        isActive: !item.isActive,
+                                    };
+                                }
+                                return item; // Return unchanged item
+                            });
+
+                            // Create a new object for the subcategory with updated subMenu
+                            return {
+                                ...subcategory,
+                                subMenu: updatedSubMenu,
+                            };
+                        }
+                        return subcategory; // Return unchanged subcategory
                     });
+
+                    // Create a new object for the category with updated subcategories
+                    return {
+                        ...singleCat,
+                        subcategories: updatedSubcategories,
+                    };
                 }
-            })
+                return singleCat; // Return unchanged category
+            });
+
+            // Create a new state object with updated categories
+            return {
+                ...state,
+                value: {
+                    ...state.value,
+                    categories: updatedCategories,
+                },
+            };
         },
     },
 })
