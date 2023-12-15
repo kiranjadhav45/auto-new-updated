@@ -102,12 +102,12 @@ const CommonTable = ({ data, title }) => {
 
   return (
     <div>
-      <Navbar className="bg-body-tertiary justify-content-between">
-        <Form inline>
+      <Navbar className="justify-content-end">
+        {/* <Form inline>
           <InputGroup>
             <h2>{title}</h2>
           </InputGroup>
-        </Form>
+        </Form> */}
         <Form inline>
           <Row>
             <Col xs="auto">
