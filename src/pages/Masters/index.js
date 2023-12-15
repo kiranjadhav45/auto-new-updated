@@ -14,7 +14,7 @@ const Masters = () => {
   const [dataToPerform, setDataToPerform] = useState(
     mainData.businesses.filter((i) => i.type === "resto")
   );
-  console.log("daya to perform...", dataToPerform);
+  // console.log("daya to perform...", dataToPerform);
   const [currentActiveMenu, setCurrentActiveMenu] = useState({
     isActive: true,
     name: "index",

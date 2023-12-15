@@ -10,11 +10,12 @@ import CustomerMaster from "../../components/masters/customer";
 import EmployeeMaster from "../../components/masters/employee";
 import ItemsComponent from "../../components/items";
 import EditItems from "../../components/items/editItems";
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { updateBusiness } from '../../features/business/businessSlice'
 import Input from "../../components/common/Input";
+import CommonTable from "../../components/common/commonTable";
 const Items = () => {
-  const dispatch = useDispatch()
+  const businessData = useSelector((state) => state.business.value)
   const [currentActiveMenu, setCurrentActiveMenu] = useState({
     isActive: true,
     name: "index",
@@ -30,7 +31,9 @@ const Items = () => {
     password: "",
     confirmPassword: "",
   });
-
+  const employeesCategory = businessData?.categories?.find(category => category?.name === "Items");
+  const employeeSubmenu = employeesCategory?.subcategories?.find(sub => sub?.name === "items");
+  const submenuArray = employeeSubmenu?.subMenu;
   const inputs = [
     {
       id: 1,
@@ -82,7 +85,6 @@ const Items = () => {
     },
   ];
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
   };
@@ -90,7 +92,58 @@ const Items = () => {
   const onChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   }
-
+  const data = [
+    {
+      Name: "kiran jadhav",
+      Age: 25,
+      Email: "kiran@gmail.com",
+      Usename: "data",
+      name: "nansnas",
+    },
+    {
+      Name: "kiran jadhav",
+      Age: 25,
+      Email: "kiran@gmail.com",
+      Usename: "data",
+      name: "Nwe nanasn",
+    },
+    {
+      Name: "kiran jadhav",
+      Age: 26,
+      Email: "kiran@gmail.com",
+      Usename: "data",
+    },
+    {
+      Name: "kiran jadhav",
+      Age: 27,
+      Email: "kiran@gmail.com",
+      Usename: "data",
+    },
+    {
+      Name: "kiran jadhav",
+      Age: 28,
+      Email: "kiran@gmail.com",
+      Usename: "data",
+    },
+    {
+      Name: "shiv shingan",
+      Age: 29,
+      Email: "kiran@gmail.com",
+      Usename: "data",
+    },
+    { Name: "kiran jadhav", Age: 31, Email: "shiv@gmail.com", Usename: "data" },
+    { Name: "kiran jadhav", Age: 32, Email: "shiv@gmail.com", Usename: "data" },
+    { Name: "kiran jadhav", Age: 33, Email: "shiv@gmail.com", Usename: "data" },
+    { Name: "kiran jadhav", Age: 34, Email: "shiv@gmail.com", Usename: "data" },
+    { Name: "kiran jadhav", Age: 35, Email: "shiv@gmail.com", Usename: "data" },
+    { Name: "kiran jadhav", Age: 35, Email: "shiv@gmail.com", Usename: "data" },
+    {
+      Name: "kiran jadhav",
+      Age: 36,
+      Email: "jane@example.com",
+      usename: "data",
+    },
+  ];
   return (
     <Layout
       currentActiveMenu={currentActiveMenu}
@@ -100,29 +153,15 @@ const Items = () => {
         <Col className="col-8">
           <div style={{ borderWidth: 1 }}>
             <h2>Items</h2>
-            {inputs.map((input) => (
-              <Input
-                key={input.id}
-                {...input}
-                value={values[input.name]}
-                onChange={onChange}
-              />
-            ))}
-            {/* <EditItems items={currentActiveMenu.subMenu} /> */}
+            <EditItems items={submenuArray} />
           </div>
         </Col>
-        <Col>
-          <Button
-            onClick={() => dispatch(updateBusiness("kiran"))}
-          >
-            click me
-          </Button>
-        </Col>
         <Col className="col">
-          <ItemsComponent
+          {/* <ItemsComponent
             currentActiveMenu={currentActiveMenu}
             setCurrentActiveMenu={setCurrentActiveMenu}
-          />
+          /> */}
+          <CommonTable data={data} title={"Items Data"} />
         </Col>
       </Row>
     </Layout>
