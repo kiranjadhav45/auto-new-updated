@@ -27,12 +27,16 @@ const LoginComponent = () => {
         <Form.Control type="password" placeholder="Password" />
       </FloatingLabel>
 
-      <Row style={{ marginTop: 20, marginBottom: 20 }}>
-        <Col>
-          <Button variant="link">Forgot Password</Button>
+      <Row style={{ marginTop: 10, marginBottom: 10 }}>
+        {/* <Col>
+          <Button style={{ fontSize: "10px" }} variant="link">Forgot Password</Button>
         </Col>
         <Col>
-          <Button variant="link">Create Account</Button>
+          <Button style={{ fontSize: "10px" }} variant="link">Create Account</Button>
+        </Col> */}
+        <Col style={{ display: "flex", justifyContent: "space-between" }}>
+          <Button style={{ fontSize: "10px" }} variant="link">Create Account</Button>
+          <Button style={{ fontSize: "10px" }} variant="link">Forgot Password</Button>
         </Col>
       </Row>
 

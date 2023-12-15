@@ -122,12 +122,12 @@ const CommonTable = ({ data, title }) => {
         </Form>
       </Navbar>
 
-      <Table striped bordered hover>
+      <Table style={{ overflow: "auto" }} responsive striped bordered hover>
         <thead>
           <tr>
-            <th></th>
+            <th style={{ minWidth: '150px' }}>Actions</th>
             {Object.keys(data[0]).map((key) => (
-              <th key={key}>
+              <th key={key} style={{ minWidth: '150px' }}>
                 {key}
                 <FcEmptyFilter
                   size={16}
@@ -140,14 +140,15 @@ const CommonTable = ({ data, title }) => {
                   onClick={() => handleSort(key)}
                 />
               </th>
-            ))}
-          </tr>
-        </thead>
+            ))
+            }
+          </tr >
+        </thead >
         <tbody>
           {currentRecords.map((row, index) => (
             <React.Fragment key={index}>
               <tr>
-                <td>
+                <td >
                   <FiChevronDown
                     size={24}
                     color="blue"
@@ -177,7 +178,7 @@ const CommonTable = ({ data, title }) => {
               </tr>
               {expandedRowIndex === index && (
                 <tr>
-                  <td colSpan={Object.keys(row).length + 1}>
+                  <td style={{ minWidth: '140px' }} colSpan={Object.keys(row).length + 1}>
                     {/* Content for expanded row */}
                     Expanded content for row {index}
                   </td>
@@ -186,10 +187,10 @@ const CommonTable = ({ data, title }) => {
             </React.Fragment>
           ))}
         </tbody>
-      </Table>
+      </Table >
 
-      <Pagination>{renderPaginationItems()}</Pagination>
-    </div>
+      <Pagination className="mt-3">{renderPaginationItems()}</Pagination>
+    </div >
   );
 };
 

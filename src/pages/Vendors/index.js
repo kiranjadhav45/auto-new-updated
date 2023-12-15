@@ -17,59 +17,58 @@ const VendorsPage = () => {
   const employeesCategory = businessData?.categories?.find(category => category?.name === "Vendors");
   const employeeSubmenu = employeesCategory?.subcategories?.find(sub => sub?.name === "vendors");
   const submenuArray = employeeSubmenu?.subMenu;
-
-
   const data = [
     {
-      Name: "kiran jadhav",
-      Age: 25,
+      Code: 21,
+      Name: "Kiran jadhav",
       Email: "kiran@gmail.com",
-      Usename: "data",
-      name: "nansnas",
+      Mobile: 9956126721,
+      Address: "New Trentstad, NJ 12026-4105",
     },
     {
-      Name: "kiran jadhav",
-      Age: 25,
+      Code: 21,
+      Name: "Kiran jadhav",
       Email: "kiran@gmail.com",
-      Usename: "data",
-      name: "Nwe nanasn",
+      Mobile: 9956126721,
+      Address: "New Trentstad, NJ 12026-4105",
     },
     {
-      Name: "kiran jadhav",
-      Age: 26,
+      Code: 21,
+      Name: "Kiran jadhav",
       Email: "kiran@gmail.com",
-      Usename: "data",
+      Mobile: 9956126721,
+      Address: "New Trentstad, NJ 12026-4105",
     },
     {
-      Name: "kiran jadhav",
-      Age: 27,
+      Code: 21,
+      Name: "Kiran jadhav",
       Email: "kiran@gmail.com",
-      Usename: "data",
+      Mobile: 9956126721,
+      Address: "New Trentstad, NJ 12026-4105",
     },
     {
-      Name: "kiran jadhav",
-      Age: 28,
+      Code: 21,
+      Name: "Kiran jadhav",
       Email: "kiran@gmail.com",
-      Usename: "data",
+      Mobile: 9956126721,
+      Address: "New Trentstad, NJ 12026-4105",
     },
     {
-      Name: "shiv shingan",
-      Age: 29,
+      Code: 21,
+      Name: "Kiran jadhav",
       Email: "kiran@gmail.com",
-      Usename: "data",
+      Mobile: 9956126721,
+      Address: "New Trentstad, NJ 12026-4105",
     },
-    { Name: "kiran jadhav", Age: 31, Email: "shiv@gmail.com", Usename: "data" },
-    { Name: "kiran jadhav", Age: 32, Email: "shiv@gmail.com", Usename: "data" },
-    { Name: "kiran jadhav", Age: 33, Email: "shiv@gmail.com", Usename: "data" },
-    { Name: "kiran jadhav", Age: 34, Email: "shiv@gmail.com", Usename: "data" },
-    { Name: "kiran jadhav", Age: 35, Email: "shiv@gmail.com", Usename: "data" },
-    { Name: "kiran jadhav", Age: 35, Email: "shiv@gmail.com", Usename: "data" },
     {
-      Name: "kiran jadhav",
-      Age: 36,
-      Email: "jane@example.com",
-      usename: "data",
+      Code: 21,
+      Name: "Kiran jadhav",
+      Email: "kiran@gmail.com",
+      Mobile: 9956126721,
+      Address: "New Trentstad, NJ 12026-4105",
     },
+
+
   ];
   return (
     <Layout
@@ -84,7 +83,7 @@ const VendorsPage = () => {
             <EditItems items={submenuArray} />
           </div>
         </Col>
-        <Col className="col">
+        <Col className="col col-responsive-table-container">
           {/* <VendorComponent
             currentActiveMenu={currentActiveMenu}
             setCurrentActiveMenu={setCurrentActiveMenu}

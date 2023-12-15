@@ -25,68 +25,62 @@ const EmployeesPage = () => {
     title: "Index",
   });
 
-  const columns = ["Actions", "Name", "Age", "Usename", "Email", "name"];
   const data = [
     {
+      Code: 32,
       Name: "kiran jadhav",
-      Age: 25,
       Email: "kiran@gmail.com",
-      Usename: "data",
-      name: "nansnas",
+      Location: "Karad",
+      Address: "nansnasSuite 625 9618 Abbott Junction",
     },
     {
+      Code: 32,
       Name: "kiran jadhav",
-      Age: 25,
       Email: "kiran@gmail.com",
-      Usename: "data",
-      name: "Nwe nanasn",
+      Location: "Karad",
+      Address: "nansnasSuite 625 9618 Abbott Junction",
     },
     {
+      Code: 32,
       Name: "kiran jadhav",
-      Age: 26,
       Email: "kiran@gmail.com",
-      Usename: "data",
+      Location: "Karad",
+      Address: "nansnasSuite 625 9618 Abbott Junction",
     },
     {
+      Code: 32,
       Name: "kiran jadhav",
-      Age: 27,
       Email: "kiran@gmail.com",
-      Usename: "data",
+      Location: "Karad",
+      Address: "nansnasSuite 625 9618 Abbott Junction",
     },
     {
+      Code: 32,
       Name: "kiran jadhav",
-      Age: 28,
       Email: "kiran@gmail.com",
-      Usename: "data",
+      Location: "Karad",
+      Address: "nansnasSuite 625 9618 Abbott Junction",
     },
     {
-      Name: "shiv shingan",
-      Age: 29,
-      Email: "kiran@gmail.com",
-      Usename: "data",
-    },
-    { Name: "kiran jadhav", Age: 31, Email: "shiv@gmail.com", Usename: "data" },
-    { Name: "kiran jadhav", Age: 32, Email: "shiv@gmail.com", Usename: "data" },
-    { Name: "kiran jadhav", Age: 33, Email: "shiv@gmail.com", Usename: "data" },
-    { Name: "kiran jadhav", Age: 34, Email: "shiv@gmail.com", Usename: "data" },
-    { Name: "kiran jadhav", Age: 35, Email: "shiv@gmail.com", Usename: "data" },
-    { Name: "kiran jadhav", Age: 35, Email: "shiv@gmail.com", Usename: "data" },
-    {
+      Code: 32,
       Name: "kiran jadhav",
-      Age: 36,
-      Email: "jane@example.com",
-      usename: "data",
+      Email: "kiran@gmail.com",
+      Location: "Karad",
+      Address: "nansnasSuite 625 9618 Abbott Junction",
+    },
+    {
+      Code: 32,
+      Name: "kiran jadhav",
+      Email: "kiran@gmail.com",
+      Location: "Karad",
+      Address: "nansnasSuite 625 9618 Abbott Junction",
     },
   ];
-  const dataaaa = [
-    { placeholder: "name", type: "text" },
-  ]
-
 
   const employeesCategory = businessData?.categories?.find(category => category?.name === "Employees");
   const employeeSubmenu = employeesCategory?.subcategories?.find(sub => sub?.name === "employeea");
   const submenuArray = employeeSubmenu?.subMenu;
-  // console.log(submenuArray);
+  console.log(submenuArray, "submenuArray employeea");
 
   return (
     <Layout
@@ -102,7 +96,7 @@ const EmployeesPage = () => {
             <EditItems items={submenuArray} />
           </div>
         </Col>
-        <Col className="col">
+        <Col className="col col-responsive-table-container" >
           {/* <EmployeeComponent
             currentActiveMenu={currentActiveMenu}
             setCurrentActiveMenu={setCurrentActiveMenu}

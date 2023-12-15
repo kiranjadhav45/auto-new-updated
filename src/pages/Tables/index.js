@@ -21,54 +21,88 @@ const TablesPage = () => {
 
   const data = [
     {
+      Code: 32,
       Name: "kiran jadhav",
-      Age: 25,
-      Email: "kiran@gmail.com",
-      Usename: "data",
-      name: "nansnas",
+      "Table Status": "Occupied",
+      "Table Location": "Bottom",
+      "Table QR Code": "View",
     },
     {
+      Code: 32,
       Name: "kiran jadhav",
-      Age: 25,
-      Email: "kiran@gmail.com",
-      Usename: "data",
-      name: "Nwe nanasn",
+      "Table Status": "Occupied",
+      "Table Location": "Bottom",
+      "Table QR Code": "View",
     },
     {
+      Code: 32,
       Name: "kiran jadhav",
-      Age: 26,
-      Email: "kiran@gmail.com",
-      Usename: "data",
+      "Table Status": "Occupied",
+      "Table Location": "Bottom",
+      "Table QR Code": "View",
     },
     {
+      Code: 32,
       Name: "kiran jadhav",
-      Age: 27,
-      Email: "kiran@gmail.com",
-      Usename: "data",
+      "Table Status": "Occupied",
+      "Table Location": "Bottom",
+      "Table QR Code": "View",
     },
     {
+      Code: 32,
       Name: "kiran jadhav",
-      Age: 28,
-      Email: "kiran@gmail.com",
-      Usename: "data",
+      "Table Status": "Occupied",
+      "Table Location": "Bottom",
+      "Table QR Code": "View",
     },
     {
-      Name: "shiv shingan",
-      Age: 29,
-      Email: "kiran@gmail.com",
-      Usename: "data",
-    },
-    { Name: "kiran jadhav", Age: 31, Email: "shiv@gmail.com", Usename: "data" },
-    { Name: "kiran jadhav", Age: 32, Email: "shiv@gmail.com", Usename: "data" },
-    { Name: "kiran jadhav", Age: 33, Email: "shiv@gmail.com", Usename: "data" },
-    { Name: "kiran jadhav", Age: 34, Email: "shiv@gmail.com", Usename: "data" },
-    { Name: "kiran jadhav", Age: 35, Email: "shiv@gmail.com", Usename: "data" },
-    { Name: "kiran jadhav", Age: 35, Email: "shiv@gmail.com", Usename: "data" },
-    {
+      Code: 32,
       Name: "kiran jadhav",
-      Age: 36,
-      Email: "jane@example.com",
-      usename: "data",
+      "Table Status": "Occupied",
+      "Table Location": "Bottom",
+      "Table QR Code": "View",
+    },
+    {
+      Code: 32,
+      Name: "kiran jadhav",
+      "Table Status": "Occupied",
+      "Table Location": "Bottom",
+      "Table QR Code": "View",
+    },
+    {
+      Code: 32,
+      Name: "kiran jadhav",
+      "Table Status": "Occupied",
+      "Table Location": "Bottom",
+      "Table QR Code": "View",
+    },
+    {
+      Code: 32,
+      Name: "kiran jadhav",
+      "Table Status": "Occupied",
+      "Table Location": "Bottom",
+      "Table QR Code": "View",
+    },
+    {
+      Code: 32,
+      Name: "kiran jadhav",
+      "Table Status": "Occupied",
+      "Table Location": "Bottom",
+      "Table QR Code": "View",
+    },
+    {
+      Code: 32,
+      Name: "kiran jadhav",
+      "Table Status": "Occupied",
+      "Table Location": "Bottom",
+      "Table QR Code": "View",
+    },
+    {
+      Code: 32,
+      Name: "kiran jadhav",
+      "Table Status": "Occupied",
+      "Table Location": "Bottom",
+      "Table QR Code": "View",
     },
   ];
   return (
@@ -84,7 +118,7 @@ const TablesPage = () => {
             <EditItems items={submenuArray} />
           </div>
         </Col>
-        <Col className="col">
+        <Col className="col col-responsive-table-container">
           {/* <TablesComponent
             currentActiveMenu={currentActiveMenu}
             setCurrentActiveMenu={setCurrentActiveMenu}

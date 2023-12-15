@@ -1,6 +1,7 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./custom.scss"; // Import the SCSS file
+import "./common.scss"
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import Masters from "./pages/Masters";
 import Items from "./pages/Items";
