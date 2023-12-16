@@ -62,8 +62,8 @@ const TopNavBar = ({ selectedMenu, defaultMenu, setCurrentActiveMenu }) => {
               style={{
                 fontSize: 25,
                 fontWeight: "bold",
-                marginLeft: "-5%",
-                marginRight: 25,
+                marginLeft: "5px",
+                marginRight: "25px",
               }}
             >
               {/* {selectedMenu?.name ? selectedMenu?.name : defaultMenu.title} */}
