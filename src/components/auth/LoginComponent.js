@@ -35,8 +35,8 @@ const LoginComponent = () => {
           <Button style={{ fontSize: "10px" }} variant="link">Create Account</Button>
         </Col> */}
         <Col style={{ display: "flex", justifyContent: "space-between" }}>
-          <Button style={{ fontSize: "10px" }} variant="link">Create Account</Button>
-          <Button style={{ fontSize: "10px" }} variant="link">Forgot Password</Button>
+          <Button style={{ fontSize: "14px" }} variant="link">Create Account</Button>
+          <Button style={{ fontSize: "14px" }} variant="link">Forgot Password</Button>
         </Col>
       </Row>
 
