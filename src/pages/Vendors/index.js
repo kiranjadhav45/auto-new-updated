@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import Layout from "../../components/common/Layout";
-import { Col, Row } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
 import EditVendor from "../../components/vendors/editVendor";
 import VendorComponent from "../../components/vendors";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { addVendor, updateVendor, deleteVendor } from '../../features/vendor/vendorSlice';
 import EditItems from "../../components/items/editItems";
 import CommonTable from "../../components/common/commonTable";
 const VendorsPage = () => {
+  const dispatch = useDispatch()
   const businessData = useSelector((state) => state.business.value)
+  const vendorData = useSelector((state) => state.vendor.value)
   const [currentActiveMenu, setCurrentActiveMenu] = useState({
     isActive: true,
     name: "index",
@@ -17,59 +20,20 @@ const VendorsPage = () => {
   const employeesCategory = businessData?.categories?.find(category => category?.name === "Vendors");
   const employeeSubmenu = employeesCategory?.subcategories?.find(sub => sub?.name === "vendors");
   const submenuArray = employeeSubmenu?.subMenu;
-  const data = [
-    {
-      Code: 21,
-      Name: "Kiran jadhav",
-      Email: "kiran@gmail.com",
-      Mobile: 9956126721,
-      Address: "New Trentstad, NJ 12026-4105",
-    },
-    {
-      Code: 21,
-      Name: "Kiran jadhav",
-      Email: "kiran@gmail.com",
-      Mobile: 9956126721,
-      Address: "New Trentstad, NJ 12026-4105",
-    },
-    {
-      Code: 21,
-      Name: "Kiran jadhav",
-      Email: "kiran@gmail.com",
-      Mobile: 9956126721,
-      Address: "New Trentstad, NJ 12026-4105",
-    },
-    {
-      Code: 21,
-      Name: "Kiran jadhav",
-      Email: "kiran@gmail.com",
-      Mobile: 9956126721,
-      Address: "New Trentstad, NJ 12026-4105",
-    },
-    {
-      Code: 21,
-      Name: "Kiran jadhav",
-      Email: "kiran@gmail.com",
-      Mobile: 9956126721,
-      Address: "New Trentstad, NJ 12026-4105",
-    },
-    {
-      Code: 21,
-      Name: "Kiran jadhav",
-      Email: "kiran@gmail.com",
-      Mobile: 9956126721,
-      Address: "New Trentstad, NJ 12026-4105",
-    },
-    {
-      Code: 21,
-      Name: "Kiran jadhav",
-      Email: "kiran@gmail.com",
-      Mobile: 9956126721,
-      Address: "New Trentstad, NJ 12026-4105",
-    },
+  console.log(vendorData, "vendorData")
 
+  const handleAddVendor = (newVendor) => {
+    dispatch(addVendor(newVendor));
+  };
 
-  ];
+  const handleUpdateVendor = (updatedVendor) => {
+    dispatch(updateVendor(updatedVendor));
+  };
+
+  const handleDeleteVendor = (idToDelete) => {
+    dispatch(deleteVendor(idToDelete));
+  };
+
   return (
     <Layout
       currentActiveMenu={currentActiveMenu}
@@ -81,6 +45,11 @@ const VendorsPage = () => {
             <h2>Vendors Page</h2>
             {/* <EditVendor items={currentActiveMenu.subMenu} /> */}
             <EditItems items={submenuArray} />
+            <div className="d-grid gap-2">
+              <Button variant="primary">
+                Block level button
+              </Button>
+            </div>
           </div>
         </Col>
         <Col className="col col-responsive-table-container">
@@ -88,7 +57,7 @@ const VendorsPage = () => {
             currentActiveMenu={currentActiveMenu}
             setCurrentActiveMenu={setCurrentActiveMenu}
           /> */}
-          <CommonTable data={data} title={"Vendor Data"} />
+          <CommonTable handleDelete={handleDeleteVendor} data={vendorData} />
         </Col>
       </Row>
     </Layout>

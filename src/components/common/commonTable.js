@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   Form,
@@ -17,13 +17,22 @@ import {
 } from "react-icons/fc";
 import { FiEdit, FiChevronDown, FiTrash2 } from "react-icons/fi";
 
-const CommonTable = ({ data, title }) => {
+
+
+const CommonTable = ({ data, title, handleDelete }) => {
+
+
+
+
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [filteredData, setFilteredData] = useState(data);
   const [currentPage, setCurrentPage] = useState(1);
   const [expandedRowIndex, setExpandedRowIndex] = useState(null);
 
+  useEffect(() => {
+    setFilteredData(data)
+  }, [data])
   const recordsPerPage = 10;
 
   const handleSearch = (e) => {
@@ -43,12 +52,12 @@ const CommonTable = ({ data, title }) => {
 
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const currentRecords = filteredData.slice(
+  const currentRecords = filteredData?.slice(
     indexOfFirstRecord,
     indexOfLastRecord
   );
 
-  const totalPages = Math.ceil(filteredData.length / recordsPerPage);
+  const totalPages = Math.ceil(filteredData?.length / recordsPerPage);
 
   const renderPaginationItems = () => {
     const items = [];
@@ -169,6 +178,7 @@ const CommonTable = ({ data, title }) => {
                     color="red"
                     size={24}
                     style={{ marginRight: 10, cursor: "pointer" }}
+                    onClick={() => handleDelete(row.id)}
                   />
                 </td>
 
