@@ -19,7 +19,7 @@ import { FiEdit, FiChevronDown, FiTrash2 } from "react-icons/fi";
 
 
 
-const CommonTable = ({ data, title, handleDelete }) => {
+const CommonTable = ({ data, handleEditTable, handleDelete }) => {
 
 
 
@@ -173,6 +173,7 @@ const CommonTable = ({ data, title, handleDelete }) => {
                     color="green"
                     size={24}
                     style={{ marginRight: 10, cursor: "pointer" }}
+                    onClick={() => handleEditTable(row)}
                   />
                   <FiTrash2
                     color="red"

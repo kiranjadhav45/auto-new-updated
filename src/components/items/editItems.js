@@ -1,24 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useId } from "react";
 import { Button, Form, FloatingLabel, Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-const EditItems = ({ items }) => {
+const EditItems = ({ items, selectedData, setSelectedData }) => {
   const navigate = useNavigate();
-
-  const [itemData, setItemData] = useState({
-    itemName: "",
-    category: "",
-    costPrice: "",
-    sellingPrice: "",
-  });
-
+  const uniqueId = useId();
+  console.log(selectedData, "selectedData")
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setItemData((prevData) => ({
+    setSelectedData((prevData) => ({
       ...prevData,
+      id: uniqueId,
       [name]: value,
     }));
   };
+
   return (
     <div>
       <Row>
@@ -33,6 +29,9 @@ const EditItems = ({ items }) => {
                 <Form.Control
                   type={field?.type}
                   placeholder={field?.placeholder}
+                  name={field?.name}
+                  value={selectedData[field?.name]}
+                  onChange={handleInputChange}
                 />
               </FloatingLabel>
             </Col>
