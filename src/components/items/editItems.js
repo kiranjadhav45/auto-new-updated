@@ -1,16 +1,14 @@
-import React, { useState, useId } from "react";
+import React, { useState } from "react";
 import { Button, Form, FloatingLabel, Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 const EditItems = ({ items, selectedData, setSelectedData }) => {
   const navigate = useNavigate();
-  const uniqueId = useId();
   console.log(selectedData, "selectedData")
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setSelectedData((prevData) => ({
       ...prevData,
-      id: uniqueId,
       [name]: value,
     }));
   };

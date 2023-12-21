@@ -18,7 +18,6 @@ import Table from "../../components/common/Table";
 import CommonTable from "../../components/common/commonTable";
 const EmployeesPage = () => {
   const dispatch = useDispatch();
-  const [handleUpdateAdd, setHandleUpdateAdd] = useState(true)
   const employeeData = useSelector((state) => state.employee.value);
   const businessData = useSelector((state) => state.business.value)
   const [currentActiveMenu, setCurrentActiveMenu] = useState({
@@ -27,69 +26,12 @@ const EmployeesPage = () => {
     subMenu: [{}],
     title: "Index",
   });
-
-
-
-
-  const data = [
-    {
-      Code: 32,
-      Name: "kiran jadhav",
-      Email: "kiran@gmail.com",
-      Location: "Karad",
-      Address: "nansnasSuite 625 9618 Abbott Junction",
-    },
-    {
-      Code: 32,
-      Name: "kiran jadhav",
-      Email: "kiran@gmail.com",
-      Location: "Karad",
-      Address: "nansnasSuite 625 9618 Abbott Junction",
-    },
-    {
-      Code: 32,
-      Name: "kiran jadhav",
-      Email: "kiran@gmail.com",
-      Location: "Karad",
-      Address: "nansnasSuite 625 9618 Abbott Junction",
-    },
-    {
-      Code: 32,
-      Name: "kiran jadhav",
-      Email: "kiran@gmail.com",
-      Location: "Karad",
-      Address: "nansnasSuite 625 9618 Abbott Junction",
-    },
-    {
-      Code: 32,
-      Name: "kiran jadhav",
-      Email: "kiran@gmail.com",
-      Location: "Karad",
-      Address: "nansnasSuite 625 9618 Abbott Junction",
-    },
-    {
-      Code: 32,
-      Name: "kiran jadhav",
-      Email: "kiran@gmail.com",
-      Location: "Karad",
-      Address: "nansnasSuite 625 9618 Abbott Junction",
-    },
-    {
-      Code: 32,
-      Name: "kiran jadhav",
-      Email: "kiran@gmail.com",
-      Location: "Karad",
-      Address: "nansnasSuite 625 9618 Abbott Junction",
-    },
-  ];
-
   const employeesCategory = businessData?.categories?.find(category => category?.name === "Employees");
   const employeeSubmenu = employeesCategory?.subcategories?.find(sub => sub?.name === "employeea");
   const submenuArray = employeeSubmenu?.subMenu;
   console.log(submenuArray, "submenuArray employeea");
 
-
-
+  const [handleUpdateAdd, setHandleUpdateAdd] = useState(true)
   const [selectedData, setSelectedData] = useState({});
   const handleAddVendor = () => {
     dispatch(addEmployee(selectedData));

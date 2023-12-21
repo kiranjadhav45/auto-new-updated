@@ -10,12 +10,15 @@ import CustomerMaster from "../../components/masters/customer";
 import EmployeeMaster from "../../components/masters/employee";
 import ItemsComponent from "../../components/items";
 import EditItems from "../../components/items/editItems";
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { updateBusiness } from '../../features/business/businessSlice'
 import Input from "../../components/common/Input";
 import CommonTable from "../../components/common/commonTable";
+import { addItem, deleteItem } from "../../features/item/itemsSlice"
 const Items = () => {
+  const dispatch = useDispatch()
   const businessData = useSelector((state) => state.business.value)
+  const tableData = useSelector((state) => state.item.value)
   const [currentActiveMenu, setCurrentActiveMenu] = useState({
     isActive: true,
     name: "index",
@@ -36,168 +39,44 @@ const Items = () => {
   const submenuArray = employeeSubmenu?.subMenu;
   console.log(submenuArray, "submenuArray")
 
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const [handleUpdateAdd, setHandleUpdateAdd] = useState(true)
+  const [selectedData, setSelectedData] = useState({});
+  const handleAddVendor = () => {
+    dispatch(addItem(selectedData));
+    setSelectedData({
+      id: "",
+      itemCode: "",
+      itemName: "",
+      itemCategory: "",
+      itemSubCategory: "",
+      itemPrice: "",
+      ingredients: "",
+      recipe: "",
+      allergen: "",
+      portionSize: "",
+      status: "",
+      tax: "",
+      discount: "",
+      images: "",
+      currentStock: "",
+      barcode: "",
+      salesHistory: "",
+      customNotes: "",
+    });
+    setHandleUpdateAdd(true)
   };
 
-  const onChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+  const handleDeleteVendor = (idToDelete) => {
+    dispatch(deleteItem(idToDelete));
+  };
+
+  const handleEditTable = (event) => {
+    setHandleUpdateAdd(false)
+    console.log(event)
+    setSelectedData(event)
   }
-  const data = [
-    {
-      "Food Code": "kiran jadhav",
-      "Food Name": 25,
-      "Food Category": "kiran@gmail.com",
-      "Sub Category": "data",
-      "Food Price": "nansnas",
-      "Ingredients": "nansnas",
-      "Food Recipe": "nansnas",
-      "Allergen Information": "nansnas",
-      "Portion Size": "nansnas",
-      "Status": "nansnas",
-      "Taxable": "nansnas",
-      "Discount": "nansnas",
-      "Images": "nansnas",
-      "Current Stock": "nansnas",
-      "Bar Code": "nansnas",
-      "Sales History": "nansnas",
-      "Notes": "nansnas",
-    },
-    {
-      "Food Code": "kiran jadhav",
-      "Food Name": 25,
-      "Food Category": "kiran@gmail.com",
-      "Sub Category": "data",
-      "Food Price": "nansnas",
-      "Ingredients": "nansnas",
-      "Food Recipe": "nansnas",
-      "Allergen Information": "nansnas",
-      "Portion Size": "nansnas",
-      "Status": "nansnas",
-      "Taxable": "nansnas",
-      "Discount": "nansnas",
-      "Images": "nansnas",
-      "Current Stock": "nansnas",
-      "Bar Code": "nansnas",
-      "Sales History": "nansnas",
-      "Notes": "nansnas",
-    },
-    {
-      "Food Code": "kiran jadhav",
-      "Food Name": 25,
-      "Food Category": "kiran@gmail.com",
-      "Sub Category": "data",
-      "Food Price": "nansnas",
-      "Ingredients": "nansnas",
-      "Food Recipe": "nansnas",
-      "Allergen Information": "nansnas",
-      "Portion Size": "nansnas",
-      "Status": "nansnas",
-      "Taxable": "nansnas",
-      "Discount": "nansnas",
-      "Images": "nansnas",
-      "Current Stock": "nansnas",
-      "Bar Code": "nansnas",
-      "Sales History": "nansnas",
-      "Notes": "nansnas",
-    },
-    {
-      "Food Code": "kiran jadhav",
-      "Food Name": 25,
-      "Food Category": "kiran@gmail.com",
-      "Sub Category": "data",
-      "Food Price": "nansnas",
-      "Ingredients": "nansnas",
-      "Food Recipe": "nansnas",
-      "Allergen Information": "nansnas",
-      "Portion Size": "nansnas",
-      "Status": "nansnas",
-      "Taxable": "nansnas",
-      "Discount": "nansnas",
-      "Images": "nansnas",
-      "Current Stock": "nansnas",
-      "Bar Code": "nansnas",
-      "Sales History": "nansnas",
-      "Notes": "nansnas",
-    },
-    {
-      "Food Code": "kiran jadhav",
-      "Food Name": 25,
-      "Food Category": "kiran@gmail.com",
-      "Sub Category": "data",
-      "Food Price": "nansnas",
-      "Ingredients": "nansnas",
-      "Food Recipe": "nansnas",
-      "Allergen Information": "nansnas",
-      "Portion Size": "nansnas",
-      "Status": "nansnas",
-      "Taxable": "nansnas",
-      "Discount": "nansnas",
-      "Images": "nansnas",
-      "Current Stock": "nansnas",
-      "Bar Code": "nansnas",
-      "Sales History": "nansnas",
-      "Notes": "nansnas",
-    },
-    {
-      "Food Code": "kiran jadhav",
-      "Food Name": 25,
-      "Food Category": "kiran@gmail.com",
-      "Sub Category": "data",
-      "Food Price": "nansnas",
-      "Ingredients": "nansnas",
-      "Food Recipe": "nansnas",
-      "Allergen Information": "nansnas",
-      "Portion Size": "nansnas",
-      "Status": "nansnas",
-      "Taxable": "nansnas",
-      "Discount": "nansnas",
-      "Images": "nansnas",
-      "Current Stock": "nansnas",
-      "Bar Code": "nansnas",
-      "Sales History": "nansnas",
-      "Notes": "nansnas",
-    },
-    {
-      "Food Code": "kiran jadhav",
-      "Food Name": 25,
-      "Food Category": "kiran@gmail.com",
-      "Sub Category": "data",
-      "Food Price": "nansnas",
-      "Ingredients": "nansnas",
-      "Food Recipe": "nansnas",
-      "Allergen Information": "nansnas",
-      "Portion Size": "nansnas",
-      "Status": "nansnas",
-      "Taxable": "nansnas",
-      "Discount": "nansnas",
-      "Images": "nansnas",
-      "Current Stock": "nansnas",
-      "Bar Code": "nansnas",
-      "Sales History": "nansnas",
-      "Notes": "nansnas",
-    },
-    {
-      "Food Code": "kiran jadhav",
-      "Food Name": 25,
-      "Food Category": "kiran@gmail.com",
-      "Sub Category": "data",
-      "Food Price": "nansnas",
-      "Ingredients": "nansnas",
-      "Food Recipe": "nansnas",
-      "Allergen Information": "nansnas",
-      "Portion Size": "nansnas",
-      "Status": "nansnas",
-      "Taxable": "nansnas",
-      "Discount": "nansnas",
-      "Images": "nansnas",
-      "Current Stock": "nansnas",
-      "Bar Code": "nansnas",
-      "Sales History": "nansnas",
-      "Notes": "nansnas",
-    },
-  ];
+
+
   return (
     <Layout
       currentActiveMenu={currentActiveMenu}
@@ -207,7 +86,13 @@ const Items = () => {
         <Col className="col-8">
           <div style={{ borderWidth: 1 }}>
             <h2>Items</h2>
-            <EditItems items={submenuArray} />
+            {/* <EditItems items={submenuArray} /> */}
+            <EditItems selectedData={selectedData} setSelectedData={setSelectedData} items={submenuArray} />
+            <div className="d-grid gap-2">
+              <Button onClick={handleAddVendor} variant="primary">
+                {handleUpdateAdd == true ? "Add New Item" : "Update Item"}
+              </Button>
+            </div>
           </div>
         </Col>
         <Col className="col col-responsive-table-container">
@@ -215,7 +100,8 @@ const Items = () => {
             currentActiveMenu={currentActiveMenu}
             setCurrentActiveMenu={setCurrentActiveMenu}
           /> */}
-          <CommonTable data={data} title={"Items Data"} />
+          {/* <CommonTable data={data} title={"Items Data"} /> */}
+          <CommonTable handleEditTable={handleEditTable} handleDelete={handleDeleteVendor} data={tableData} />
         </Col>
       </Row>
     </Layout>
