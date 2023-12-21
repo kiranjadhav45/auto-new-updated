@@ -17,6 +17,11 @@ const TaxMaster = ({ currentActiveMenu }) => {
   const dispatch = useDispatch()
   const [selectedSubMenu, setSelectedSubMenu] = useState(null);
 
+  const employeesCategory = businessData?.categories?.find(category => category?.name === "Masters");
+  const employeeSubmenu = employeesCategory?.subcategories?.find(sub => sub?.name === "taxMaster");
+  const submenuArray = employeeSubmenu?.subMenu;
+  // console.log(submenuArray, "submenuArray")
+
   const handleSubMenuSelect = (menuItem) => {
     setSelectedSubMenu(menuItem);
   };
@@ -56,7 +61,10 @@ const TaxMaster = ({ currentActiveMenu }) => {
               {/* {currentActiveMenu.subMenu.map((menuItem) =>
                 renderSubMenu(menuItem)
               )} */}
-              {businessData?.categories[1]?.subcategories[2].subMenu?.map((menuItem) =>
+              {/* {businessData?.categories[1]?.subcategories[2].subMenu?.map((menuItem) =>
+                renderSubMenu(menuItem)
+              )} */}
+              {submenuArray?.map((menuItem) =>
                 renderSubMenu(menuItem)
               )}
             </ListGroup>

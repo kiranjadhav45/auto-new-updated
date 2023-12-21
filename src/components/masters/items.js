@@ -25,6 +25,11 @@ const ItemsMaster = ({ currentActiveMenu }) => {
     setSelectedSubMenu(menuItem);
   };
 
+  const employeesCategory = businessData?.categories?.find(category => category?.name === "Masters");
+  const employeeSubmenu = employeesCategory?.subcategories?.find(sub => sub?.name === "itemMaster");
+  const submenuArray = employeeSubmenu?.subMenu;
+  // console.log(submenuArray, "submenuArray")
+
   const renderSubMenu = (menuItem) => (
     <ListGroup.Item
       key={menuItem.name}
@@ -63,7 +68,10 @@ const ItemsMaster = ({ currentActiveMenu }) => {
           )} */}
           {newItemsData && (
             <ListGroup>
-              {businessData?.categories[1]?.subcategories[1].subMenu?.map((menuItem) =>
+              {/* {businessData?.categories[1]?.subcategories[1].subMenu?.map((menuItem) =>
+                renderSubMenu(menuItem)
+              )} */}
+              {submenuArray?.map((menuItem) =>
                 renderSubMenu(menuItem)
               )}
             </ListGroup>
@@ -71,6 +79,7 @@ const ItemsMaster = ({ currentActiveMenu }) => {
         </Col>
       </Row>
     </Container>
+
   );
 };
 

@@ -16,6 +16,11 @@ const EmployeeMaster = ({ currentActiveMenu }) => {
   const dispatch = useDispatch()
   const [selectedSubMenu, setSelectedSubMenu] = useState(null);
 
+  const employeesCategory = businessData?.categories?.find(category => category?.name === "Masters");
+  const employeeSubmenu = employeesCategory?.subcategories?.find(sub => sub?.name === "employeeMaster");
+  const submenuArray = employeeSubmenu?.subMenu;
+  console.log(submenuArray, "submenuArray")
+
   const handleSubMenuSelect = (menuItem) => {
     setSelectedSubMenu(menuItem);
   };
@@ -52,7 +57,10 @@ const EmployeeMaster = ({ currentActiveMenu }) => {
         <Col xs={12} md={4}>
           {currentActiveMenu?.subMenu && (
             <ListGroup>
-              {businessData?.categories[1]?.subcategories[4].subMenu?.map((menuItem) =>
+              {/* {businessData?.categories[1]?.subcategories[4].subMenu?.map((menuItem) =>
+                renderSubMenu(menuItem)
+              )} */}
+              {submenuArray?.map((menuItem) =>
                 renderSubMenu(menuItem)
               )}
             </ListGroup>
