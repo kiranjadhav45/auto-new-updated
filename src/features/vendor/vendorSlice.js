@@ -68,24 +68,24 @@ const vendorSlice = createSlice({
     name: "vendors",
     initialState: initialVendorState,
     reducers: {
-        // addVendor: (state, action) => {
-        //     if (action.payload && Object.keys(action.payload).length > 0) {
-        //         if (!Array.isArray(state.value)) {
-        //             state.value = [];
-        //         }
-        //         state.value.push(action.payload);
-        //     }
-        // },
         addVendor: (state, action) => {
             const newItem = action.payload;
 
-            // Check if the payload is valid and contains an 'id'
-            if (newItem && newItem.id) {
-                const index = state.value.findIndex(item => item.id === newItem.id);
+            // Check if the payload is valid
+            if (newItem) {
+                // Check if the payload has an 'id' property
+                if (!newItem.id) {
+                    // Generate a unique 6-digit number as the 'id'
+                    const uniqueId = Math.floor(100000 + Math.random() * 900000);
+                    newItem.id = uniqueId.toString();
+                }
 
-                if (index !== -1) {
+                // Find the item by 'id'
+                const existingItem = state.value.find(item => item.id === newItem.id);
+
+                if (existingItem) {
                     // Update item if it exists based on the 'id'
-                    state.value[index] = newItem;
+                    Object.assign(existingItem, newItem);
                 } else {
                     // Add new item if it doesn't exist
                     state.value.push(newItem);
@@ -93,19 +93,12 @@ const vendorSlice = createSlice({
             }
         },
 
-        updateVendor: (state, action) => {
-            const updatedVendor = action.payload;
-            const index = state.vendors.findIndex(
-                (vendor) => vendor.id === updatedVendor.id
-            );
-            if (index !== -1) {
-                state.vendors[index] = updatedVendor;
-            }
-        },
         deleteVendor: (state, action) => {
             const idToDelete = action?.payload;
-            state.value = state?.value.filter((vendor) => vendor.id !== idToDelete);
-            console.log(idToDelete, "action");
+            if (state.value.length > 0) {
+                state.value = state?.value.filter((vendor) => vendor.id !== idToDelete);
+                console.log(idToDelete, "action");
+            }
         },
     },
 });
