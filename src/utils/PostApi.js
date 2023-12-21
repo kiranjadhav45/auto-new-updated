@@ -33,7 +33,7 @@ import { useState, useEffect } from 'react';
 import { domain } from './conf';
 import axios from 'axios';
 
-const usePostApi = (url, data) => {
+export const PostApi = (url, data) => {
     const [response, setResponse] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -72,4 +72,4 @@ const usePostApi = (url, data) => {
     return { response, loading, error };
 };
 
-export default usePostApi;
+// export default PostApi;
