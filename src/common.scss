@@ -1,16 +1,10 @@
 .col-responsive-table-container {
   overflow-x: auto;
-}
-// .col-responsive-table-container::-webkit-scrollbar {
-//   width: 5px;
-// }
+  -ms-overflow-style: none; // Internet Explorer 10+
+  scrollbar-width: none; // Firefox
 
-/* For WebKit-based browsers */
+}
+
 .col-responsive-table-container::-webkit-scrollbar {
-  width: 5px; /* Adjust width as needed */
-}
-
-/* For Firefox and some other browsers */
-.col-responsive-table-container::-webkit-scrollbar-thumb {
-  width: 5px; /* Adjust width as needed */
+  display: none; // Webkit browsers (Chrome, Safari)
 }

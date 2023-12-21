@@ -61,7 +61,7 @@ const TablesPage = () => {
             <EditItems selectedData={selectedData} setSelectedData={setSelectedData} items={submenuArray} />
             <div className="d-grid gap-2">
               <Button onClick={handleAddVendor} variant="primary">
-                {handleUpdateAdd == true ? "Add New Employee" : "Update Employee"}
+                {handleUpdateAdd == true ? "Add New Table" : "Update Table"}
               </Button>
             </div>
           </div>

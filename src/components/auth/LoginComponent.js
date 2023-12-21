@@ -1,13 +1,37 @@
 // LoginComponent.js
 import React from "react";
+import usePostApi from "../../utils/PostApi";
 import { Form, Button, Row, Col, FloatingLabel } from "react-bootstrap";
 
 const LoginComponent = () => {
-  const handleLogin = (e) => {
+
+  const postData =
+  {
+    "email": "akashh111111@gmail.com",
+    "password": "Akash@2151"
+
+  }
+
+  // const handleLogin = (e) => {
+  //   e.preventDefault();
+  //   // Implement your login logic here
+  // };
+  const handleLogin = async (e) => {
     e.preventDefault();
+
+    const { response, loading, error } = usePostApi('/v1/login', postData);
+    console.log(response, "response");
+    console.log(loading, "loading");
+    console.log(error, "error");
+
     // Implement your login logic here
   };
 
+
+  // const { response, loading, error } = usePostApi('/v1/login', postData);
+  // console.log(response, "response")
+  // console.log(loading, "loading")
+  // console.log(error, "error")
   return (
     <Form className="text-center">
       <img
