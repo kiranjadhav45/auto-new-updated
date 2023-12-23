@@ -5,6 +5,7 @@ import BusinessRegisterComponent from "./BusinessRegisterComponent";
 import { Row, Col, Container } from "react-bootstrap";
 const RegisterPage = () => {
   const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState({})
 
   const handleUserRegisterNext = () => {
     setStep(2);
@@ -17,23 +18,30 @@ const RegisterPage = () => {
   return (
     <Container fluid>
       <Row>
-        <Col className="col-18">
+        <Col className="col-15">
           <h2>Login image...</h2>
         </Col>
         <Col
-          className="col  rounded p-5 shadow-lg bg-white rounded"
+          className="col"
           style={{
-            margin: 20,
-            padding: 60,
-            marginTop: 50,
+            // marginRight: "20px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "end",
+            minHeight: "100vh",
+            paddingRight: 60,
+            width: "100%",
+            // marginTop: 120,
             alignContent: "center",
           }}
         >
-          {step === 1 ? (
-            <UserRegisterComponent onNext={handleUserRegisterNext} />
-          ) : (
-            <BusinessRegisterComponent onSubmit={handleBusinessSubmit} />
-          )}
+          <div style={{ width: "100%" }} className="rounded p-5 shadow-lg bg-white rounded">
+            {step === 1 ? (
+              <UserRegisterComponent formData={formData} setFormData={setFormData} onNext={handleUserRegisterNext} />
+            ) : (
+              <BusinessRegisterComponent formData={formData} setFormData={setFormData} onSubmit={handleBusinessSubmit} />
+            )}
+          </div>
         </Col>
       </Row>
     </Container>

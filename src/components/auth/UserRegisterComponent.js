@@ -1,19 +1,31 @@
 // UserRegisterComponent.js
 import React, { useState } from "react";
 import { Form, Button, FloatingLabel } from "react-bootstrap";
+import { validateEmail, validatePassword, validateMobileNumber, validateConfirmPassword } from "../../utils/validationUtils"
 
-const UserRegisterComponent = ({ onNext }) => {
-  const [name, setName] = useState("");
-  const [mobile, setMobile] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-
+const UserRegisterComponent = ({ onNext, formData, setFormData }) => {
+  const [isValidMobile, setIsValidMobile] = useState(true)
+  const [isValidEmail, setIsValidEmail] = useState(true)
+  const [isValidPassword, setIsValidPassword] = useState(true)
+  const [isValidConfirmPassword, setIsValidConfirmPassword] = useState(true)
+  const handleInput = async (e) => {
+    const { name, value } = e.target;
+    await setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+    const { mobile, email, password, confirmPassword } = await formData
+    setIsValidPassword(validatePassword(password));
+    setIsValidEmail(validateEmail(email));
+    setIsValidMobile(validateMobileNumber(mobile));
+    setIsValidConfirmPassword(validateConfirmPassword(confirmPassword));
+  }
+  console.log(formData)
   const handleNext = () => {
     // You can add validation logic here
     onNext();
   };
-
+  console.log(isValidMobile, "isValidMobile")
   return (
     <Form className="text-center">
       <img
@@ -21,24 +33,28 @@ const UserRegisterComponent = ({ onNext }) => {
         alt="Profile Pic"
         className="img-fluid rounded-circle mb-5"
       />
-
+      {isValidMobile && isValidMobile == true ? "true" : "false"}
       <FloatingLabel controlId="formName" label="Name">
         <Form.Control
           type="text"
           className="mb-3"
           placeholder=" "
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          name="name"
+          onChange={handleInput}
+        // value={name}
+        // onChange={(e) => setName(e.target.value)}
         />
       </FloatingLabel>
 
-      <FloatingLabel controlId="formMobile" label="Mobile">
+      <FloatingLabel controlId="formMobile" className={`mb-3 ${isValidMobile ? '' : 'has-error'}`} label="Mobile">
         <Form.Control
           type="text"
-          className="mb-3"
+          // className="mb-3"
           placeholder=" "
-          value={mobile}
-          onChange={(e) => setMobile(e.target.value)}
+          name="mobile"
+          onChange={handleInput}
+        // value={mobile}
+        // onChange={(e) => setMobile(e.target.value)}
         />
       </FloatingLabel>
 
@@ -47,8 +63,10 @@ const UserRegisterComponent = ({ onNext }) => {
           type="email"
           className="mb-3"
           placeholder=" "
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          name="email"
+          onChange={handleInput}
+        // value={email}
+        // onChange={(e) => setEmail(e.target.value)}
         />
       </FloatingLabel>
 
@@ -57,8 +75,10 @@ const UserRegisterComponent = ({ onNext }) => {
           type="password"
           className="mb-3"
           placeholder=" "
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          name="password"
+          onChange={handleInput}
+        // value={password}
+        // onChange={(e) => setPassword(e.target.value)}
         />
       </FloatingLabel>
 
@@ -67,8 +87,10 @@ const UserRegisterComponent = ({ onNext }) => {
           type="password"
           placeholder=" "
           className="mb-3"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          name="confirmPassword"
+          onChange={handleInput}
+        // value={confirmPassword}
+        // onChange={(e) => setConfirmPassword(e.target.value)}
         />
       </FloatingLabel>
       <Button

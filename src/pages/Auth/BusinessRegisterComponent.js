@@ -21,7 +21,6 @@ const BusinessRegisterComponent = ({ onSubmit }) => {
         alt="Profile Pic"
         className="img-fluid rounded-circle mb-5"
       />
-
       <FloatingLabel controlId="formBusinessType" label="Choose Business Type">
         <Form.Control
           as="select"

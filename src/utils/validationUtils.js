@@ -7,6 +7,7 @@ export const validateText = (name) => {
 };
 
 export const validateMobileNumber = (mobileNumber) => {
+    console.log(mobileNumber, "from validation")
     // Example regex for mobile number validation (adjust as needed)
     const mobileNumberRegex = /^\d{10}$/;
     return mobileNumber?.length > 0 ? mobileNumberRegex.test(mobileNumber) : true;
