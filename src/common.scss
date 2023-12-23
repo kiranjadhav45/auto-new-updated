@@ -8,3 +8,30 @@
 .col-responsive-table-container::-webkit-scrollbar {
   display: none; // Webkit browsers (Chrome, Safari)
 }
+
+.has-error {
+  border: 1px solid red;
+  border-radius: 10px;
+  outline: none;
+}
+
+.has-error:focus {
+  outline: none;
+}
+
+
+// style= {
+//     {
+//     position: "absolute", top: "10px", width: "30%", left: "0px"
+//   }
+// }
+
+.alert-position {
+  position: absolute;
+  top: 10px;
+  width: 300px;
+  left: 50%;
+  transform: translateX(-50%);
+
+
+}

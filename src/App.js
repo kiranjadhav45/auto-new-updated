@@ -21,11 +21,18 @@ import RegisterPage from "./pages/Auth/RegisterPage";
 import { useSelector, useDispatch } from 'react-redux'
 import { updateBusiness } from './features/business/businessSlice'
 import { useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 import data from './data.json'
 function App() {
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(updateBusiness(data))
+    const bundle = localStorage.getItem("bundle")
+    if (bundle) {
+      const decoded = jwtDecode(bundle);
+      if (decoded.bundle[0]) {
+        dispatch(updateBusiness(decoded.bundle[0]))
+      }
+    }
   }, [])
   return (
     <BrowserRouter>

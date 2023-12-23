@@ -4,6 +4,7 @@ import axios from 'axios';
 
 export const PostApi = async (payload) => {
     const { url, data } = payload
+    const userData = JSON.stringify(data)
     try {
         const NewUrl = `${domain}${url}`;
         // Check if there is a bearer token available in localStorage or some other storage
@@ -18,10 +19,11 @@ export const PostApi = async (payload) => {
             headers['Authorization'] = `Bearer ${bearerToken}`;
         }
 
-        const apiResponse = await axios.post(NewUrl, data, { headers });
+        const apiResponse = await axios.post(NewUrl, userData, { headers });
         return apiResponse.data
     } catch (error) {
         return error;
     }
 };
+
 
