@@ -3,6 +3,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./custom.scss"; // Import the SCSS file
 import "./common.scss"
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 import Masters from "./pages/Masters";
 import Items from "./pages/Items";
 import TablesPage from "./pages/Tables";
