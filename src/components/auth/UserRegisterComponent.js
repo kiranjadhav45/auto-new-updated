@@ -1,31 +1,67 @@
 // UserRegisterComponent.js
 import React, { useState } from "react";
 import { Form, Button, FloatingLabel } from "react-bootstrap";
-import { validateEmail, validatePassword, validateMobileNumber, validateConfirmPassword } from "../../utils/validationUtils"
+import { validateEmail, validatePassword, validateMobileNumber, validateConfirmPassword, validateText } from "../../utils/validationUtils"
+import { click } from "@testing-library/user-event/dist/click";
 
 const UserRegisterComponent = ({ onNext, formData, setFormData }) => {
+  const [isValidName, setIsValidName] = useState(true)
   const [isValidMobile, setIsValidMobile] = useState(true)
   const [isValidEmail, setIsValidEmail] = useState(true)
   const [isValidPassword, setIsValidPassword] = useState(true)
   const [isValidConfirmPassword, setIsValidConfirmPassword] = useState(true)
-  const handleInput = async (e) => {
+  const handleInput = (e) => {
     const { name, value } = e.target;
-    await setFormData((prevData) => ({
+    setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-    const { mobile, email, password, confirmPassword } = await formData
-    setIsValidPassword(validatePassword(password));
-    setIsValidEmail(validateEmail(email));
-    setIsValidMobile(validateMobileNumber(mobile));
-    setIsValidConfirmPassword(validateConfirmPassword(confirmPassword));
+
+    const { password } = formData
+    if (name == "name") {
+      setIsValidName(validateText(value))
+    }
+    if (name == "mobile") {
+      setIsValidMobile(validateMobileNumber(value))
+    }
+    if (name == "email") {
+      setIsValidEmail(validateEmail(value));
+    }
+    if (name == "password") {
+      setIsValidPassword(validatePassword(value));
+    }
+    if (name == "confirmPassword") {
+      setIsValidConfirmPassword(validateConfirmPassword(password, value));
+    }
   }
-  console.log(formData)
-  const handleNext = () => {
+
+  const handleNext = (e) => {
+    const { name, mobile, email, password, confirmPassword } = formData
+    e.preventDefault();
     // You can add validation logic here
-    onNext();
+    if (isValidName && isValidMobile && isValidEmail && isValidPassword && isValidConfirmPassword) {
+      if (name.length > 0 && mobile.length > 0 && email.length > 0 && password.length > 0 && confirmPassword.length > 0) {
+        onNext();
+        console.log("clicked")
+      } else {
+        if (!email.length > 0) {
+          setIsValidEmail(false)
+        }
+        if (!name.length > 0) {
+          setIsValidName(false)
+        }
+        if (!mobile.length > 0) {
+          setIsValidMobile(false)
+        }
+        if (!password.length > 0) {
+          setIsValidPassword(false)
+        }
+        if (!confirmPassword.length > 0) {
+          setIsValidConfirmPassword(false)
+        }
+      }
+    }
   };
-  console.log(isValidMobile, "isValidMobile")
   return (
     <Form className="text-center">
       <img
@@ -33,11 +69,10 @@ const UserRegisterComponent = ({ onNext, formData, setFormData }) => {
         alt="Profile Pic"
         className="img-fluid rounded-circle mb-5"
       />
-      {isValidMobile && isValidMobile == true ? "true" : "false"}
-      <FloatingLabel controlId="formName" label="Name">
+      <FloatingLabel className={`mb-3 ${isValidName ? '' : 'has-error'}`} controlId="formName" label="Name">
         <Form.Control
           type="text"
-          className="mb-3"
+          // className="mb-3"
           placeholder=" "
           name="name"
           onChange={handleInput}
@@ -58,10 +93,10 @@ const UserRegisterComponent = ({ onNext, formData, setFormData }) => {
         />
       </FloatingLabel>
 
-      <FloatingLabel controlId="formEmail" label="Email">
+      <FloatingLabel className={`mb-3 ${isValidEmail ? '' : 'has-error'}`} controlId="formEmail" label="Email">
         <Form.Control
           type="email"
-          className="mb-3"
+          // className="mb-3"
           placeholder=" "
           name="email"
           onChange={handleInput}
@@ -70,10 +105,9 @@ const UserRegisterComponent = ({ onNext, formData, setFormData }) => {
         />
       </FloatingLabel>
 
-      <FloatingLabel controlId="formPassword" label="Password">
+      <FloatingLabel className={`mb-3 ${isValidPassword ? '' : 'has-error'}`} controlId="formPassword" label="Password">
         <Form.Control
           type="password"
-          className="mb-3"
           placeholder=" "
           name="password"
           onChange={handleInput}
@@ -82,11 +116,11 @@ const UserRegisterComponent = ({ onNext, formData, setFormData }) => {
         />
       </FloatingLabel>
 
-      <FloatingLabel controlId="formConfirmPassword" label="Confirm Password">
+      <FloatingLabel controlId="formConfirmPassword" className={`mb-3 ${isValidConfirmPassword ? '' : 'has-error'}`} label="Confirm Password">
         <Form.Control
           type="password"
           placeholder=" "
-          className="mb-3"
+          // className="mb-3"
           name="confirmPassword"
           onChange={handleInput}
         // value={confirmPassword}

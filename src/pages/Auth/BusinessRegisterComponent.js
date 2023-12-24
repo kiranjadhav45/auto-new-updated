@@ -1,19 +1,48 @@
 // BusinessRegisterComponent.js
 import React, { useState } from "react";
 import { Form, Button, FloatingLabel } from "react-bootstrap";
+import { validateEmail, validateMobileNumber, validateText } from "../../utils/validationUtils"
 
-const BusinessRegisterComponent = ({ onSubmit }) => {
-  const [businessType, setBusinessType] = useState("");
-  const [businessName, setBusinessName] = useState("");
-  const [businessEmail, setBusinessEmail] = useState("");
-  const [businessAddress, setBusinessAddress] = useState("");
-  const [businessContactNumber, setBusinessContactNumber] = useState("");
+const BusinessRegisterComponent = ({ onSubmit, formData, setFormData }) => {
+  const [isValidBusinessName, setIsValidBusinessName] = useState(true)
+  const [isValidBusinessMobile, setIsValidBusinessMobile] = useState(true)
+  const [isValidBusinessEmail, setIsValidBusinessEmail] = useState(true)
+  const [isValidBusinessAddress, setIsValidBusinessAddress] = useState(true)
+  const [isValidBusinessType, setIsValidBusinessType] = useState(true)
 
-  const handleSubmit = () => {
+
+  const handleSubmit = (e) => {
+    const { businessName, businessMobile, businessEmail, businessAddress, businessType } = formData
+    e.preventDefault();
     // You can add validation logic here
     onSubmit();
   };
 
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+    console.log(name, value)
+    const { password } = formData
+    if (name == "businessName") {
+      setIsValidBusinessName(validateText(value))
+    }
+    if (name == "businessMobile") {
+      setIsValidBusinessMobile(validateMobileNumber(value))
+    }
+    if (name == "businessEmail") {
+      setIsValidBusinessEmail(validateEmail(value));
+    }
+    if (name == "businessAddress") {
+      setIsValidBusinessAddress(validateText(value));
+    }
+    if (name == "businessType") {
+      setIsValidBusinessType(validateText(password, value));
+    }
+  }
   return (
     <Form className="text-center">
       <img
@@ -21,12 +50,12 @@ const BusinessRegisterComponent = ({ onSubmit }) => {
         alt="Profile Pic"
         className="img-fluid rounded-circle mb-5"
       />
-      <FloatingLabel controlId="formBusinessType" label="Choose Business Type">
+      <FloatingLabel controlId="formBusinessType" className={`mb-3 ${isValidBusinessType ? '' : 'has-error'}`} label="Choose Business Type">
         <Form.Control
           as="select"
-          className="mb-3"
-          value={businessType}
-          onChange={(e) => setBusinessType(e.target.value)}
+          // className="mb-3"
+          onChange={handleInputChange}
+          name="businessType"
         >
           <option value="">Select</option>
           <option value="resto">Restaurant</option>
@@ -39,8 +68,8 @@ const BusinessRegisterComponent = ({ onSubmit }) => {
           type="text"
           className="mb-3"
           placeholder=" "
-          value={businessName}
-          onChange={(e) => setBusinessName(e.target.value)}
+          name="businessName"
+          onChange={handleInputChange}
         />
       </FloatingLabel>
 
@@ -49,8 +78,8 @@ const BusinessRegisterComponent = ({ onSubmit }) => {
           type="email"
           placeholder=" "
           className="mb-3"
-          value={businessEmail}
-          onChange={(e) => setBusinessEmail(e.target.value)}
+          name="businessEmail"
+          onChange={handleInputChange}
         />
       </FloatingLabel>
 
@@ -58,9 +87,9 @@ const BusinessRegisterComponent = ({ onSubmit }) => {
         <Form.Control
           type="text"
           className="mb-3"
-          placeholder=" "
-          value={businessAddress}
-          onChange={(e) => setBusinessAddress(e.target.value)}
+          placeholder=""
+          name="businessAddress"
+          onChange={handleInputChange}
         />
       </FloatingLabel>
 
@@ -71,9 +100,9 @@ const BusinessRegisterComponent = ({ onSubmit }) => {
         <Form.Control
           type="text"
           className="mb-3"
-          placeholder=" "
-          value={businessContactNumber}
-          onChange={(e) => setBusinessContactNumber(e.target.value)}
+          placeholder=""
+          name="businessMobile"
+          onChange={handleInputChange}
         />
       </FloatingLabel>
 

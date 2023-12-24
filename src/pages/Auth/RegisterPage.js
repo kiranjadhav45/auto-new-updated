@@ -5,7 +5,18 @@ import BusinessRegisterComponent from "./BusinessRegisterComponent";
 import { Row, Col, Container } from "react-bootstrap";
 const RegisterPage = () => {
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({})
+  const [formData, setFormData] = useState({
+    name: "",
+    mobile: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    businessName: "",
+    businessMobile: "",
+    businessEmail: "",
+    businessAddress: "",
+    businessType: ""
+  })
 
   const handleUserRegisterNext = () => {
     setStep(2);
