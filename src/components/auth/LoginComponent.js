@@ -96,11 +96,6 @@ const LoginComponent = () => {
   return (
     <>
       <div className="alert-position" >
-        {/* {show && <Alert variant="danger" onClose={() => setShow(false)} >
-          <p>
-            {mutation.data}
-          </p>
-        </Alert>} */}
         {show && (
           <Alert variant="danger" onClose={() => setShow(false)}>
             <p>{mutation.data && mutation.data.message}</p>

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Form, Button, FloatingLabel } from "react-bootstrap";
 import { validateEmail, validateMobileNumber, validateText } from "../../utils/validationUtils"
 
-const BusinessRegisterComponent = ({ onSubmit, formData, setFormData }) => {
+const BusinessRegisterComponent = ({ onSubmit, formData, setFormData, mutation }) => {
   const [isValidBusinessName, setIsValidBusinessName] = useState(true)
   const [isValidBusinessMobile, setIsValidBusinessMobile] = useState(true)
   const [isValidBusinessEmail, setIsValidBusinessEmail] = useState(true)
@@ -14,10 +14,34 @@ const BusinessRegisterComponent = ({ onSubmit, formData, setFormData }) => {
   const handleSubmit = (e) => {
     const { businessName, businessMobile, businessEmail, businessAddress, businessType } = formData
     e.preventDefault();
-    // You can add validation logic here
-    onSubmit();
-  };
 
+
+    // You can add validation logic here
+    if (isValidBusinessName && isValidBusinessMobile && isValidBusinessEmail && isValidBusinessAddress && isValidBusinessType) {
+      if (businessName.length > 0 && businessMobile.length > 0 && businessEmail.length > 0 && businessAddress.length > 0 && businessType.length > 0) {
+        onSubmit(e);
+        console.log("clicked")
+      } else {
+        if (!businessName.length > 0) {
+          setIsValidBusinessName(false)
+        }
+        if (!businessMobile.length > 0) {
+          setIsValidBusinessMobile(false)
+        }
+        if (!isValidBusinessEmail.length > 0) {
+          setIsValidBusinessEmail(false)
+        }
+        if (!isValidBusinessAddress.length > 0) {
+          setIsValidBusinessAddress(false)
+        }
+        if (!isValidBusinessType.length > 0) {
+          setIsValidBusinessType(false)
+        }
+      }
+    }
+    // You can add validation logic here
+
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -53,7 +77,6 @@ const BusinessRegisterComponent = ({ onSubmit, formData, setFormData }) => {
       <FloatingLabel controlId="formBusinessType" className={`mb-3 ${isValidBusinessType ? '' : 'has-error'}`} label="Choose Business Type">
         <Form.Control
           as="select"
-          // className="mb-3"
           onChange={handleInputChange}
           name="businessType"
         >
@@ -63,30 +86,27 @@ const BusinessRegisterComponent = ({ onSubmit, formData, setFormData }) => {
         </Form.Control>
       </FloatingLabel>
 
-      <FloatingLabel controlId="formBusinessName" label="Business Name">
+      <FloatingLabel controlId="formBusinessName" className={`mb-3 ${isValidBusinessName ? '' : 'has-error'}`} label="Business Name">
         <Form.Control
           type="text"
-          className="mb-3"
           placeholder=" "
           name="businessName"
           onChange={handleInputChange}
         />
       </FloatingLabel>
 
-      <FloatingLabel controlId="formBusinessEmail" label="Business Email">
+      <FloatingLabel controlId="formBusinessEmail" className={`mb-3 ${isValidBusinessEmail ? '' : 'has-error'}`} label="Business Email">
         <Form.Control
           type="email"
           placeholder=" "
-          className="mb-3"
           name="businessEmail"
           onChange={handleInputChange}
         />
       </FloatingLabel>
 
-      <FloatingLabel controlId="formBusinessAddress" label="Business Address">
+      <FloatingLabel controlId="formBusinessAddress" className={`mb-3 ${isValidBusinessAddress ? '' : 'has-error'}`} label="Business Address">
         <Form.Control
           type="text"
-          className="mb-3"
           placeholder=""
           name="businessAddress"
           onChange={handleInputChange}
@@ -96,10 +116,10 @@ const BusinessRegisterComponent = ({ onSubmit, formData, setFormData }) => {
       <FloatingLabel
         controlId="formBusinessContactNumber"
         label="Business Contact Number"
+        className={`mb-3 ${isValidBusinessMobile ? '' : 'has-error'}`}
       >
         <Form.Control
           type="text"
-          className="mb-3"
           placeholder=""
           name="businessMobile"
           onChange={handleInputChange}
@@ -111,8 +131,10 @@ const BusinessRegisterComponent = ({ onSubmit, formData, setFormData }) => {
         type="submit"
         className="mt-3 w-100"
         onClick={handleSubmit}
+        disabled={mutation.isPending == true}
       >
-        Create My Account
+        {mutation.isPending == true ? "Loading" : "Create My Account"}
+
       </Button>
     </Form>
   );
