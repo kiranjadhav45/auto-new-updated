@@ -45,29 +45,12 @@ const RegisterPage = () => {
     mutationFn: PostApi,
     onSuccess: (data, variable, context) => {
       console.log(data, "data")
-      setShow(true)
-      if (data.status == "success" && data.statusCode == "200") {
-        navigate("/")
+      if (data) {
+        setShow(true)
+        if (data.status == "success" && data.statusCode == "200") {
+          navigate("/")
+        }
       }
-      // if (data) {
-      //   setShow(true)
-      //   if (data.statusCode < 400 && data.status == "success") {
-      //     if (data?.access_token) {
-      //       localStorage.setItem("token", data.access_token)
-      //       if (data.body.bundle) {
-      //         localStorage.setItem("bundle", data.body.bundle)
-      //         const decoded = jwtDecode(data.body.bundle);
-      //         if (decoded.bundle[0]) {
-      //           dispatch(updateBusiness(decoded.bundle[0]))
-      //         }
-      //         console.log(decoded?.bundle[0], "decoded")
-      //       }
-      //       navigate("/vendors")
-      //     }
-      //   }
-      // } else {
-      //   return null
-      // }
       setTimeout(function () {
         setShow(false)
       }, 3000);
