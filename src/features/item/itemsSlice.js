@@ -32,6 +32,9 @@ const itemsSlice = createSlice({
     name: "vendors",
     initialState: initialVendorState,
     reducers: {
+        updateState: (state, action) => {
+            action.payload = state.value
+        },
         addItem: (state, action) => {
             const newItem = action.payload;
 
@@ -67,5 +70,5 @@ const itemsSlice = createSlice({
     },
 });
 
-export const { addItem, deleteItem } = itemsSlice.actions;
+export const { addItem, deleteItem, updateState } = itemsSlice.actions;
 export default itemsSlice.reducer;

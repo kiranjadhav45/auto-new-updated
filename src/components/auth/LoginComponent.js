@@ -85,14 +85,13 @@ const LoginComponent = () => {
       ...prevData,
       [name]: value,
     }));
-    const { email, password } = formData
-    setIsValidPassword(validatePassword(password));
-    setIsValidEmail(validateEmail(email));
+    if (name == "email") {
+      setIsValidEmail(validateEmail(value));
+    }
+    if (name == "password") {
+      setIsValidPassword(validatePassword(value));
+    }
   };
-
-  // console.log(mutation)
-  // console.log(isValidPassword, "isValidPassword")
-  // console.log(isValidEmail, "isValidEmail")
   return (
     <>
       <div className="alert-position" >
@@ -114,14 +113,12 @@ const LoginComponent = () => {
           className={`mb-3 ${isValidEmail ? '' : 'has-error'}`}
         >
           <Form.Control
-            // onChange={handleEmailChange}
             onChange={handleInputChange}
             name="email"
             type="email" placeholder="name@example.com" />
         </FloatingLabel>
         <FloatingLabel controlId="floatingPassword" label="Password" className={`mb-3 ${isValidPassword ? '' : 'has-error'}`}>
           <Form.Control
-            // onChange={handlePasswordChange} 
             onChange={handleInputChange}
             type="password" name="password" placeholder="Password" />
         </FloatingLabel>

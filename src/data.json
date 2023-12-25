@@ -573,7 +573,7 @@
               "name": "vendorEmail",
               "title": "Vendor Email",
               "isActive": true,
-              "type": "text",
+              "type": "email",
               "values": [],
               "placeholder": "Enter Vendor Email"
             },
@@ -585,7 +585,7 @@
               "values": ["Lawn", "Terrace"],
               "placeholder": "Choose Vendor Location"
             },
-
+            
             {
               "name": "vendorAddr",
               "title": "Vendor Address",
