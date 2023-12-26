@@ -23,6 +23,7 @@ export const validatePassword = (password) => {
     // Example password validation (you can add more complex rules)
     return password?.length > 0 ? password.length >= 8 : true;
 };
+
 export const validateConfirmPassword = (password, confirmPassword) => {
     console.log("hello", confirmPassword, password);
     // Example password validation (you can add more complex rules)

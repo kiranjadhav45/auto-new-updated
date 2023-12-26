@@ -33,6 +33,14 @@ const EmployeesPage = () => {
 
   const [handleUpdateAdd, setHandleUpdateAdd] = useState(true)
   const [selectedData, setSelectedData] = useState({});
+  const [errors, setErrors] = useState({
+    employeeCode: "",
+    employeeName: "",
+    employeeEmail: "",
+    employeeMobile: "",
+    employeeAddr: "",
+    employeeVerify: "",
+  });
   const handleAddVendor = () => {
     dispatch(addEmployee(selectedData));
     setSelectedData({
@@ -69,7 +77,7 @@ const EmployeesPage = () => {
             {/* <EditEmployee items={currentActiveMenu.subMenu} /> */}
             {/* <EditEmployee items={submenuArray} /> */}
             {/* <EditItems items={submenuArray} /> */}
-            <EditItems selectedData={selectedData} setSelectedData={setSelectedData} items={submenuArray} />
+            <EditItems errors={errors} setErrors={setErrors} selectedData={selectedData} setSelectedData={setSelectedData} items={submenuArray} />
             <div className="d-grid gap-2">
               <Button onClick={handleAddVendor} variant="primary">
                 {handleUpdateAdd == true ? "Add New Employee" : "Update Employee"}

@@ -26,13 +26,14 @@ import data from './data.json'
 function App() {
   const dispatch = useDispatch()
   useEffect(() => {
-    const bundle = localStorage.getItem("bundle")
-    if (bundle) {
-      const decoded = jwtDecode(bundle);
-      if (decoded.bundle[0]) {
-        dispatch(updateBusiness(decoded.bundle[0]))
-      }
-    }
+    // const bundle = localStorage.getItem("bundle")
+    // if (bundle) {
+    //   const decoded = jwtDecode(bundle);
+    //   if (decoded.bundle[0]) {
+    //     dispatch(updateBusiness(decoded.bundle[0]))
+    //   }
+    // }
+    dispatch(updateBusiness(data))
   }, [])
   return (
     <BrowserRouter>

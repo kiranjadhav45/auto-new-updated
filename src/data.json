@@ -303,7 +303,7 @@
               "title": "Food Code",
               "isActive": true,
               "type": "text",
-              "placeholder": "Enter Food Code"
+              "placeholder": "Enter Food Code..."
             },
             {
               "name": "itemName",

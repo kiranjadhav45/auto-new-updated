@@ -31,6 +31,14 @@ const VendorsPage = () => {
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState("");
   const [showMessage, setShowMessage] = useState(false);
+  const [errors, setErrors] = useState({
+    "vendorCode": "",
+    "vendorName": "",
+    "vendorEmail": "",
+    "vendorMobile": "",
+    "vendorAddr": ""
+  });
+  const [selectedData, setSelectedData] = useState({});
   const employeesCategory = businessData?.categories?.find(
     (category) => category?.name === "Vendors"
   );
@@ -38,7 +46,7 @@ const VendorsPage = () => {
     (sub) => sub?.name === "vendors"
   );
   const submenuArray = employeeSubmenu?.subMenu;
-  const [selectedData, setSelectedData] = useState({});
+
 
   const itemData = {
     "vendorCode": "V0098933",
@@ -127,7 +135,7 @@ const VendorsPage = () => {
           <div style={{ borderWidth: 1 }}>
             <h2>Vendors Page</h2>
             {/* <EditVendor items={currentActiveMenu.subMenu} /> */}
-            <EditItems selectedData={selectedData} setSelectedData={setSelectedData} items={submenuArray} />
+            <EditItems errors={errors} setErrors={setErrors} selectedData={selectedData} setSelectedData={setSelectedData} items={submenuArray} />
             <div className="d-grid gap-2">
               <Button onClick={handleAddVendor} variant="primary">
                 {handleUpdateAdd == true ? "Add New Vendor" : "Update Vendor"}

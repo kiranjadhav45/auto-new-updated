@@ -3,14 +3,12 @@ import { Button, Form, FloatingLabel, Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { validateText, validateEmail, } from "../../utils/validationUtils";
 
-const EditItems = ({ items, selectedData, setSelectedData }) => {
-  const [errors, setErrors] = useState({});
+const EditItems = ({ items, selectedData, setSelectedData, errors, setErrors }) => {
+  // const [errors, setErrors] = useState({});
   const navigate = useNavigate();
-  console.log(selectedData, "selectedData")
 
   const handleInputChange = (e) => {
     const { name, value, type } = e.target;
-
     let isValid = true;
     switch (type) {
       case "text":
@@ -33,6 +31,8 @@ const EditItems = ({ items, selectedData, setSelectedData }) => {
     }));
 
   };
+  // console.log(selectedData, "selectedData")
+  // console.log(errors, "errors")
   const hasErrors = Object.values(errors).some((error) => error);
   return (
     <div>
@@ -61,18 +61,31 @@ const EditItems = ({ items, selectedData, setSelectedData }) => {
             <Col xs={items?.length % 2 == 0 ? 12 : 12}>
               <FloatingLabel
                 className="mb-3"
-                // style={{ marginTop: 10 }}
                 controlId="floatingSelect"
                 label={field?.placeholder}
               >
-                <Form.Select aria-label="Floating label select example"
-                  // isInvalid={errors[field?.name]}
+                {/* <Form.Select aria-label="Floating label select example"
+                  onChange={handleInputChange}
                   className={errors[field?.name] ? "is-invalid" : ""} >
                   <option>Choose To Select</option>
                   {field?.values.map((value) => (
                     <option value="3">{value}</option>
                   ))}
+                </Form.Select> */}
+                <Form.Select
+                  aria-label="Floating label select example"
+                  name={field?.name}
+                  onChange={handleInputChange}
+                  className={errors[field?.name] ? "is-invalid" : ""}
+                >
+                  <option>Choose To Select</option>
+                  {field?.values.map((value, index) => (
+                    <option key={index} value={value}>
+                      {value}
+                    </option>
+                  ))}
                 </Form.Select>
+
               </FloatingLabel>
             </Col>
           ) : (

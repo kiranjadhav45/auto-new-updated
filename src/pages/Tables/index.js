@@ -23,6 +23,13 @@ const TablesPage = () => {
 
   const [handleUpdateAdd, setHandleUpdateAdd] = useState(true)
   const [selectedData, setSelectedData] = useState({});
+  const [errors, setErrors] = useState({
+    tableCode: "",
+    tableName: "",
+    tableStatus: "",
+    tablePlacement: "",
+    tableQR: "",
+  });
   const handleAddVendor = () => {
     dispatch(addTable(selectedData));
     setSelectedData({
@@ -58,7 +65,7 @@ const TablesPage = () => {
             <h2>Tables</h2>
             {/* <EditTables items={currentActiveMenu.subMenu} /> */}
             {/* <EditItems items={submenuArray} /> */}
-            <EditItems selectedData={selectedData} setSelectedData={setSelectedData} items={submenuArray} />
+            <EditItems errors={errors} setErrors={setErrors} selectedData={selectedData} setSelectedData={setSelectedData} items={submenuArray} />
             <div className="d-grid gap-2">
               <Button onClick={handleAddVendor} variant="primary">
                 {handleUpdateAdd == true ? "Add New Table" : "Update Table"}
