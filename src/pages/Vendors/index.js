@@ -3,8 +3,9 @@ import Alert from 'react-bootstrap/Alert';
 import Layout from "../../components/common/Layout";
 import { Button, Col, Row } from "react-bootstrap";
 import { PostApi } from "../../utils/PostApi";
-import EditVendor from "../../components/vendors/editVendor";
-import VendorComponent from "../../components/vendors";
+import { GetApi } from "../../utils/GetApi";
+import { DeleteApi } from "../../utils/DeleteApi";
+import { UpdateApi } from "../../utils/DeleteApi";
 import { useSelector, useDispatch } from "react-redux";
 import {
   addVendor,
@@ -16,8 +17,10 @@ import {
   useQuery,
   useMutation,
   useQueryClient,
+  QueryClient,
 } from '@tanstack/react-query'
 const VendorsPage = () => {
+  const queryClient = useQueryClient()
   const [handleUpdateAdd, setHandleUpdateAdd] = useState(true)
   const dispatch = useDispatch();
   const businessData = useSelector((state) => state.business.value);
@@ -32,13 +35,19 @@ const VendorsPage = () => {
   const [message, setMessage] = useState("");
   const [showMessage, setShowMessage] = useState(false);
   const [errors, setErrors] = useState({
-    "vendorCode": "",
-    "vendorName": "",
-    "vendorEmail": "",
-    "vendorMobile": "",
-    "vendorAddr": ""
+    vendorCode: "",
+    vendorName: "",
+    vendorEmail: "",
+    vendorMobile: "",
+    vendorAddr: ""
   });
-  const [selectedData, setSelectedData] = useState({});
+  const [selectedData, setSelectedData] = useState({
+    vendorCode: "",
+    vendorName: "",
+    vendorEmail: "",
+    vendorMobile: "",
+    vendorAddr: ""
+  });
   const employeesCategory = businessData?.categories?.find(
     (category) => category?.name === "Vendors"
   );
@@ -47,7 +56,6 @@ const VendorsPage = () => {
   );
   const submenuArray = employeeSubmenu?.subMenu;
 
-
   const itemData = {
     "vendorCode": "V0098933",
     "vendorName": "ABCd Vendor",
@@ -55,63 +63,104 @@ const VendorsPage = () => {
     "vendorMobile": "1234567890",
     "vendorAddr": "123 Main Street"
   }
+
   const payloadData = {
     url: "/v1/vendors",
-    data: itemData
+    data: selectedData
   }
 
+  // get vendors
+  const { isLoading, data: vendors, error, refetch } = useQuery({ queryKey: ['vendor'], queryFn: () => GetApi("/v1/vendors") })
+
+  // onClick add new vendor
   const handleAddVendor = () => {
-    if (!selectedData.vendorAddr > 0 || !selectedData.vendorName > 0 || !selectedData.vendorEmail > 0 || !selectedData.vendorMobile > 0 || !selectedData.vendorAddr > 0) {
-      setShowMessage(true)
-      setMessage("all fiels are required")
-      setTimeout(function () {
-        setShowMessage(false)
-      }, 3000);
-    } else {
-      // console.log("first")
-      mutation.mutate(payloadData)
+    const newErrors = { ...errors };
+    for (const key in selectedData) {
+      if (selectedData.hasOwnProperty(key) && newErrors.hasOwnProperty(key)) {
+        if (selectedData[key] === "") {
+          newErrors[key] = true;
+        }
+      }
     }
-    // dispatch(addVendor(selectedData));
-    // setSelectedData({
-    //   id: "",
-    //   vendorAddr: "",
-    //   vendorCode: "",
-    //   vendorEmail: "",
-    //   vendorMobile: "",
-    //   vendorName: "",
-    // });
-    // setHandleUpdateAdd(true)
+    setErrors(newErrors);
+    const anyErrorIsTrue = Object.values(newErrors).some(value => value === true);
+    if (!anyErrorIsTrue) {
+      dispatch(addVendor(selectedData));
+      mutation.mutate(payloadData)
+      setHandleUpdateAdd(true)
+    } else {
+      setShow(true)
+      setMessage("please fill requied field")
+      setTimeout(function () {
+        setShow(false)
+      }, 3000);
+    }
   };
-
-  const handleDeleteVendor = (idToDelete) => {
-    dispatch(deleteVendor(idToDelete));
-  };
-
-  const handleEditTable = (event) => {
-    setHandleUpdateAdd(false)
-    // console.log(event)
-    setSelectedData(event)
-  }
-
 
   const mutation = useMutation({
     mutationFn: PostApi,
     onSuccess: (data, variable, context) => {
       console.log(data, "array data")
-      // console.log(typeof data)
       if (data) {
         setShow(true)
-        if (data.status = "success" && data.statuscode == 200) {
+        setMessage(data.message)
+        if (data.status == "success" && data.statuscode == 200) {
+          // refetch()
+          queryClient.invalidateQueries({ queryKey: ['vendor'] });
+          setSelectedData({
+            vendorCode: "",
+            vendorName: "",
+            vendorEmail: "",
+            vendorMobile: "",
+            vendorAddr: ""
+          })
+        } else {
+          // dispatch(updateState(oldItemsData))
+        }
+        setTimeout(function () {
+          setShow(false)
+        }, 3000);
+      }
+    },
+  })
+
+  // delete vendors
+
+  const handleDeleteVendor = (idToDelete) => {
+    const deletePayloadData = {
+      url: "/v1/vendors/",
+      id: idToDelete?.vendorCode
+    }
+    mutationDelete.mutate(deletePayloadData)
+    dispatch(deleteVendor(idToDelete));
+  };
+
+  const mutationDelete = useMutation({
+    mutationFn: DeleteApi,
+    onSuccess: (data, variable, context) => {
+      // console.log(data, "array data")
+      if (data) {
+        setShow(true)
+        setMessage(data.message)
+        console.log(data, "vendor Data sdfsdfklsm lkdmsf")
+        if (data.status == "success" && data.statuscode == 200) {
+          // refetch()
+          queryClient.invalidateQueries({ queryKey: ['vendor'] });
         } else {
           // dispatch(updateState(oldItemsData))
         }
       }
-
       setTimeout(function () {
         setShow(false)
       }, 3000);
     },
   })
+
+  // edit vendors
+  const handleEditTable = (event) => {
+    setHandleUpdateAdd(false)
+    setSelectedData(event)
+  }
 
   return (
     <Layout
@@ -120,11 +169,6 @@ const VendorsPage = () => {
     >
       <div className="alert-position" >
         {show && (
-          <Alert variant="danger">
-            <p>{mutation.data && mutation.data.message}</p>
-          </Alert>
-        )}
-        {showMessage && (
           <Alert variant="danger">
             <p>{message}</p>
           </Alert>
@@ -148,7 +192,12 @@ const VendorsPage = () => {
             currentActiveMenu={currentActiveMenu}
             setCurrentActiveMenu={setCurrentActiveMenu}
           /> */}
-          <CommonTable handleEditTable={handleEditTable} handleDelete={handleDeleteVendor} data={vendorData} />
+          <CommonTable
+            handleEditTable={handleEditTable}
+            handleDelete={handleDeleteVendor}
+            // data={vendorData}
+            data={vendors?.Body}
+          />
         </Col>
       </Row>
     </Layout>

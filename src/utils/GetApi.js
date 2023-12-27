@@ -1,46 +1,27 @@
-import { useState, useEffect } from "react";
-import AuthToken from "../utils/AuthToken"
+import { jwtDecode } from "jwt-decode";
+import { domain } from './conf';
+import axios from 'axios';
 
-const GetServerData = (url) => {
-    const [data, setData] = useState(null);
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true);
+export const GetApi = async (url) => {
+    // const url = '/v1/vendors'
+    // const { url } = payload;
+    try {
+        const newUrl = `${domain}${url}`;
+        const bearerToken = localStorage.getItem('token');
+        const decoded = jwtDecode(bearerToken);
+        const user_id = decoded.user_id;
 
-    const fetchData = async () => {
-        const token = AuthToken()
-        try {
-            setLoading(true);
-            setError(null);
+        const headers = {
+            'Content-Type': 'application/json',
+        };
 
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-
-            const result = await response.json();
-            setData(result);
-        } catch (error) {
-            setError(error);
-        } finally {
-            setLoading(false);
+        if (bearerToken) {
+            headers['user_id'] = `${user_id}`;
         }
+
+        const apiResponse = await axios.get(newUrl, { headers });
+        return apiResponse.data;
+    } catch (error) {
+        return error;
     }
-    useEffect(() => {
-        fetchData();
-    }, [url]);
-
-    const refetchData = () => {
-        fetchData();
-    };
-
-    return { data, error, loading, refetchData };
 };
-
-export default GetServerData;

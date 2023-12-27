@@ -109,6 +109,10 @@ const CommonTable = ({ data, handleEditTable, handleDelete }) => {
     );
   };
 
+
+  if (!data) {
+    return <h1>Loading...</h1>
+  }
   return (
     <div>
       <Navbar className="justify-content-end">
@@ -135,7 +139,8 @@ const CommonTable = ({ data, handleEditTable, handleDelete }) => {
         <thead>
           <tr>
             <th style={{ minWidth: '150px' }}>Actions</th>
-            {Object.keys(data[0]).map((key) => (
+            {/* {Object.keys(data && data[0]).map((key) => ( */}
+            {Array.isArray(data) && data.length > 0 && Object.keys(data[0]).map((key) => (
               <th key={key} style={{ minWidth: '150px' }}>
                 {key}
                 <FcEmptyFilter
@@ -154,7 +159,7 @@ const CommonTable = ({ data, handleEditTable, handleDelete }) => {
           </tr >
         </thead >
         <tbody>
-          {currentRecords.map((row, index) => (
+          {currentRecords && currentRecords.map((row, index) => (
             <React.Fragment key={index}>
               <tr>
                 <td >
@@ -179,7 +184,7 @@ const CommonTable = ({ data, handleEditTable, handleDelete }) => {
                     color="red"
                     size={24}
                     style={{ marginRight: 10, cursor: "pointer" }}
-                    onClick={() => handleDelete(row.id)}
+                    onClick={() => handleDelete(row)}
                   />
                 </td>
 
