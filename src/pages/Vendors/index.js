@@ -101,7 +101,7 @@ const VendorsPage = () => {
       } else {
         // add new vendor
         dispatch(addVendor(selectedData));
-        mutation.mutate(payloadData)
+        mutationPost.mutate(payloadData)
         setHandleUpdateAdd(true)
         setSelectedData({
           vendorCode: "",
@@ -120,7 +120,7 @@ const VendorsPage = () => {
     }
   };
 
-  const mutation = useMutation({
+  const mutationPost = useMutation({
     mutationFn: PostApi,
     onSuccess: (data, variable, context) => {
       console.log(data, "array data")
