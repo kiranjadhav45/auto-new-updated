@@ -585,7 +585,6 @@
               "values": ["Lawn", "Terrace"],
               "placeholder": "Choose Vendor Location"
             },
-            
             {
               "name": "vendorAddr",
               "title": "Vendor Address",

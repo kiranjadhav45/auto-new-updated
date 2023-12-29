@@ -3,7 +3,7 @@ import { Button, Form, FloatingLabel, Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { validateText, validateEmail, } from "../../utils/validationUtils";
 
-const EditItems = ({ items, selectedData, setSelectedData, errors, setErrors }) => {
+const EditItems = ({ items, selectedData, setSelectedData, errors, setErrors, disable, setDisable }) => {
   // const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
@@ -31,8 +31,6 @@ const EditItems = ({ items, selectedData, setSelectedData, errors, setErrors }) 
     }));
 
   };
-  // console.log(selectedData, "selectedData")
-  // console.log(errors, "errors")
   const hasErrors = Object.values(errors).some((error) => error);
   return (
     <div>
@@ -51,9 +49,8 @@ const EditItems = ({ items, selectedData, setSelectedData, errors, setErrors }) 
                   name={field?.name}
                   value={selectedData[field?.name]}
                   onChange={handleInputChange}
-                  // isInvalid={errors[field?.name]}
+                  disabled={disable[field?.name]}
                   className={errors[field?.name] ? "has-error" : ""}
-
                 />
               </FloatingLabel>
             </Col>

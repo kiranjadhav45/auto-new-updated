@@ -31,6 +31,7 @@ const Items = () => {
     subMenu: [{}],
     title: "Index",
   });
+  const [disable, setDisable] = useState({});
   const [show, setShow] = useState(false);
   const [errors, setErrors] = useState({
     itemCode: "",
@@ -197,7 +198,7 @@ const Items = () => {
           <div style={{ borderWidth: 1 }}>
             <h2>Items</h2>
             {/* <EditItems items={submenuArray} /> */}
-            <EditItems errors={errors} setErrors={setErrors} selectedData={selectedData} setSelectedData={setSelectedData} items={submenuArray} />
+            <EditItems disable={disable} setDisable={setDisable} errors={errors} setErrors={setErrors} selectedData={selectedData} setSelectedData={setSelectedData} items={submenuArray} />
             <div className="d-grid gap-2">
               <Button onClick={handleAddVendor} variant="primary">
                 {handleUpdateAdd == true ? "Add New Item" : "Update Item"}
