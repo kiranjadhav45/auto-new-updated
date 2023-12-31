@@ -15,10 +15,10 @@ export const PostApi = async (payload) => {
         const headers = {
             'Content-Type': 'application/json', // Adjust the content type as needed
         };
-
         // Include the Authorization header if a bearer token is available
         if (bearerToken) {
             headers['user_id'] = `${user_id}`;
+            headers['id'] = `${user_id}`;
         }
 
         const apiResponse = await axios.post(NewUrl, userData, { headers });

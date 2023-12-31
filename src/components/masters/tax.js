@@ -1,5 +1,6 @@
 // const TaxMaster = ({ currentActiveMenu, setCurrentActiveMenu }) => {
 import React, { useState } from "react";
+import Alert from 'react-bootstrap/Alert';
 import {
   ListGroup,
   Form,
@@ -8,15 +9,22 @@ import {
   Col,
   Breadcrumb,
 } from "react-bootstrap";
-
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+} from '@tanstack/react-query'
 import { useSelector, useDispatch } from 'react-redux'
+import { PostApi } from "../../utils/PostApi";
 import { updateLevelThree } from '../../features/business/businessSlice'
 
 const TaxMaster = ({ currentActiveMenu }) => {
   const businessData = useSelector((state) => state.business.value)
   const dispatch = useDispatch()
   const [selectedSubMenu, setSelectedSubMenu] = useState(null);
-
+  const [show, setShow] = useState(false);
+  const [message, setMessage] = useState("");
   const employeesCategory = businessData?.categories?.find(category => category?.name === "Masters");
   const employeeSubmenu = employeesCategory?.subcategories?.find(sub => sub?.name === "taxMaster");
   const submenuArray = employeeSubmenu?.subMenu;
@@ -25,6 +33,37 @@ const TaxMaster = ({ currentActiveMenu }) => {
   const handleSubMenuSelect = (menuItem) => {
     setSelectedSubMenu(menuItem);
   };
+
+
+  const handleSubmenuChange = (menuItem) => {
+    // console.log(menuItem)
+    const newmenuItem = { ...menuItem }
+    newmenuItem.isActive = !newmenuItem.isActive
+    console.log("clicked")
+    const payload = {
+      url: "//v1/update_submenus",
+      data: newmenuItem
+    }
+    dispatch(updateLevelThree(menuItem))
+    updateItems.mutate(payload)
+  }
+
+  const updateItems = useMutation({
+    mutationFn: PostApi,
+    onSuccess: (data, variable, context) => {
+      if (data) {
+        setShow(true)
+        setMessage(data.message)
+        if (data.status == "success" && data.statusCode == 200) {
+
+        }
+      }
+      setTimeout(function () {
+        setShow(false)
+      }, 3000);
+    },
+  })
+
 
   const renderSubMenu = (menuItem) => (
     <ListGroup.Item
@@ -45,8 +84,8 @@ const TaxMaster = ({ currentActiveMenu }) => {
         id={`submenu-switch-${menuItem.name}`}
         label=""
         checked={menuItem.isActive}
-        // onChange={() => { }}
-        onChange={() => { dispatch(updateLevelThree(menuItem)) }}
+        onChange={() => handleSubmenuChange(menuItem)}
+      // onChange={() => { dispatch(updateLevelThree(menuItem)) }}
       />
     </ListGroup.Item>
   );
@@ -54,6 +93,13 @@ const TaxMaster = ({ currentActiveMenu }) => {
   return (
     <Container fluid>
       <h2>Tax Master</h2>
+      <div className="alert-position" >
+        {show && (
+          <Alert variant="danger">
+            <p>{message}</p>
+          </Alert>
+        )}
+      </div>
       <Row>
         <Col xs={12} md={4}>
           {currentActiveMenu?.subMenu && (

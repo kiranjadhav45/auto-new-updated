@@ -53,7 +53,7 @@ const LoginComponent = () => {
   const mutation = useMutation({
     mutationFn: PostApi,
     onSuccess: (data, variable, context) => {
-      console.log(data, "data")
+      // console.log(data, "data")
       if (data) {
         setShow(true)
         if (data.statusCode < 400 && data.status == "success") {

@@ -1,5 +1,6 @@
 // const ItemsMaster = ({ currentActiveMenu, setCurrentActiveMenu }) => {
 import React, { useState } from "react";
+import Alert from 'react-bootstrap/Alert';
 import {
   ListGroup,
   Form,
@@ -9,16 +10,23 @@ import {
   Breadcrumb,
 } from "react-bootstrap";
 import { useSelector, useDispatch } from 'react-redux'
+import { PostApi } from "../../utils/PostApi";
 import { updateLevelThree } from '../../features/business/businessSlice'
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+} from '@tanstack/react-query'
 
 const ItemsMaster = ({ currentActiveMenu }) => {
-
-
   const dispatch = useDispatch()
+  const [show, setShow] = useState(false);
+  const [message, setMessage] = useState("");
   const businessData = useSelector((state) => state.business.value)
   const [newItemsData, setNewItemsData] = useState(businessData?.categories[1]?.subcategories[1].subMenu)
   // console.log(businessData.categories[1].subcategories[1].subMenu)
-  console.log(newItemsData)
+  // console.log(newItemsData)
   const [selectedSubMenu, setSelectedSubMenu] = useState(null);
   const master = businessData.categories.find((item) => item.name == "Masters")
   const handleSubMenuSelect = (menuItem) => {
@@ -29,6 +37,37 @@ const ItemsMaster = ({ currentActiveMenu }) => {
   const employeeSubmenu = employeesCategory?.subcategories?.find(sub => sub?.name === "itemMaster");
   const submenuArray = employeeSubmenu?.subMenu;
   // console.log(submenuArray, "submenuArray")
+
+  const handleSubmenuChange = (menuItem) => {
+    // console.log(menuItem)
+    const newmenuItem = { ...menuItem }
+    newmenuItem.isActive = !newmenuItem.isActive
+    // console.log("clicked")
+    const payload = {
+      url: "//v1/update_submenus",
+      data: newmenuItem
+    }
+    dispatch(updateLevelThree(menuItem))
+    updateItems.mutate(payload)
+  }
+
+  const updateItems = useMutation({
+    mutationFn: PostApi,
+    onSuccess: (data, variable, context) => {
+      if (data) {
+        setShow(true)
+        setMessage(data.message)
+        if (data.status == "success" && data.statusCode == 200) {
+
+        }
+      }
+      setTimeout(function () {
+        setShow(false)
+      }, 3000);
+    },
+  })
+
+
 
   const renderSubMenu = (menuItem) => (
     <ListGroup.Item
@@ -49,13 +88,19 @@ const ItemsMaster = ({ currentActiveMenu }) => {
         id={`submenu-switch-${menuItem.name}`}
         label=""
         checked={menuItem.isActive}
-        onChange={() => { dispatch(updateLevelThree(menuItem)) }}
+        onChange={() => handleSubmenuChange(menuItem)}
       />
     </ListGroup.Item>
   );
-
   return (
     <Container fluid>
+      <div className="alert-position" >
+        {show && (
+          <Alert variant="danger">
+            <p>{message}</p>
+          </Alert>
+        )}
+      </div>
       <h2>Items</h2>
       <Row>
         <Col xs={12} md={4}>
@@ -78,6 +123,7 @@ const ItemsMaster = ({ currentActiveMenu }) => {
           )}
         </Col>
       </Row>
+      {/* <button>submit</button> */}
     </Container>
 
   );

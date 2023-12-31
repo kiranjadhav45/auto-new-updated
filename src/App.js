@@ -24,17 +24,31 @@ import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import data from './data.json'
 function App() {
+  const businessData = useSelector((state) => state.business.value)
   const dispatch = useDispatch()
   useEffect(() => {
-    // const bundle = localStorage.getItem("bundle")
-    // if (bundle) {
-    //   const decoded = jwtDecode(bundle);
-    //   if (decoded.bundle[0]) {
-    //     dispatch(updateBusiness(decoded.bundle[0]))
-    //   }
-    // }
-    dispatch(updateBusiness(data))
+    const bundle = localStorage.getItem("bundle")
+    if (bundle) {
+      // const decoded = jwtDecode(bundle);
+      // const decoded = jwtDecode(bundle);
+      const decodedraw = atob(bundle);
+      const decoded = JSON.parse(decodedraw)
+      console.log(decoded, "decoded")
+      if (decoded?.bundle[0]) {
+        dispatch(updateBusiness(decoded.bundle[0]))
+      }
+    }
+    // dispatch(updateBusiness(data))
   }, [])
+
+  useEffect(() => {
+    const jsonObject = { bundle: [businessData] };
+    const jsonString = JSON.stringify(jsonObject);
+    const encodedString = btoa(jsonString);
+    localStorage.setItem("bundle", encodedString)
+    // console.log(encodedString);
+    console.log("data changed")
+  }, [businessData])
   return (
     <BrowserRouter>
       <Routes>
