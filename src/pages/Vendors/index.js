@@ -63,15 +63,14 @@ const VendorsPage = () => {
   );
   const submenuArray = employeeSubmenu?.subMenu;
 
-  const payloadData = {
-    url: "/v1/vendors",
-    data: selectedData
-  }
-
   // get vendors
   const { isLoading, data: vendors, error, refetch } = useQuery({ queryKey: ['vendor'], queryFn: () => GetApi("/v1/vendors") })
 
   // onClick add new vendor
+  const payloadData = {
+    url: "/v1/vendors",
+    data: selectedData
+  }
   const handleAddVendor = () => {
     const newErrors = { ...errors };
     for (const key in selectedData) {
@@ -186,7 +185,6 @@ const VendorsPage = () => {
   delete newSelectedData._id;
   const payloadUpdate = {
     url: `/v1/vendors/${newSelectedData.vendorCode}`,
-    id: newSelectedData.vendorCode,
     data: newSelectedData
   }
 
@@ -196,13 +194,6 @@ const VendorsPage = () => {
     let newData = { ...disable }
     newData.vendorCode = true
     setDisable(newData)
-
-    // disable, setDisable
-    // vendorCode: false,
-    // vendorName: false,
-    // vendorEmail: false,
-    // vendorMobile: false,
-    // vendorAddr: false,
     setSelectedData(event)
   }
 
@@ -231,6 +222,13 @@ const VendorsPage = () => {
         setShow(false)
       }, 3000);
     },
+    onError: (error) => {
+      setShow(true)
+      setMessage()
+      setTimeout(function () {
+        setShow(false)
+      }, 3000);
+    }
   })
   // console.log(selectedData, "setSelectedData")
   return (

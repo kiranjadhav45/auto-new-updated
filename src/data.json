@@ -340,7 +340,7 @@
               "title": "Ingredients",
               "isActive": true,
               "type": "DropDown",
-              "values": ["category one", "category 2"],
+              "values": ["category 1", "category 2"],
               "placeholder": "Enter Food Ingredients"
             },
             {

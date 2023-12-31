@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export const PutApi = async (payload) => {
     console.log(payload, "payload from put api")
-    const { url, data, id } = payload;
+    const { url, data } = payload;
     const userData = JSON.stringify(data);
 
     try {

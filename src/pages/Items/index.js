@@ -16,6 +16,9 @@ import { updateBusiness } from '../../features/business/businessSlice'
 import { updateState } from '../../features/item/itemsSlice'
 import CommonTable from "../../components/common/commonTable";
 import { addItem, deleteItem } from "../../features/item/itemsSlice"
+import { GetApi } from "../../utils/GetApi"
+import { DeleteApi } from "../../utils/DeleteApi"
+import { PutApi } from "../../utils/PutApi"
 import {
   useQuery,
   useMutation,
@@ -23,6 +26,7 @@ import {
 } from '@tanstack/react-query'
 const Items = () => {
   const dispatch = useDispatch()
+  const queryClient = useQueryClient()
   const businessData = useSelector((state) => state.business.value)
   const tableData = useSelector((state) => state.item.value)
   const [currentActiveMenu, setCurrentActiveMenu] = useState({
@@ -31,8 +35,28 @@ const Items = () => {
     subMenu: [{}],
     title: "Index",
   });
-  const [disable, setDisable] = useState({});
+
+  const [disable, setDisable] = useState({
+    itemCode: "",
+    itemName: "",
+    itemCategory: "",
+    itemSubCategory: "",
+    itemPrice: "",
+    ingredients: "",
+    recipe: "",
+    allergen: "",
+    portionSize: "",
+    status: "",
+    tax: "",
+    discount: "",
+    images: "",
+    currentStock: "",
+    barcode: "",
+    salesHistory: "",
+    customNotes: ""
+  });
   const [show, setShow] = useState(false);
+  const [message, setMessage] = useState("");
   const [errors, setErrors] = useState({
     itemCode: "",
     itemName: "",
@@ -50,8 +74,9 @@ const Items = () => {
     currentStock: "",
     barcode: "",
     salesHistory: "",
-    customNotes: "",
+    customNotes: ""
   });
+
   const [handleUpdateAdd, setHandleUpdateAdd] = useState(true)
   const [selectedData, setSelectedData] = useState({
     itemCode: "",
@@ -59,7 +84,7 @@ const Items = () => {
     itemCategory: "",
     itemSubCategory: "",
     itemPrice: "",
-    ingredients: "",
+    ingredients: ["rotti", "chapati"],
     recipe: "",
     allergen: "",
     portionSize: "",
@@ -69,8 +94,8 @@ const Items = () => {
     images: ["ImageURL1", "ImageURL2"],
     currentStock: "",
     barcode: "",
-    salesHistory: "LAST 2 DAYS",
-    customNotes: "",
+    salesHistory: [{ "date": "2023-01-01T12:00:00.000Z", "action": "Sale" }],
+    customNotes: ""
   });
 
   const itemData = {
@@ -78,7 +103,7 @@ const Items = () => {
     "itemName": "TestItemName",
     "itemCategory": "TestCategory",
     "itemSubCategory": "TestSubCategory",
-    "itemPrice": 10,
+    "itemPrice": "10",
     "ingredients": ["rotti", "chapati"],
     "recipe": "TestRecipe",
     "allergen": "TestAllergen",
@@ -92,23 +117,36 @@ const Items = () => {
     "salesHistory": [{ "date": "2023-01-01T12:00:00.000Z", "action": "Sale" }],
     "customNotes": "TestNoteswbfn,cnlwe"
   }
-  const payloadData = {
-    url: "//v1/item",
-    data: selectedData
-  }
 
   const category = businessData?.categories?.find(category => category?.name === "Items");
   const subcategories = category?.subcategories?.find(sub => sub?.name === "items");
   const submenuArray = subcategories?.subMenu;
-  // console.log(submenuArray, "submenuArray")
 
+  // get items
+  const { isLoading, data: items, error, refetch } = useQuery({ queryKey: ['items'], queryFn: () => GetApi("//v1/item") })
 
+  // onClick add new vendor
+  const handleEditTable = (event) => {
+    setHandleUpdateAdd(false)
+    setSelectedData(event)
 
-  const oldItemsData = [...tableData]
-  const handleAddVendor = () => {
+    let newData = { ...disable }
+    newData.itemCode = true
+    setDisable(newData)
+    setSelectedData(event)
+  }
 
+  const payloadDataPost = {
+    url: "//v1/item",
+    data: selectedData
+  }
+  const payloadDataUpdate = {
+    url: `//v1/item/${selectedData?.itemCode}`,
+    data: selectedData,
+  }
+
+  const handleAddItems = () => {
     const newErrors = { ...errors };
-
     for (const key in selectedData) {
       if (selectedData.hasOwnProperty(key) && newErrors.hasOwnProperty(key)) {
         if (selectedData[key] === "") {
@@ -117,70 +155,197 @@ const Items = () => {
       }
     }
     setErrors(newErrors);
-
     const anyErrorIsTrue = Object.values(newErrors).some(value => value === true);
     if (!anyErrorIsTrue) {
-      dispatch(addItem(selectedData));
-      mutation.mutate(payloadData)
-      setSelectedData({
-        id: "",
-        itemCode: "",
-        itemName: "",
-        itemCategory: "",
-        itemSubCategory: "",
-        itemPrice: "",
-        ingredients: "",
-        recipe: "",
-        allergen: "",
-        portionSize: "",
-        status: "",
-        tax: "",
-        discount: "",
-        images: "",
-        currentStock: "",
-        barcode: "",
-        salesHistory: "",
-        customNotes: "",
-      });
-      setHandleUpdateAdd(true)
-      console.log(payloadData, "payloadData")
-      // console.log("all values are false. Write something here.");
+      console.log("clecked")
+      if (selectedData._id && !handleUpdateAdd) {
+        // update vendor
+        mutationUpdate.mutate(payloadDataUpdate)
+        let newData = { ...disable }
+        newData.vendorCode = false
+        setDisable(newData)
+        setSelectedData({
+          itemCode: "",
+          itemName: "",
+          itemCategory: "",
+          itemSubCategory: "",
+          itemPrice: "",
+          ingredients: "",
+          recipe: "",
+          allergen: "",
+          portionSize: "",
+          status: "",
+          tax: "",
+          discount: "",
+          images: "",
+          currentStock: 1,
+          barcode: "",
+          salesHistory: "",
+          customNotes: ""
+        });
+      } else {
+        // add new vendor
+        mutationPost.mutate(payloadDataPost)
+        setHandleUpdateAdd(true)
+        setSelectedData({
+          itemCode: "",
+          itemName: "",
+          itemCategory: "",
+          itemSubCategory: "",
+          itemPrice: "",
+          ingredients: "",
+          recipe: "",
+          allergen: "",
+          portionSize: "",
+          status: "",
+          tax: "",
+          discount: "",
+          images: "",
+          currentStock: "",
+          barcode: "",
+          salesHistory: "",
+          customNotes: ""
+        });
+      }
     } else {
-      console.log("at least one value is true. Write something here.");
-      console.log(payloadData, "payloadData in true state")
+      setShow(true)
+      setMessage("please fill requied field")
+      setTimeout(function () {
+        setShow(false)
+      }, 3000);
     }
-
   };
 
-  const handleDeleteVendor = (idToDelete) => {
-    dispatch(deleteItem(idToDelete));
-  };
 
-  const handleEditTable = (event) => {
-    setHandleUpdateAdd(false)
-    setSelectedData(event)
-  }
-  const mutation = useMutation({
+  // post mutation
+  const mutationPost = useMutation({
     mutationFn: PostApi,
     onSuccess: (data, variable, context) => {
-      console.log(data, "data")
-      // console.log(typeof data)
+      console.log(data, "array data")
+      if (data) {
+        setMessage(data.message)
+        setShow(true)
+        if (data.status == "success" && data.statusCode == 200) {
+          // refetch()
+          queryClient.invalidateQueries({ queryKey: ['items'] });
+          setSelectedData({
+            itemCode: "",
+            itemName: "",
+            itemCategory: "",
+            itemSubCategory: "",
+            itemPrice: "",
+            ingredients: "",
+            recipe: "",
+            allergen: "",
+            portionSize: "",
+            status: "",
+            tax: "",
+            discount: "",
+            images: "",
+            currentStock: "",
+            barcode: "",
+            salesHistory: "",
+            customNotes: ""
+          })
+        } else {
+          // setMessage(data.error)
+          // setShow(true)
+          // dispatch(updateState(oldItemsData))
+        }
+        setTimeout(function () {
+          setShow(false)
+        }, 3000);
+      }
+    },
+  })
+
+
+  // update mutation 
+  const mutationUpdate = useMutation({
+    mutationFn: PutApi,
+    onSuccess: (data, variable, context) => {
       if (data) {
         setShow(true)
-        if (data.status = "success" && data.statuscode == 200) {
-        } else {
-          dispatch(updateState(oldItemsData))
+        setMessage(data.message)
+        if (data.status == "success" && data.statusCode == 200) {
+          queryClient.invalidateQueries({ queryKey: ['items'] });
+          setSelectedData({
+            vendorCode: "",
+            vendorName: "",
+            vendorEmail: "",
+            vendorMobile: "",
+            vendorAddr: ""
+          })
         }
+      } else {
+        setShow(data.error)
+        setMessage(data.message)
       }
-
       setTimeout(function () {
         setShow(false)
       }, 3000);
     },
   })
-  // console.log(mutation, "mutation")
-  // console.log(errors, "errors")
-  // console.log(selectedData, "selectedData")
+
+
+  // delete items
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  const handleDeleteItems = (idToDelete) => {
+    const deletePayloadData = {
+      url: "//v1/item/",
+      id: idToDelete?.itemCode
+    }
+    mutationDelete.mutate(deletePayloadData)
+    // dispatch(deleteVendor(idToDelete));
+  };
+
+  const mutationDelete = useMutation({
+    mutationFn: DeleteApi,
+    onSuccess: (data, variable, context) => {
+      if (data) {
+        setMessage(data?.message)
+        setShow(true)
+        if (data?.status == "success" && data?.statusCode == 200) {
+          // refetch()
+          console.log("success delete")
+          queryClient.invalidateQueries({ queryKey: ['items'] });
+        } else {
+          // dispatch(updateState(oldItemsData))
+        }
+      }
+      setTimeout(function () {
+        setShow(false)
+      }, 3000);
+    },
+  })
+
   return (
     <Layout
       currentActiveMenu={currentActiveMenu}
@@ -189,7 +354,7 @@ const Items = () => {
       <div className="alert-position" >
         {show && (
           <Alert variant="danger">
-            <p>{mutation.data && mutation.data.message}</p>
+            <p>{message}</p>
           </Alert>
         )}
       </div>
@@ -197,22 +362,19 @@ const Items = () => {
         <Col className="col-8">
           <div style={{ borderWidth: 1 }}>
             <h2>Items</h2>
-            {/* <EditItems items={submenuArray} /> */}
             <EditItems disable={disable} setDisable={setDisable} errors={errors} setErrors={setErrors} selectedData={selectedData} setSelectedData={setSelectedData} items={submenuArray} />
             <div className="d-grid gap-2">
-              <Button onClick={handleAddVendor} variant="primary">
+              <Button onClick={handleAddItems} variant="primary">
                 {handleUpdateAdd == true ? "Add New Item" : "Update Item"}
               </Button>
             </div>
           </div>
         </Col>
         <Col className="col col-responsive-table-container">
-          {/* <ItemsComponent
-            currentActiveMenu={currentActiveMenu}
-            setCurrentActiveMenu={setCurrentActiveMenu}
-          /> */}
-          {/* <CommonTable data={data} title={"Items Data"} /> */}
-          <CommonTable handleEditTable={handleEditTable} handleDelete={handleDeleteVendor} data={tableData} />
+          <CommonTable handleEditTable={handleEditTable} handleDelete={handleDeleteItems}
+            // data={tableData}
+            data={items?.body}
+          />
         </Col>
       </Row>
     </Layout>

@@ -1,14 +1,25 @@
 import React, { useState } from "react";
 import Layout from "../../components/common/Layout";
 import { Col, Row, Button } from "react-bootstrap";
+import Alert from 'react-bootstrap/Alert';
 import EditTables from "../../components/tables/editTables";
 import TablesComponent from "../../components/tables";
 import { useSelector, useDispatch } from 'react-redux'
 import EditItems from "../../components/items/editItems";
 import CommonTable from "../../components/common/commonTable";
+import { GetApi } from "../../utils/GetApi"
+import { DeleteApi } from "../../utils/DeleteApi"
+import { PutApi } from "../../utils/PutApi"
+import { PostApi } from "../../utils/PostApi"
 import { addTable, deleteTable } from "../../features/table/tableSlice"
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query'
 const TablesPage = () => {
   const dispatch = useDispatch();
+  const queryClient = useQueryClient()
   const businessData = useSelector((state) => state.business.value)
   const tableData = useSelector((state) => state.table.value)
   const [currentActiveMenu, setCurrentActiveMenu] = useState({
@@ -22,6 +33,8 @@ const TablesPage = () => {
   const submenuArray = employeeSubmenu?.subMenu;
 
   const [handleUpdateAdd, setHandleUpdateAdd] = useState(true)
+  const [show, setShow] = useState(false);
+  const [message, setMessage] = useState("");
   const [selectedData, setSelectedData] = useState({});
   const [errors, setErrors] = useState({
     tableCode: "",
@@ -30,11 +43,17 @@ const TablesPage = () => {
     tablePlacement: "",
     tableQR: "",
   });
-  const [disable, setDisable] = useState({});
+
+  const [disable, setDisable] = useState({
+    tableCode: "",
+    tableName: "",
+    tableStatus: "",
+    tablePlacement: "",
+    tableQR: "",
+  });
   const handleAddVendor = () => {
     dispatch(addTable(selectedData));
     setSelectedData({
-      id: "",
       tableCode: "",
       tableName: "",
       tableStatus: "",
@@ -48,18 +67,178 @@ const TablesPage = () => {
     dispatch(deleteTable(idToDelete));
   };
 
+  // get items
+  const { isLoading, data: table, error, refetch } = useQuery({ queryKey: ['table'], queryFn: () => GetApi("/v1/table") })
+
+  // post items
+
   const handleEditTable = (event) => {
+    console.log(event, "handleUpdateAdd")
     setHandleUpdateAdd(false)
-    console.log(event)
+    setSelectedData(event)
+
+    let newData = { ...disable }
+    newData.tableCode = true
+    setDisable(newData)
     setSelectedData(event)
   }
 
+  const payloadDataPost = {
+    url: "/v1/table",
+    data: selectedData
+  }
+  const payloadDataUpdate = {
+    url: `/v1/table/${selectedData?.tableCode}`,
+    data: selectedData,
+  }
+
+  const handleAddTable = () => {
+    const newErrors = { ...errors };
+    for (const key in selectedData) {
+      if (selectedData.hasOwnProperty(key) && newErrors.hasOwnProperty(key)) {
+        if (selectedData[key] === "") {
+          newErrors[key] = true;
+        }
+      }
+    }
+    setErrors(newErrors);
+    const anyErrorIsTrue = Object.values(newErrors).some(value => value === true);
+    if (!anyErrorIsTrue) {
+      console.log(selectedData._id)
+      console.log(handleUpdateAdd)
+      if (selectedData._id && !handleUpdateAdd) {
+        console.log("clecked")
+        // update vendor
+        mutationUpdate.mutate(payloadDataUpdate)
+        let newData = { ...disable }
+        newData.tableCode = false
+        setDisable(newData)
+        setSelectedData({
+          tableCode: "",
+          tableName: "",
+          tableStatus: "",
+          tablePlacement: "",
+          tableQR: "",
+        });
+      } else {
+        // add new vendor
+        mutationPost.mutate(payloadDataPost)
+        setHandleUpdateAdd(true)
+        setSelectedData({
+          tableCode: "",
+          tableName: "",
+          tableStatus: "",
+          tablePlacement: "",
+          tableQR: "",
+        });
+      }
+    } else {
+      setShow(true)
+      setMessage("please fill requied field")
+      setTimeout(function () {
+        setShow(false)
+      }, 3000);
+    }
+  };
+
+
+  // post mutation
+  const mutationPost = useMutation({
+    mutationFn: PostApi,
+    onSuccess: (data, variable, context) => {
+      // console.log(data, "array data")
+      if (data) {
+        setMessage(data.message)
+        setShow(true)
+        if (data.status == "success" && data.statusCode == 200) {
+          // refetch()
+          queryClient.invalidateQueries({ queryKey: ['table'] });
+          setSelectedData({
+            tableCode: "",
+            tableName: "",
+            tableStatus: "",
+            tablePlacement: "",
+            tableQR: "",
+          })
+        } else {
+          // setMessage(data.error)
+          // setShow(true)
+          // dispatch(updateState(oldItemsData))
+        }
+        setTimeout(function () {
+          setShow(false)
+        }, 3000);
+      }
+    },
+  })
+
+  // update mutation 
+  const mutationUpdate = useMutation({
+    mutationFn: PutApi,
+    onSuccess: (data, variable, context) => {
+      if (data) {
+        setShow(true)
+        setMessage(data.message)
+        if (data.status == "success" && data.statusCode == 200) {
+          queryClient.invalidateQueries({ queryKey: ['table'] });
+          setSelectedData({
+            tableCode: "",
+            tableName: "",
+            tableStatus: "",
+            tablePlacement: "",
+            tableQR: "",
+          })
+        }
+      } else {
+        setShow(data.error)
+        setMessage(data.message)
+      }
+      setTimeout(function () {
+        setShow(false)
+      }, 3000);
+    },
+  })
+
+  // delete tables 
+  const handleDeleteTable = (idToDelete) => {
+    const deletePayloadData = {
+      url: "/v1/table/",
+      id: idToDelete?.tableCode
+    }
+    mutationDelete.mutate(deletePayloadData)
+    // dispatch(deleteVendor(idToDelete));
+  };
+
+  const mutationDelete = useMutation({
+    mutationFn: DeleteApi,
+    onSuccess: (data, variable, context) => {
+      if (data) {
+        setMessage(data?.message)
+        setShow(true)
+        if (data?.status == "success" && data?.statusCode == 200) {
+          // refetch()
+          console.log("success delete")
+          queryClient.invalidateQueries({ queryKey: ['table'] });
+        } else {
+          // dispatch(updateState(oldItemsData))
+        }
+      }
+      setTimeout(function () {
+        setShow(false)
+      }, 3000);
+    },
+  })
 
   return (
     <Layout
       currentActiveMenu={currentActiveMenu}
       setCurrentActiveMenu={setCurrentActiveMenu}
     >
+      {show && (
+        <Alert variant="danger">
+          <p>{message}</p>
+        </Alert>
+      )}
       <Row className="mt-1">
         <Col className="col-8">
           <div style={{ borderWidth: 1 }}>
@@ -68,7 +247,7 @@ const TablesPage = () => {
             {/* <EditItems items={submenuArray} /> */}
             <EditItems disable={disable} setDisable={setDisable} errors={errors} setErrors={setErrors} selectedData={selectedData} setSelectedData={setSelectedData} items={submenuArray} />
             <div className="d-grid gap-2">
-              <Button onClick={handleAddVendor} variant="primary">
+              <Button onClick={handleAddTable} variant="primary">
                 {handleUpdateAdd == true ? "Add New Table" : "Update Table"}
               </Button>
             </div>
@@ -80,7 +259,12 @@ const TablesPage = () => {
             setCurrentActiveMenu={setCurrentActiveMenu}
           /> */}
           {/* <CommonTable data={data} title={"Tables Data"} /> */}
-          <CommonTable handleEditTable={handleEditTable} handleDelete={handleDeleteVendor} data={tableData} />
+          <CommonTable
+            handleEditTable={handleEditTable}
+            handleDelete={handleDeleteTable}
+            // data={tableData} 
+            data={table?.body}
+          />
         </Col>
       </Row>
     </Layout>
