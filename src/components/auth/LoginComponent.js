@@ -59,14 +59,42 @@ const LoginComponent = () => {
         if (data.statusCode < 400 && data.status == "success") {
           if (data?.access_token) {
             localStorage.setItem("token", data.access_token)
-            if (data.body.bundle) {
-              localStorage.setItem("bundle", data.body.bundle)
-              const decoded = jwtDecode(data.body.bundle);
-              if (decoded.bundle[0]) {
-                dispatch(updateBusiness(decoded.bundle[0]))
+            // if (data.body.bundle) {
+            //   localStorage.setItem("bundle", data.body.bundle)
+            //   const decoded = jwtDecode(data.body.bundle);
+            //   if (decoded.bundle[0]) {
+            //     dispatch(updateBusiness(decoded.bundle[0]))
+            //   }
+            //   console.log(decoded?.bundle[0], "decoded")
+            // }
+
+            if (data.body && data.body.bundle) {
+              try {
+                const bundleFromData = data.body.bundle;
+
+                // Storing the bundle directly in localStorage
+                localStorage.setItem("bundle", bundleFromData);
+
+                // Attempting to decode the JWT token
+                const decoded = jwtDecode(bundleFromData);
+
+                if (decoded && decoded.bundle && decoded.bundle[0]) {
+                  dispatch(updateBusiness(decoded.bundle[0]));
+                  console.log(decoded.bundle[0], "decoded");
+                } else {
+                  // Handle the case where the decoded data doesn't have the expected structure
+                  console.error("Decoded data doesn't contain the expected bundle structure.");
+                }
+              } catch (error) {
+                // Catching potential errors during decoding or dispatching
+                console.error("Error while decoding or dispatching:", error);
+                // Handle the error gracefully or log additional debugging information
               }
-              console.log(decoded?.bundle[0], "decoded")
+            } else {
+              // Handle the case where data.body.bundle is not available
+              console.error("Missing or invalid data.body.bundle");
             }
+
             navigate("/vendors")
           }
         }

@@ -26,29 +26,63 @@ import data from './data.json'
 function App() {
   const businessData = useSelector((state) => state.business.value)
   const dispatch = useDispatch()
-  useEffect(() => {
-    const bundle = localStorage.getItem("bundle")
-    if (bundle) {
-      // const decoded = jwtDecode(bundle);
-      // const decoded = jwtDecode(bundle);
-      const decodedraw = atob(bundle);
-      const decoded = JSON.parse(decodedraw)
-      console.log(decoded, "decoded")
-      if (decoded?.bundle[0]) {
-        dispatch(updateBusiness(decoded.bundle[0]))
-      }
-    }
-    // dispatch(updateBusiness(data))
-  }, [])
 
+  // useEffect(() => {
+  //   const bundle = localStorage.getItem("bundle")
+  //   if (bundle) {
+  //     const decodedraw = atob(bundle);
+  //     const decoded = JSON.parse(decodedraw)
+  //     console.log(decoded, "decoded")
+  //     if (decoded?.bundle[0]) {
+  //       dispatch(updateBusiness(decoded.bundle[0]))
+  //     }
+  //   }
+  //   // dispatch(updateBusiness(data))
+  // }, [])
   useEffect(() => {
-    const jsonObject = { bundle: [businessData] };
-    const jsonString = JSON.stringify(jsonObject);
-    const encodedString = btoa(jsonString);
-    localStorage.setItem("bundle", encodedString)
-    // console.log(encodedString);
-    console.log("data changed")
-  }, [businessData])
+    try {
+      const bundle = localStorage.getItem("bundle");
+      if (bundle) {
+        const decodedraw = atob(bundle);
+        const decoded = JSON.parse(decodedraw);
+        console.log(decoded, "decoded");
+        if (decoded?.bundle && decoded.bundle[0]) {
+          dispatch(updateBusiness(decoded.bundle[0]));
+        }
+      }
+      // dispatch(updateBusiness(data))
+    } catch (error) {
+      console.error("Error decoding the string:", error);
+    }
+  }, []);
+
+
+  // useEffect(() => {
+  //   const jsonObject = { bundle: [businessData] };
+  //   const jsonString = JSON.stringify(jsonObject);
+  //   const encodedString = btoa(jsonString);
+  //   localStorage.setItem("bundle", encodedString)
+  //   console.log("data changed")
+  // }, [businessData])
+  useEffect(() => {
+    try {
+      const jsonObject = { bundle: [businessData] };
+      const jsonString = JSON.stringify(jsonObject);
+
+      // Check for non-ASCII characters before encoding
+      const isASCII = /^[\x00-\x7F]*$/.test(jsonString);
+      if (!isASCII) {
+        throw new Error("The data contains non-ASCII characters that can't be encoded using btoa.");
+      }
+      const encodedString = btoa(jsonString);
+      localStorage.setItem("bundle", encodedString);
+      console.log("Data changed and stored in localStorage");
+    } catch (error) {
+      console.error("Error while updating localStorage:", error);
+      // Handle the error gracefully or log additional debugging information
+    }
+  }, [businessData]);
+
   return (
     <BrowserRouter>
       <Routes>
