@@ -1,9 +1,10 @@
 // BusinessRegisterComponent.js
 import React, { useState } from "react";
+import { Row, Col } from "react-bootstrap"
 import { Form, Button, FloatingLabel } from "react-bootstrap";
 import { validateEmail, validateMobileNumber, validateText } from "../../utils/validationUtils"
-
-const BusinessRegisterComponent = ({ onSubmit, formData, setFormData, mutation }) => {
+import { IoIosArrowBack } from "react-icons/io";
+const BusinessRegisterComponent = ({ onSubmit, formData, setFormData, mutation, setStep }) => {
   const [isValidBusinessName, setIsValidBusinessName] = useState(true)
   const [isValidBusinessMobile, setIsValidBusinessMobile] = useState(true)
   const [isValidBusinessEmail, setIsValidBusinessEmail] = useState(true)
@@ -79,6 +80,7 @@ const BusinessRegisterComponent = ({ onSubmit, formData, setFormData, mutation }
           as="select"
           onChange={handleInputChange}
           name="businessType"
+          value={formData.businessType}
         >
           <option value="">Select</option>
           <option value="resto">Restaurant</option>
@@ -92,6 +94,7 @@ const BusinessRegisterComponent = ({ onSubmit, formData, setFormData, mutation }
           placeholder=" "
           name="businessName"
           onChange={handleInputChange}
+          value={formData.businessName}
         />
       </FloatingLabel>
 
@@ -100,6 +103,7 @@ const BusinessRegisterComponent = ({ onSubmit, formData, setFormData, mutation }
           type="email"
           placeholder=" "
           name="businessEmail"
+          value={formData.businessEmail}
           onChange={handleInputChange}
         />
       </FloatingLabel>
@@ -109,6 +113,7 @@ const BusinessRegisterComponent = ({ onSubmit, formData, setFormData, mutation }
           type="text"
           placeholder=""
           name="businessAddress"
+          value={formData.businessAddress}
           onChange={handleInputChange}
         />
       </FloatingLabel>
@@ -123,19 +128,27 @@ const BusinessRegisterComponent = ({ onSubmit, formData, setFormData, mutation }
           placeholder=""
           name="businessMobile"
           onChange={handleInputChange}
+          value={formData.businessMobile}
         />
       </FloatingLabel>
-
-      <Button
-        variant="info"
-        type="submit"
-        className="mt-3 w-100"
-        onClick={handleSubmit}
-        disabled={mutation.isPending == true}
-      >
-        {mutation.isPending == true ? "Loading" : "Create My Account"}
-
-      </Button>
+      <Row>
+        <Col style={{ display: "flex", alignItems: "center", justifyContent: "center" }} className="col-2">
+          <div onClick={() => setStep(1)} className="back-button">
+            <IoIosArrowBack size={22} />
+          </div>
+        </Col>
+        <Col>
+          <Button
+            variant="info"
+            type="submit"
+            className="mt-3 w-100"
+            onClick={handleSubmit}
+            disabled={mutation.isPending == true}
+          >
+            {mutation.isPending == true ? "Loading" : "Create My Account"}
+          </Button>
+        </Col>
+      </Row>
     </Form>
   );
 };

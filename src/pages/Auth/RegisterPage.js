@@ -39,8 +39,6 @@ const RegisterPage = () => {
     data: formData
   }
 
-
-
   const mutation = useMutation({
     mutationFn: PostApi,
     onSuccess: (data, variable, context) => {
@@ -56,10 +54,6 @@ const RegisterPage = () => {
       }, 3000);
     },
   })
-
-
-
-
 
   const handleUserRegisterNext = () => {
     setStep(2);
@@ -110,7 +104,7 @@ const RegisterPage = () => {
             {step === 1 ? (
               <UserRegisterComponent formData={formData} setFormData={setFormData} onNext={handleUserRegisterNext} />
             ) : (
-              <BusinessRegisterComponent formData={formData} setFormData={setFormData} onSubmit={handleBusinessSubmit} mutation={mutation} />
+              <BusinessRegisterComponent setStep={setStep} formData={formData} setFormData={setFormData} onSubmit={handleBusinessSubmit} mutation={mutation} />
             )}
           </div>
         </Col>

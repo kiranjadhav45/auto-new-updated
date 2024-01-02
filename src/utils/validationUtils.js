@@ -21,7 +21,9 @@ export const validateEmail = (email) => {
 
 export const validatePassword = (password) => {
     // Example password validation (you can add more complex rules)
-    return password?.length > 0 ? password.length >= 8 : true;
+    const passwordRegex = /^.{8,16}$/
+    return password?.length > 0 ? passwordRegex.test(password) : true;
+    // return password?.length > 0 ? password.length >= 8 : true;
 };
 
 export const validateConfirmPassword = (password, confirmPassword) => {

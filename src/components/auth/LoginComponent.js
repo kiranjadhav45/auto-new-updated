@@ -17,8 +17,13 @@ import {
 
 const LoginComponent = () => {
   const [show, setShow] = useState(false);
+  const [message, setMessage] = useState("");
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidPassword, setIsValidPassword] = useState(true);
+  const [errors, setErrors] = useState({
+    email: "",
+    password: ""
+  })
   const [formData, setFormData] = useState({
     email: "",
     password: ""
@@ -29,55 +34,46 @@ const LoginComponent = () => {
 
   const paylosdasd = {
     url: "/v1/login",
-    // data: {
-    //   "email": "akashh111111@gmail.com",
-    //   "password": "Akash@2151"
-    // }
-    // data: {
-    //   "email": "shop@gmail.com",
-    //   "password": "shop@111"
-    // }
     data: formData
   }
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (!formData.email.length > 0 && !formData.email.length > 0) {
-      setIsValidPassword(false)
-      setIsValidEmail(false)
-    } else {
-      if (isValidEmail == true && isValidPassword == true) {
-        mutation.mutate(paylosdasd)
+    const newErrors = { ...errors };
+    for (const key in formData) {
+      if (formData.hasOwnProperty(key) && newErrors.hasOwnProperty(key)) {
+        if (formData[key] === "") {
+          newErrors[key] = true;
+        }
       }
+    }
+    setErrors(newErrors);
+    const anyErrorIsTrue = Object.values(newErrors).some(value => value === true);
+    if (!anyErrorIsTrue) {
+      mutation.mutate(paylosdasd)
+    } else {
+      setMessage("please enter email and password")
+      setShow(true)
+      setTimeout(function () {
+        setShow(false)
+      }, 3000);
     }
   };
   const mutation = useMutation({
     mutationFn: PostApi,
     onSuccess: (data, variable, context) => {
-      // console.log(data, "data")
       if (data) {
+        setMessage(data?.message)
         setShow(true)
-        if (data.statusCode < 400 && data.status == "success") {
+        if (data?.status == "success" && data?.statusCode == 200) {
           if (data?.access_token) {
             localStorage.setItem("token", data.access_token)
-            // if (data.body.bundle) {
-            //   localStorage.setItem("bundle", data.body.bundle)
-            //   const decoded = jwtDecode(data.body.bundle);
-            //   if (decoded.bundle[0]) {
-            //     dispatch(updateBusiness(decoded.bundle[0]))
-            //   }
-            //   console.log(decoded?.bundle[0], "decoded")
-            // }
-
             if (data.body && data.body.bundle) {
               try {
                 const bundleFromData = data.body.bundle;
-
                 // Storing the bundle directly in localStorage
                 localStorage.setItem("bundle", bundleFromData);
-
                 // Attempting to decode the JWT token
                 const decoded = jwtDecode(bundleFromData);
-
                 if (decoded && decoded.bundle && decoded.bundle[0]) {
                   dispatch(updateBusiness(decoded.bundle[0]));
                   console.log(decoded.bundle[0], "decoded");
@@ -94,10 +90,12 @@ const LoginComponent = () => {
               // Handle the case where data.body.bundle is not available
               console.error("Missing or invalid data.body.bundle");
             }
-
             navigate("/vendors")
           }
         }
+        setTimeout(function () {
+          setShow(false)
+        }, 3000);
       } else {
         return null
       }
@@ -108,24 +106,45 @@ const LoginComponent = () => {
   })
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-    if (name == "email") {
-      setIsValidEmail(validateEmail(value));
+    // if (name == "email") {
+    //   setIsValidEmail(validateEmail(value));
+    // }
+    // if (name == "password") {
+    //   setIsValidPassword(validatePassword(value));
+    // }
+    // const { name, value, type } = e.target;
+    let isValid = true;
+    switch (type) {
+      case "email":
+        isValid = validateEmail(value);
+        break;
+      case "password":
+        isValid = validatePassword(value);
+        break;
+      default:
+        break;
     }
-    if (name == "password") {
-      setIsValidPassword(validatePassword(value));
-    }
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: !isValid,
+    }));
   };
   return (
     <>
       <div className="alert-position" >
-        {show && (
+        {/* {show && (
           <Alert variant="danger" onClose={() => setShow(false)}>
             <p>{mutation.data && mutation.data.message}</p>
+          </Alert>
+        )} */}
+        {show && (
+          <Alert variant="danger">
+            <p>{message}</p>
           </Alert>
         )}
       </div>
@@ -138,14 +157,14 @@ const LoginComponent = () => {
         <FloatingLabel
           controlId="floatingInput"
           label="Email address"
-          className={`mb-3 ${isValidEmail ? '' : 'has-error'}`}
+          className={`mb-3 ${!errors.email ? '' : 'has-error'}`}
         >
           <Form.Control
             onChange={handleInputChange}
             name="email"
             type="email" placeholder="name@example.com" />
         </FloatingLabel>
-        <FloatingLabel controlId="floatingPassword" label="Password" className={`mb-3 ${isValidPassword ? '' : 'has-error'}`}>
+        <FloatingLabel controlId="floatingPassword" label="Password" className={`mb-3 ${!errors.password ? '' : 'has-error'}`}>
           <Form.Control
             onChange={handleInputChange}
             type="password" name="password" placeholder="Password" />

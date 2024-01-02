@@ -76,7 +76,7 @@ const UserRegisterComponent = ({ onNext, formData, setFormData }) => {
           placeholder=" "
           name="name"
           onChange={handleInput}
-        // value={name}
+          value={formData.name}
         // onChange={(e) => setName(e.target.value)}
         />
       </FloatingLabel>
@@ -88,7 +88,7 @@ const UserRegisterComponent = ({ onNext, formData, setFormData }) => {
           placeholder=" "
           name="mobile"
           onChange={handleInput}
-        // value={mobile}
+          value={formData.mobile}
         // onChange={(e) => setMobile(e.target.value)}
         />
       </FloatingLabel>
@@ -100,7 +100,7 @@ const UserRegisterComponent = ({ onNext, formData, setFormData }) => {
           placeholder=" "
           name="email"
           onChange={handleInput}
-        // value={email}
+          value={formData.email}
         // onChange={(e) => setEmail(e.target.value)}
         />
       </FloatingLabel>
@@ -111,7 +111,7 @@ const UserRegisterComponent = ({ onNext, formData, setFormData }) => {
           placeholder=" "
           name="password"
           onChange={handleInput}
-        // value={password}
+          value={formData.password}
         // onChange={(e) => setPassword(e.target.value)}
         />
       </FloatingLabel>
@@ -123,7 +123,7 @@ const UserRegisterComponent = ({ onNext, formData, setFormData }) => {
           // className="mb-3"
           name="confirmPassword"
           onChange={handleInput}
-        // value={confirmPassword}
+          value={formData.confirmPassword}
         // onChange={(e) => setConfirmPassword(e.target.value)}
         />
       </FloatingLabel>
