@@ -7,18 +7,6 @@ export const PostApi = async (payload) => {
     const userData = JSON.stringify(data)
     try {
         const NewUrl = `${domain}${url}`;
-        // const bearerToken = localStorage.getItem('token');
-        // const decoded = jwtDecode(bearerToken);
-        // const user_id = decoded.user_id
-        // const headers = {
-        //     'Content-Type': 'application/json',
-        // };
-
-        // if (bearerToken) {
-        //     headers['user_id'] = `${user_id}`;
-        //     headers['id'] = `${user_id}`;
-        // }
-
         const bearerToken = localStorage.getItem('token');
         const headers = {
             'Content-Type': 'application/json',
@@ -27,12 +15,11 @@ export const PostApi = async (payload) => {
             const decoded = jwtDecode(bearerToken);
             const user_id = decoded.user_id;
             headers['user_id'] = `${user_id}`;
-            headers['id'] = `${user_id}`;
+            // headers['id'] = `${user_id}`;
         } else {
             // Handle the scenario when the token is not available
             console.warn("Token not found in localStorage. Request will be sent without user_id in headers.");
         }
-
         const apiResponse = await axios.post(NewUrl, userData, { headers });
         return apiResponse.data
     } catch (error) {
