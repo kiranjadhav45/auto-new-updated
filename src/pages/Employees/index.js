@@ -16,6 +16,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { addEmployee, deleteEmployee } from "../../features/employees/employeSlice"
 import Table from "../../components/common/Table";
 import CommonTable from "../../components/common/commonTable";
+import { GetApi } from "../../utils/GetApi"
+import { DeleteApi } from "../../utils/DeleteApi"
+import { PutApi } from "../../utils/PutApi"
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query'
 const EmployeesPage = () => {
   const dispatch = useDispatch();
   const employeeData = useSelector((state) => state.employee.value);
@@ -42,6 +50,13 @@ const EmployeesPage = () => {
     employeeAddr: "",
     employeeVerify: "",
   });
+
+  // get items
+  const { isLoading, data: employee, error, refetch } = useQuery({ queryKey: ['employee'], queryFn: () => GetApi("//v1/employee") })
+
+
+  console.log(employee.body, "employee")
+
   const handleAddVendor = () => {
     dispatch(addEmployee(selectedData));
     setSelectedData({
@@ -75,9 +90,6 @@ const EmployeesPage = () => {
         <Col className="col-8">
           <div style={{ borderWidth: 1 }}>
             <h2>Employee Page</h2>
-            {/* <EditEmployee items={currentActiveMenu.subMenu} /> */}
-            {/* <EditEmployee items={submenuArray} /> */}
-            {/* <EditItems items={submenuArray} /> */}
             <EditItems disable={disable} setDisable={setDisable} errors={errors} setErrors={setErrors} selectedData={selectedData} setSelectedData={setSelectedData} items={submenuArray} />
             <div className="d-grid gap-2">
               <Button onClick={handleAddVendor} variant="primary">
@@ -87,13 +99,12 @@ const EmployeesPage = () => {
           </div>
         </Col>
         <Col className="col col-responsive-table-container" >
-          {/* <EmployeeComponent
-            currentActiveMenu={currentActiveMenu}
-            setCurrentActiveMenu={setCurrentActiveMenu}
-          /> */}
-          {/* <Table columns={columns} data={data} itemsPerPage={6} /> */}
-          {/* <CommonTable data={data} title={"Employees Data"} /> */}
-          <CommonTable handleEditTable={handleEditTable} handleDelete={handleDeleteVendor} data={employeeData} />
+          <CommonTable
+            handleEditTable={handleEditTable}
+            handleDelete={handleDeleteVendor}
+            // data={employeeData}
+            data={employeeData}
+          />
         </Col>
       </Row>
     </Layout>

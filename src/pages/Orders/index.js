@@ -1,51 +1,29 @@
-import React, { useState } from "react";
-import { Form, Table, Button, Col, Row } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Form, Table, Button, FloatingLabel, Col, Row } from "react-bootstrap";
+import ListGroup from 'react-bootstrap/ListGroup';
 import Layout from "../../components/common/Layout";
+import { ItemsData } from "../../products";
+import { addProduct, removeProduct, increseQuantity, dcreaseQuantity } from "../../features/bill/billSlice";
+import { useDispatch, useSelector } from 'react-redux'
 const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
-  const [billId, setBillId] = useState("");
-  const [date, setDate] = useState("");
-  const [selectedProducts, setSelectedProducts] = useState([
-    { id: 1, name: "Product 1", price: 10.0, quantity: 1 },
-    { id: 2, name: "Product 2", price: 15.0, quantity: 2 },
-  ]);
-  const [searchProduct, setSearchProduct] = useState("");
+  const dispatch = useDispatch()
+  const bill = useSelector((state) => state.bill.products)
+  const [products, setProducts] = useState(ItemsData)
+  const [searchedProduct, setsearchedProduct] = useState(false);
+  const [totalBill, setTotalBill] = useState(0);
 
-  const handleAddProduct = () => {
-    // Add your logic to fetch product details based on searchProduct
-    // and add it to the selectedProducts array
-    // For example:
-    const newProduct = {
-      id: 3,
-      name: "Product 3",
-      price: 20.0,
-      quantity: 1,
-    };
-    setSelectedProducts([...selectedProducts, newProduct]);
-    setSearchProduct("");
-  };
-
-  const handleQuantityChange = (productId, newQuantity) => {
-    setSelectedProducts((prevProducts) =>
-      prevProducts.map((product) =>
-        product.id === productId
-          ? { ...product, quantity: newQuantity }
-          : product
-      )
-    );
-  };
-
-  const handleRemoveProduct = (productId) => {
-    setSelectedProducts((prevProducts) =>
-      prevProducts.filter((product) => product.id !== productId)
-    );
-  };
-
-  const getTotalItems = () => {
-    return selectedProducts.reduce(
-      (total, product) => total + product.quantity,
-      0
-    );
-  };
+  const handleInputChange = (e) => {
+    const value = e.target.value
+    const searchedItems = products.filter((item) => item.itemName.includes(value));
+    setsearchedProduct(searchedItems);
+  }
+  useEffect(() => {
+    const totalPrice = bill.reduce((acc, product) => {
+      const productPrice = product.quantity * product.itemPrice;
+      return acc + productPrice;
+    }, 0);
+    setTotalBill(totalPrice);
+  }, [bill])
 
   return (
     <Layout
@@ -63,15 +41,33 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
             <h2>Billing Page</h2>
             <Form>
               {/* ... (previous form code) */}
-              <Button variant="primary" onClick={handleAddProduct}>
+              <Button variant="primary"
+              // onClick={handleAddProduct}
+              >
                 Add Product
               </Button>
+              <FloatingLabel
+                controlId="floatingInput"
+                label="search"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="text"
+                  placeholder="search"
+                  onChange={handleInputChange}
+                />
+              </FloatingLabel>
             </Form>
-
+            <div className="listGroup-container">
+              {searchedProduct.length > 0 ? (<ListGroup className="listGroup">
+                {searchedProduct && searchedProduct.map((item) => (
+                  <ListGroup.Item className="cursor-pointer" onClick={() => { dispatch(addProduct(item)); setsearchedProduct("") }} >{item.itemName}</ListGroup.Item>
+                ))}
+              </ListGroup>) : ""}
+            </div>
             <Table striped bordered hover>
               <thead>
                 <tr>
-                  <th>ID</th>
                   <th>Name</th>
                   <th>Price</th>
                   <th>Quantity</th>
@@ -79,29 +75,22 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
                 </tr>
               </thead>
               <tbody>
-                {selectedProducts.map((product) => (
+                {bill && bill.map((product) => (
                   <tr key={product.id}>
-                    <td>{product.id}</td>
-                    <td>{product.name}</td>
-                    <td>{product.price}</td>
+                    <td>{product.itemName}</td>
+                    <td>{product.itemPrice}</td>
+                    <td>{product.quantity}</td>
                     <td>
                       <Button
                         variant="outline-primary"
-                        onClick={() =>
-                          handleQuantityChange(
-                            product.id,
-                            Math.max(product.quantity - 1, 0)
-                          )
-                        }
+                        onClick={() => dispatch(dcreaseQuantity(product))}
                       >
                         -
                       </Button>{" "}
                       {product.quantity}{" "}
                       <Button
                         variant="outline-primary"
-                        onClick={() =>
-                          handleQuantityChange(product.id, product.quantity + 1)
-                        }
+                        onClick={() => dispatch(increseQuantity(product))}
                       >
                         +
                       </Button>
@@ -109,7 +98,7 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
                     <td>
                       <Button
                         variant="danger"
-                        onClick={() => handleRemoveProduct(product.id)}
+                        onClick={() => dispatch(removeProduct(product))}
                       >
                         Remove
                       </Button>
@@ -118,9 +107,10 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
                 ))}
               </tbody>
             </Table>
-
             <div>
-              <strong>Total Items: {getTotalItems()}</strong>
+              <strong>Total Items:
+                {totalBill}
+              </strong>
             </div>
 
             {/* ... (previous buttons) */}

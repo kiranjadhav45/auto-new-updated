@@ -1,3 +1,7 @@
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .col-responsive-table-container {
   overflow-x: auto;
   -ms-overflow-style: none; // Internet Explorer 10+
@@ -47,4 +51,12 @@
   right: 10px;
   top: 17px;
   background-color: #fff;
+}
+.listGroup-container {
+  position: relative;
+}
+.listGroup {
+  position: absolute;
+  top: -15px;
+  width: 100%;
 }
