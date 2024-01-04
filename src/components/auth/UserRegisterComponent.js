@@ -3,8 +3,11 @@ import React, { useState } from "react";
 import { Form, Button, FloatingLabel } from "react-bootstrap";
 import { validateEmail, validatePassword, validateMobileNumber, validateConfirmPassword, validateText } from "../../utils/validationUtils"
 import { click } from "@testing-library/user-event/dist/click";
-
+import EyeCloseIcon from "../../icons/EyeCloseIcon";
+import EyeOpenIcon from "../../icons/EyeOpenIcon";
 const UserRegisterComponent = ({ onNext, formData, setFormData }) => {
+  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword2, setShowPassword2] = useState(false)
   const [isValidName, setIsValidName] = useState(true)
   const [isValidMobile, setIsValidMobile] = useState(true)
   const [isValidEmail, setIsValidEmail] = useState(true)
@@ -107,18 +110,20 @@ const UserRegisterComponent = ({ onNext, formData, setFormData }) => {
 
       <FloatingLabel className={`mb-3 ${isValidPassword ? '' : 'has-error'}`} controlId="formPassword" label="Password">
         <Form.Control
-          type="password"
+          type={showPassword == true ? "text" : "password"}
           placeholder=" "
           name="password"
           onChange={handleInput}
           value={formData.password}
-        // onChange={(e) => setPassword(e.target.value)}
         />
+        <div onClick={() => setShowPassword((prev) => !prev)} className="eyeButton">
+          {showPassword == true ? < EyeOpenIcon width={22} height={22} /> : <EyeCloseIcon width={22} height={22} />}
+        </div>
       </FloatingLabel>
 
       <FloatingLabel controlId="formConfirmPassword" className={`mb-3 ${isValidConfirmPassword ? '' : 'has-error'}`} label="Confirm Password">
         <Form.Control
-          type="password"
+          type={showPassword2 == true ? "text" : "password"}
           placeholder=" "
           // className="mb-3"
           name="confirmPassword"
@@ -126,6 +131,9 @@ const UserRegisterComponent = ({ onNext, formData, setFormData }) => {
           value={formData.confirmPassword}
         // onChange={(e) => setConfirmPassword(e.target.value)}
         />
+        <div onClick={() => setShowPassword2((prev) => !prev)} className="eyeButton">
+          {showPassword2 == true ? < EyeOpenIcon width={22} height={22} /> : <EyeCloseIcon width={22} height={22} />}
+        </div>
       </FloatingLabel>
       <Button
         variant="info"

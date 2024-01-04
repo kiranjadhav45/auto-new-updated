@@ -3,6 +3,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PostApi } from "../../utils/PostApi";
 import { jwtDecode } from "jwt-decode";
+// import { useNavigate } from 'react-router-dom';
+import EyeCloseIcon from "../../icons/EyeCloseIcon";
+import EyeOpenIcon from "../../icons/EyeOpenIcon";
 import { Form, Button, Row, Col, FloatingLabel } from "react-bootstrap";
 import Alert from 'react-bootstrap/Alert';
 import axios from 'axios';
@@ -14,12 +17,13 @@ import {
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query'
+// import { relative } from "path";
 
 const LoginComponent = () => {
+  // const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState("");
-  const [isValidEmail, setIsValidEmail] = useState(true);
-  const [isValidPassword, setIsValidPassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false)
   const [errors, setErrors] = useState({
     email: "",
     password: ""
@@ -164,14 +168,17 @@ const LoginComponent = () => {
             name="email"
             type="email" placeholder="name@example.com" />
         </FloatingLabel>
-        <FloatingLabel controlId="floatingPassword" label="Password" className={`mb-3 ${!errors.password ? '' : 'has-error'}`}>
+        <FloatingLabel style={{ position: "relative" }} controlId="floatingPassword" label="Password" className={`mb-3 ${!errors.password ? '' : 'has-error'}`}>
           <Form.Control
             onChange={handleInputChange}
-            type="password" name="password" placeholder="Password" />
+            type={showPassword == true ? "text" : "password"} name="password" placeholder="Password" />
+          <div onClick={() => setShowPassword((prev) => !prev)} className="eyeButton">
+            {showPassword == true ? < EyeOpenIcon width={22} height={22} /> : <EyeCloseIcon width={22} height={22} />}
+          </div>
         </FloatingLabel>
         <Row style={{ marginTop: 10, marginBottom: 10 }}>
           <Col style={{ display: "flex", justifyContent: "space-between" }}>
-            <Button style={{ fontSize: "14px" }} variant="link">Create Account</Button>
+            <Button style={{ fontSize: "14px" }} onClick={() => navigate('/register')} variant="link">Create Account</Button>
             <Button style={{ fontSize: "14px" }} variant="link">Forgot Password</Button>
           </Col>
         </Row>
@@ -186,6 +193,7 @@ const LoginComponent = () => {
           {mutation.isPending == true ? "loading" : "Login"}
         </Button>
       </Form>
+
     </>
   );
 };

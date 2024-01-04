@@ -289,34 +289,6 @@ const Items = () => {
 
 
   // delete items
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   const handleDeleteItems = (idToDelete) => {
     const deletePayloadData = {
       url: "//v1/item/",
