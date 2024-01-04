@@ -302,6 +302,7 @@
               "name": "itemCode",
               "title": "Food Code",
               "isActive": true,
+              "required":true,
               "type": "text",
               "placeholder": "Enter Food Code..."
             },
@@ -309,6 +310,7 @@
               "name": "itemName",
               "title": "Food Name",
               "isActive": true,
+              "required":true,
               "type": "text",
               "placeholder": "Enter Food Name"
             },
@@ -332,6 +334,7 @@
               "name": "itemPrice",
               "title": "Food Price",
               "isActive": true,
+              "required":true,
               "type": "text",
               "placeholder": "Enter Food Price"
             },
@@ -442,6 +445,7 @@
               "name": "tableCode",
               "title": "Table Code",
               "isActive": true,
+              "required":true,
               "type": "text",
               "placeholder": "Enter Table Code"
             },
@@ -473,6 +477,7 @@
               "name": "tableQR",
               "title": "Table QR",
               "isActive": true,
+              "required":true,
               "type": "text",
               "placeholder": "Enter Table QR Code"
             }
@@ -559,6 +564,7 @@
               "name": "vendorCode",
               "title": "Vendor Code",
               "isActive": true,
+              "required":true,
               "type": "text",
               "placeholder": "Enter Vendor Code"
             },
@@ -566,6 +572,7 @@
               "name": "vendorName",
               "title": "Vendor Name",
               "isActive": true,
+              "required":true,
               "type": "text",
               "placeholder": "Enter Vendor Name"
             },
@@ -582,8 +589,9 @@
               "title": "Vendor Mobile",
               "isActive": true,
               "type": "text",
+              "required":true,
               "values": ["Lawn", "Terrace"],
-              "placeholder": "Choose Vendor Location"
+              "placeholder": "Vendor Mobile"
             },
             {
               "name": "vendorAddr",

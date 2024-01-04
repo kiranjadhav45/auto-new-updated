@@ -72,7 +72,21 @@ const VendorsPage = () => {
     data: selectedData
   }
   const handleAddVendor = () => {
+    // const newErrors = { ...errors };
+    // for (const key in selectedData) {
+    //   if (selectedData.hasOwnProperty(key) && newErrors.hasOwnProperty(key)) {
+    //     submenuArray.forEach((submenuItem) => {
+    //       if (submenuItem.required == true) {
+    //         if (selectedData[key] === "") {
+    //           newErrors[key] = true;
+    //         }
+    //       }
+    //     });
+    //   }
+    // }
+    // setErrors(newErrors);
     const newErrors = { ...errors };
+
     for (const key in selectedData) {
       if (selectedData.hasOwnProperty(key) && newErrors.hasOwnProperty(key)) {
         if (selectedData[key] === "") {
@@ -80,7 +94,17 @@ const VendorsPage = () => {
         }
       }
     }
+
+    // Iterate through submenuArray for required fields
+    submenuArray.forEach((submenuItem) => {
+      if (!submenuItem.required) {
+        newErrors[submenuItem.name] = false;
+      }
+    });
+
+    // Update the errors state with the newErrors object
     setErrors(newErrors);
+
     const anyErrorIsTrue = Object.values(newErrors).some(value => value === true);
     if (!anyErrorIsTrue) {
       if (selectedData._id && !handleUpdateAdd) {

@@ -41,16 +41,16 @@ function App() {
   // }, [])
   useEffect(() => {
     try {
-      const bundle = localStorage.getItem("bundle");
-      if (bundle) {
-        const decodedraw = atob(bundle);
-        const decoded = JSON.parse(decodedraw);
-        console.log(decoded, "decoded");
-        if (decoded?.bundle && decoded.bundle[0]) {
-          dispatch(updateBusiness(decoded.bundle[0]));
-        }
-      }
-      // dispatch(updateBusiness(data))
+      // const bundle = localStorage.getItem("bundle");
+      // if (bundle) {
+      //   const decodedraw = atob(bundle);
+      //   const decoded = JSON.parse(decodedraw);
+      //   console.log(decoded, "decoded");
+      //   if (decoded?.bundle && decoded.bundle[0]) {
+      //     dispatch(updateBusiness(decoded.bundle[0]));
+      //   }
+      // }
+      dispatch(updateBusiness(data))
     } catch (error) {
       console.error("Error decoding the string:", error);
     }

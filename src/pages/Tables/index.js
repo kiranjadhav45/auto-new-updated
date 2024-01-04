@@ -35,7 +35,13 @@ const TablesPage = () => {
   const [handleUpdateAdd, setHandleUpdateAdd] = useState(true)
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState("");
-  const [selectedData, setSelectedData] = useState({});
+  const [selectedData, setSelectedData] = useState({
+    tableCode: "",
+    tableName: "",
+    tableStatus: "",
+    tablePlacement: "",
+    tableQR: "",
+  });
   const [errors, setErrors] = useState({
     tableCode: "",
     tableName: "",
@@ -101,12 +107,18 @@ const TablesPage = () => {
         }
       }
     }
+    // Iterate through submenuArray for required fields
+    submenuArray.forEach((submenuItem) => {
+      if (!submenuItem.required) {
+        console.log("clicked")
+        newErrors[submenuItem.name] = false;
+      }
+    });
     setErrors(newErrors);
     const anyErrorIsTrue = Object.values(newErrors).some(value => value === true);
     if (!anyErrorIsTrue) {
-      console.log(selectedData._id)
       console.log(handleUpdateAdd)
-      if (selectedData._id && !handleUpdateAdd) {
+      if (selectedData?._id && !handleUpdateAdd) {
         console.log("clecked")
         // update vendor
         mutationUpdate.mutate(payloadDataUpdate)
@@ -234,11 +246,18 @@ const TablesPage = () => {
       currentActiveMenu={currentActiveMenu}
       setCurrentActiveMenu={setCurrentActiveMenu}
     >
-      {show && (
+      <div className="alert-position" >
+        {show && (
+          <Alert variant="danger">
+            <p>{message}</p>
+          </Alert>
+        )}
+      </div>
+      {/* {show && (
         <Alert variant="danger">
           <p>{message}</p>
         </Alert>
-      )}
+      )} */}
       <Row className="mt-1">
         <Col className="col-8">
           <div style={{ borderWidth: 1 }}>

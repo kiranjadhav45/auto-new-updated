@@ -154,6 +154,12 @@ const Items = () => {
         }
       }
     }
+    // Iterate through submenuArray for required fields
+    submenuArray.forEach((submenuItem) => {
+      if (!submenuItem.required == true) {
+        newErrors[submenuItem.name] = false;
+      }
+    });
     setErrors(newErrors);
     const anyErrorIsTrue = Object.values(newErrors).some(value => value === true);
     if (!anyErrorIsTrue) {

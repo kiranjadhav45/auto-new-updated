@@ -7,19 +7,47 @@ const EditItems = ({ items, selectedData, setSelectedData, errors, setErrors, di
   // const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
+  // const handleInputChange = (e) => {
+  //   const { name, value, type, required } = e.target;
+  //   let isValid = true;
+  //   switch (type) {
+  //     case "text":
+  //       isValid = validateText(value);
+  //       break;
+  //     case "email":
+  //       isValid = validateEmail(value);
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  //   console.log(required)
+  //   setErrors((prevErrors) => ({
+  //     ...prevErrors,
+  //     [name]: !isValid,
+  //   }));
+  //   setSelectedData((prevData) => ({
+  //     ...prevData,
+  //     [name]: value,
+  //   }));
+  // };
   const handleInputChange = (e) => {
-    const { name, value, type } = e.target;
+    const { name, value, type, required } = e.target;
     let isValid = true;
-    switch (type) {
-      case "text":
-        isValid = validateText(value);
-        break;
-      case "email":
-        isValid = validateEmail(value);
-        break;
-      default:
-        break;
-    }
+
+    // Additional validation for required fields
+    if (required == true) {
+      isValid = false;
+      switch (type) {
+        case "text":
+          isValid = validateText(value);
+          break;
+        case "email":
+          isValid = validateEmail(value);
+          break;
+        default:
+          break;
+      }
+    } else { }
 
     setErrors((prevErrors) => ({
       ...prevErrors,
@@ -29,8 +57,8 @@ const EditItems = ({ items, selectedData, setSelectedData, errors, setErrors, di
       ...prevData,
       [name]: value,
     }));
-
   };
+
   const hasErrors = Object.values(errors).some((error) => error);
   return (
     <div>
@@ -51,6 +79,7 @@ const EditItems = ({ items, selectedData, setSelectedData, errors, setErrors, di
                   onChange={handleInputChange}
                   disabled={disable[field?.name]}
                   className={errors[field?.name] ? "has-error" : ""}
+                  required={field?.required || false}
                 />
               </FloatingLabel>
             </Col>
@@ -61,14 +90,6 @@ const EditItems = ({ items, selectedData, setSelectedData, errors, setErrors, di
                 controlId="floatingSelect"
                 label={field?.placeholder}
               >
-                {/* <Form.Select aria-label="Floating label select example"
-                  onChange={handleInputChange}
-                  className={errors[field?.name] ? "is-invalid" : ""} >
-                  <option>Choose To Select</option>
-                  {field?.values.map((value) => (
-                    <option value="3">{value}</option>
-                  ))}
-                </Form.Select> */}
                 <Form.Select
                   aria-label="Floating label select example"
                   name={field?.name}
