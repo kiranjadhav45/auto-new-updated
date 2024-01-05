@@ -24,6 +24,7 @@ import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import data from './data.json'
 function App() {
+  console.time('App render Time');
   const businessData = useSelector((state) => state.business.value)
   const dispatch = useDispatch()
 
@@ -82,7 +83,7 @@ function App() {
       // Handle the error gracefully or log additional debugging information
     }
   }, [businessData]);
-
+  console.timeEnd('App render Time');
   return (
     <BrowserRouter>
       <Routes>

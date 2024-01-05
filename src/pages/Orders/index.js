@@ -18,7 +18,7 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
     setsearchedProduct(searchedItems);
   }
   useEffect(() => {
-    const totalPrice = bill.reduce((acc, product) => {
+    const totalPrice = bill?.reduce((acc, product) => {
       const productPrice = product.quantity * product.itemPrice;
       return acc + productPrice;
     }, 0);

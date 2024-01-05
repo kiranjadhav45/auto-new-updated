@@ -188,8 +188,23 @@ const CommonTable = ({ data, handleEditTable, handleDelete }) => {
                   />
                 </td>
 
-                {Object.values(row).map((value, colIndex) => (
+                {/* {Object.values(row).map((value, colIndex) => (
                   <td key={colIndex}>{value}</td>
+                ))} */}
+                {Object.entries(row).map(([key, value], colIndex) => (
+                  <td key={colIndex}>
+                    {/* Check if the value is an array */}
+                    {Array.isArray(value)
+                      ? value.map((item, i) => (
+                        <div key={i}>
+                          {/* Render properties of each object in the array */}
+                          <p>{item.verificationDetails}</p>
+                          <p>{item.verificationType}</p>
+                          {/* Add other properties of the nested object */}
+                        </div>
+                      ))
+                      : value}
+                  </td>
                 ))}
               </tr>
               {expandedRowIndex === index && (

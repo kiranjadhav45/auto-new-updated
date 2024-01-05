@@ -25,6 +25,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query'
 const EmployeesPage = () => {
+
   const dispatch = useDispatch();
   const employeeData = useSelector((state) => state.employee.value);
   const businessData = useSelector((state) => state.business.value)
@@ -52,10 +53,10 @@ const EmployeesPage = () => {
   });
 
   // get items
+
   const { isLoading, data: employee, error, refetch } = useQuery({ queryKey: ['employee'], queryFn: () => GetApi("//v1/employee") })
 
-
-  console.log(employee.body, "employee")
+  console.log(employee?.body, "employee")
 
   const handleAddVendor = () => {
     dispatch(addEmployee(selectedData));
@@ -81,6 +82,8 @@ const EmployeesPage = () => {
     setSelectedData(event)
   }
 
+
+
   return (
     <Layout
       currentActiveMenu={currentActiveMenu}
@@ -103,7 +106,7 @@ const EmployeesPage = () => {
             handleEditTable={handleEditTable}
             handleDelete={handleDeleteVendor}
             // data={employeeData}
-            data={employeeData}
+            data={employee?.body}
           />
         </Col>
       </Row>
