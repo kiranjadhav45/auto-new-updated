@@ -17,12 +17,7 @@ import {
 } from "react-icons/fc";
 import { FiEdit, FiChevronDown, FiTrash2 } from "react-icons/fi";
 
-
-
 const CommonTable = ({ data, handleEditTable, handleDelete }) => {
-
-
-
 
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });

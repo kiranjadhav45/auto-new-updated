@@ -3,12 +3,23 @@ import { Form, Table, Button, FloatingLabel, Col, Row } from "react-bootstrap";
 import ListGroup from 'react-bootstrap/ListGroup';
 import Layout from "../../components/common/Layout";
 import { ItemsData } from "../../products";
-import { addProduct, removeProduct, increseQuantity, dcreaseQuantity } from "../../features/bill/billSlice";
+import { addProduct, removeProduct, increseQuantity, dcreaseQuantity, removeAllProducts } from "../../features/bill/billSlice";
 import { useDispatch, useSelector } from 'react-redux'
+import { PostApi } from "../../utils/PostApi";
+import { GetApi } from "../../utils/GetApi";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query'
+
 const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
   const dispatch = useDispatch()
+  const queryClient = useQueryClient()
   const bill = useSelector((state) => state.bill.products)
   const [products, setProducts] = useState(ItemsData)
+  const [show, setShow] = useState(false);
+  const [message, setMessage] = useState("");
   const [searchedProduct, setsearchedProduct] = useState(false);
   const [totalBill, setTotalBill] = useState(0);
 
@@ -25,6 +36,43 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
     setTotalBill(totalPrice);
   }, [bill])
 
+  // get bill 
+  const { isLoading, data: billsFromServer, error, refetch } = useQuery({ queryKey: ['bill'], queryFn: () => GetApi("/v1/allbilling") })
+  console.log(billsFromServer, "billsFromServer")
+
+  const handleSaveBill = () => {
+    const PostPayload = {
+      data: {
+        items: bill,
+        tax: 5,
+        discount: 2
+      },
+      url: "//v1/billing"
+    }
+    mutationSaveBill.mutate(PostPayload)
+  }
+
+
+  const mutationSaveBill = useMutation({
+    mutationFn: PostApi,
+    onSuccess: (data, variable, context) => {
+      if (data) {
+        setMessage(data?.message)
+        setShow(true)
+        if (data?.status == "success" && data?.statusCode == 200) {
+          // refetch()
+          dispatch(removeAllProducts())
+          console.log("saved success")
+          queryClient.invalidateQueries({ queryKey: ['bill'] });
+        } else {
+          // dispatch(updateState(oldItemsData))
+        }
+      }
+      setTimeout(function () {
+        setShow(false)
+      }, 3000);
+    },
+  })
   return (
     <Layout
       currentActiveMenu={currentActiveMenu}
@@ -34,6 +82,9 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
         <Col className="col-6">
           <div style={{ borderWidth: 1 }}>
             <h2>Orders Page</h2>
+            <div>
+              {billsFromServer && billsFromServer.body.map((item) => <span className="bill">{item.itemCode}</span>)}
+            </div>
           </div>
         </Col>
         <Col className="col">
@@ -112,6 +163,17 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
                 {totalBill}
               </strong>
             </div>
+            <Button
+              onClick={handleSaveBill}
+            // onClick={() => dispatch(removeAllProducts())}
+            >
+              Save Bill
+            </Button>
+            <Button
+              className="ms-4"
+            >
+              Save And Print
+            </Button>
 
             {/* ... (previous buttons) */}
           </div>

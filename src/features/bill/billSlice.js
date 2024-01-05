@@ -50,8 +50,11 @@ const billSlice = createSlice({
                 return { ...state, products: updatedProducts };
             }
         },
+        removeAllProducts: (state) => {
+            return { ...state, products: [] }; // Reset products to an empty array
+        },
     },
 });
 
-export const { addProduct, removeProduct, increseQuantity, dcreaseQuantity } = billSlice.actions;
+export const { addProduct, removeProduct, increseQuantity, dcreaseQuantity, removeAllProducts } = billSlice.actions;
 export default billSlice.reducer;

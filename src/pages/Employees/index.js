@@ -43,7 +43,14 @@ const EmployeesPage = () => {
   console.log(submenuArray, "submenuArray employeea");
 
   const [handleUpdateAdd, setHandleUpdateAdd] = useState(true)
-  const [selectedData, setSelectedData] = useState({});
+  const [selectedData, setSelectedData] = useState({
+    employeeCode: "",
+    employeeName: "",
+    employeeEmail: "",
+    employeeMobile: "",
+    employeeAddr: "",
+    employeeVerify: "",
+  });
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState("");
   const [disable, setDisable] = useState({});
@@ -242,7 +249,7 @@ const EmployeesPage = () => {
       }, 3000);
     },
   })
-
+  console.log(employee?.body, "employee?.body")
   return (
     <Layout
       currentActiveMenu={currentActiveMenu}
