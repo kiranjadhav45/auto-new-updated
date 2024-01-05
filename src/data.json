@@ -502,6 +502,7 @@
               "name": "employeeCode",
               "title": "Employee Code",
               "isActive": true,
+              "required":true,
               "type": "text",
               "placeholder": "Enter Employee Code"
             },
@@ -509,6 +510,7 @@
               "name": "employeeName",
               "title": "Employee Name",
               "isActive": true,
+              "required":true,
               "type": "text",
               "placeholder": "Enter Employee Name"
             },
@@ -524,9 +526,10 @@
               "name": "employeeMobile",
               "title": "Employee Mobile",
               "isActive": true,
+              "required":true,
               "type": "text",
               "values": ["Lawn", "Terrace"],
-              "placeholder": "Choose Table Location"
+              "placeholder": "Enter Mobile no"
             },
 
             {

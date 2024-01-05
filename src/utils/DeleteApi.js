@@ -4,6 +4,7 @@ import axios from 'axios';
 
 export const DeleteApi = async (deletePayloadData) => {
     const { url, id } = deletePayloadData
+    console.log(url, id)
     try {
         const newUrl = `${domain}${url}${id}`;
         const bearerToken = localStorage.getItem('token');

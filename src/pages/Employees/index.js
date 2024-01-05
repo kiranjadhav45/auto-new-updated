@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import TopNavBar from "../../components/common/TopNavbar";
 import BottomNavBar from "../../components/common/BottomNavbar";
-
+import Alert from 'react-bootstrap/Alert';
 import Layout from "../../components/common/Layout";
 import { Col, Row, Button } from "react-bootstrap";
 import ItemsMaster from "../../components/masters/items";
@@ -19,6 +19,7 @@ import CommonTable from "../../components/common/commonTable";
 import { GetApi } from "../../utils/GetApi"
 import { DeleteApi } from "../../utils/DeleteApi"
 import { PutApi } from "../../utils/PutApi"
+import { PostApi } from "../../utils/PostApi"
 import {
   useQuery,
   useMutation,
@@ -27,6 +28,7 @@ import {
 const EmployeesPage = () => {
 
   const dispatch = useDispatch();
+  const queryClient = useQueryClient()
   const employeeData = useSelector((state) => state.employee.value);
   const businessData = useSelector((state) => state.business.value)
   const [currentActiveMenu, setCurrentActiveMenu] = useState({
@@ -42,6 +44,8 @@ const EmployeesPage = () => {
 
   const [handleUpdateAdd, setHandleUpdateAdd] = useState(true)
   const [selectedData, setSelectedData] = useState({});
+  const [show, setShow] = useState(false);
+  const [message, setMessage] = useState("");
   const [disable, setDisable] = useState({});
   const [errors, setErrors] = useState({
     employeeCode: "",
@@ -56,39 +60,201 @@ const EmployeesPage = () => {
 
   const { isLoading, data: employee, error, refetch } = useQuery({ queryKey: ['employee'], queryFn: () => GetApi("//v1/employee") })
 
-  console.log(employee?.body, "employee")
-
-  const handleAddVendor = () => {
-    dispatch(addEmployee(selectedData));
-    setSelectedData({
-      id: "",
-      employeeCode: "",
-      employeeName: "",
-      employeeEmail: "",
-      employeeMobile: "",
-      employeeAddr: "",
-      employeeVerify: "",
-    });
-    setHandleUpdateAdd(true)
+  // delete tables 
+  const handleDeleteTable = (idToDelete) => {
+    const deletePayloadData = {
+      url: "/v1/employee/",
+      id: idToDelete?.employeeCode
+    }
+    mutationDelete.mutate(deletePayloadData)
+    // dispatch(deleteEmployee(idToDelete));
   };
+  const mutationDelete = useMutation({
+    mutationFn: DeleteApi,
+    onSuccess: (data, variable, context) => {
+      if (data) {
+        setMessage(data?.message)
+        setShow(true)
+        if (data?.status == "success" && data?.statusCode == 200) {
+          // refetch()
+          console.log("success delete")
+          queryClient.invalidateQueries({ queryKey: ['employee'] });
+        } else {
+          // dispatch(updateState(oldItemsData))
+        }
+      }
+      setTimeout(function () {
+        setShow(false)
+      }, 3000);
+    },
+  })
 
-  const handleDeleteVendor = (idToDelete) => {
-    dispatch(deleteEmployee(idToDelete));
-  };
+
+
+  // const handleAddVendor = () => {
+  //   dispatch(addEmployee(selectedData));
+  //   setSelectedData({
+  //     employeeCode: "",
+  //     employeeName: "",
+  //     employeeEmail: "",
+  //     employeeMobile: "",
+  //     employeeAddr: "",
+  //     employeeVerify: "",
+  //   });
+  //   setHandleUpdateAdd(true)
+  // };
 
   const handleEditTable = (event) => {
+    console.log(event, "handleUpdateAdd")
     setHandleUpdateAdd(false)
-    console.log(event)
     setSelectedData(event)
+
+    let newData = { ...disable }
+    newData.employeeCode = true
+    setDisable(newData)
+    setSelectedData(event)
+    // setHandleUpdateAdd(false)
+    // console.log(event)
+    // setSelectedData(event)
+  }
+  const payloadDataPost = {
+    url: "/v1/employee",
+    data: selectedData
+  }
+  const payloadDataUpdate = {
+    url: `/v1/employee/${selectedData?.employeeCode}`,
+    data: selectedData,
   }
 
+  const handleAddVendor = () => {
+    const newErrors = { ...errors };
+    for (const key in selectedData) {
+      if (selectedData.hasOwnProperty(key) && newErrors.hasOwnProperty(key)) {
+        if (selectedData[key] === "") {
+          newErrors[key] = true;
+        }
+      }
+    }
+    // Iterate through submenuArray for required fields
+    submenuArray.forEach((submenuItem) => {
+      if (!submenuItem.required) {
+        console.log("clicked")
+        newErrors[submenuItem.name] = false;
+      }
+    });
 
+    setErrors(newErrors);
+    const anyErrorIsTrue = Object.values(newErrors).some(value => value === true);
+    if (!anyErrorIsTrue) {
+      console.log(handleUpdateAdd)
+      if (selectedData?._id && !handleUpdateAdd) {
+        console.log("clecked")
+        // update vendor
+        mutationUpdate.mutate(payloadDataUpdate)
+        let newData = { ...disable }
+        newData.employeeCode = false
+        setDisable(newData)
+        setSelectedData({
+          employeeCode: "",
+          employeeName: "",
+          employeeEmail: "",
+          employeeMobile: "",
+          employeeAddr: "",
+          employeeVerify: "",
+        });
+      } else {
+        // add new vendor
+        mutationPost.mutate(payloadDataPost)
+        setHandleUpdateAdd(true)
+        setSelectedData({
+          employeeCode: "",
+          employeeName: "",
+          employeeEmail: "",
+          employeeMobile: "",
+          employeeAddr: "",
+          employeeVerify: "",
+        });
+      }
+    } else {
+      setShow(true)
+      setMessage("please fill requied field")
+      setTimeout(function () {
+        setShow(false)
+      }, 3000);
+    }
+  };
+
+  // post mutation
+  const mutationPost = useMutation({
+    mutationFn: PostApi,
+    onSuccess: (data, variable, context) => {
+      // console.log(data, "array data")
+      if (data) {
+        setMessage(data.message)
+        setShow(true)
+        if (data.status == "success" && data.statusCode == 200) {
+          // refetch()
+          queryClient.invalidateQueries({ queryKey: ['employee'] });
+          setSelectedData({
+            employeeCode: "",
+            employeeName: "",
+            employeeEmail: "",
+            employeeMobile: "",
+            employeeAddr: "",
+            employeeVerify: "",
+          })
+        } else {
+          // setMessage(data.error)
+          // setShow(true)
+          // dispatch(updateState(oldItemsData))
+        }
+        setTimeout(function () {
+          setShow(false)
+        }, 3000);
+      }
+    },
+  })
+
+  // update mutation 
+  const mutationUpdate = useMutation({
+    mutationFn: PutApi,
+    onSuccess: (data, variable, context) => {
+      if (data) {
+        setShow(true)
+        setMessage(data.message)
+        if (data.status == "success" && data.statusCode == 200) {
+          queryClient.invalidateQueries({ queryKey: ['employee'] });
+          setSelectedData({
+            employeeCode: "",
+            employeeName: "",
+            employeeEmail: "",
+            employeeMobile: "",
+            employeeAddr: "",
+            employeeVerify: "",
+          })
+        }
+      } else {
+        setShow(data.error)
+        setMessage(data.message)
+      }
+      setTimeout(function () {
+        setShow(false)
+      }, 3000);
+    },
+  })
 
   return (
     <Layout
       currentActiveMenu={currentActiveMenu}
       setCurrentActiveMenu={setCurrentActiveMenu}
     >
+      <div className="alert-position" >
+        {show && (
+          <Alert variant="danger">
+            <p>{message}</p>
+          </Alert>
+        )}
+      </div>
       <Row className="mt-1">
         <Col className="col-8">
           <div style={{ borderWidth: 1 }}>
@@ -104,7 +270,7 @@ const EmployeesPage = () => {
         <Col className="col col-responsive-table-container" >
           <CommonTable
             handleEditTable={handleEditTable}
-            handleDelete={handleDeleteVendor}
+            handleDelete={handleDeleteTable}
             // data={employeeData}
             data={employee?.body}
           />
