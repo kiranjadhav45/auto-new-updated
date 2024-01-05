@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Form, Table, Button, FloatingLabel, Col, Row } from "react-bootstrap";
 import ListGroup from 'react-bootstrap/ListGroup';
 import Layout from "../../components/common/Layout";
@@ -7,6 +7,7 @@ import { addProduct, removeProduct, increseQuantity, dcreaseQuantity, removeAllP
 import { useDispatch, useSelector } from 'react-redux'
 import { PostApi } from "../../utils/PostApi";
 import { GetApi } from "../../utils/GetApi";
+import { useReactToPrint } from 'react-to-print';
 import {
   useQuery,
   useMutation,
@@ -73,11 +74,75 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
       }, 3000);
     },
   })
+
+
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
+  const getCurrentDate = () => {
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleDateString('en-GB'); // 'en-GB' represents the format DD/MM/YYYY
+    return formattedDate;
+  };
+  const getCurrentTime = () => {
+    const currentDate = new Date();
+    let hours = currentDate.getHours();
+    const minutes = currentDate.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+
+    hours %= 12;
+    hours = hours || 12; // Handle midnight (0 hours)
+
+    const formattedTime = `${hours}:${minutes < 10 ? '0' + minutes : minutes} ${ampm}`;
+    return formattedTime;
+  };
   return (
     <Layout
       currentActiveMenu={currentActiveMenu}
       setCurrentActiveMenu={setCurrentActiveMenu}
     >
+      <Row className="mt-1 print-row">
+        <Col>
+          <div ref={componentRef} className="p-4">
+            <h1 className="text-center">HR Resorts</h1>
+            <div>
+              <p><strong>Bill No</strong> : 1001</p>
+            </div>
+            <div className="d-flex justify-content-between align-items-center">
+              <p><strong>Time</strong> : {getCurrentTime()}</p>
+              <p><strong>Date</strong>  : {getCurrentDate()}</p>
+            </div>
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                  <th>Total Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {bill && bill.map((product) => (
+                  <tr key={product.id}>
+                    <td>{product.itemName}</td>
+                    <td>{product.quantity}</td>
+                    <td>{product.itemPrice}</td>
+                    <td>{product.itemPrice * product.quantity}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+            <div>
+              <h5>
+                Total Amount: {totalBill}
+              </h5>
+            </div>
+            <div className="text-center mt-4">Thank You Visit Again 😊</div>
+          </div>
+        </Col>
+      </Row>
       <Row className="mt-1">
         <Col className="col-6">
           <div style={{ borderWidth: 1 }}>
@@ -171,6 +236,7 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
             </Button>
             <Button
               className="ms-4"
+              onClick={handlePrint}
             >
               Save And Print
             </Button>
