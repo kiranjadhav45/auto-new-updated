@@ -29,6 +29,12 @@ const EmployeeMaster = ({ currentActiveMenu }) => {
   const submenuArray = employeeSubmenu?.subMenu;
   // console.log(submenuArray, "submenuArray")
 
+  const employeesCat = businessData?.categories?.find(category => category?.name === "Masters");
+  const employeeSubmenuCat = employeesCategory?.subcategories?.find(sub => sub?.name === "employeeMaster");
+  const submenuArrayCat = employeeSubmenu?.subMenu;
+
+
+
   const handleSubMenuSelect = (menuItem) => {
     setSelectedSubMenu(menuItem);
   };
@@ -111,7 +117,10 @@ const EmployeeMaster = ({ currentActiveMenu }) => {
               {/* {businessData?.categories[1]?.subcategories[4].subMenu?.map((menuItem) =>
                 renderSubMenu(menuItem)
               )} */}
-              {submenuArray?.map((menuItem) =>
+              {/* {submenuArray?.map((menuItem) =>
+                renderSubMenu(menuItem)
+              )} */}
+              {submenuArrayCat && submenuArrayCat?.map((menuItem) =>
                 renderSubMenu(menuItem)
               )}
             </ListGroup>

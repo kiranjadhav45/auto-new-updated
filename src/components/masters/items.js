@@ -29,6 +29,9 @@ const ItemsMaster = ({ currentActiveMenu }) => {
   // console.log(newItemsData)
   const [selectedSubMenu, setSelectedSubMenu] = useState(null);
   const master = businessData.categories.find((item) => item.name == "Masters")
+  const items = businessData.categories.find((item) => item.name == "Items")
+  const item = businessData.categories.find((item) => item.name == "items")
+  // const itemsSubmenu = item.subMenu
   const handleSubMenuSelect = (menuItem) => {
     setSelectedSubMenu(menuItem);
   };
@@ -37,6 +40,13 @@ const ItemsMaster = ({ currentActiveMenu }) => {
   const employeeSubmenu = employeesCategory?.subcategories?.find(sub => sub?.name === "itemMaster");
   const submenuArray = employeeSubmenu?.subMenu;
   // console.log(submenuArray, "submenuArray")
+
+  const itemsCategory = businessData?.categories?.find(category => category?.name === "Items");
+  const itemsSubmenu = itemsCategory?.subcategories?.find(sub => sub?.name === "items");
+  const submenuArrayofItems = itemsSubmenu?.subMenu;
+  console.log(submenuArrayofItems, "submenuArrayofItems")
+
+
 
   const handleSubmenuChange = (menuItem) => {
     if (menuItem?.default == true) {
@@ -122,7 +132,10 @@ const ItemsMaster = ({ currentActiveMenu }) => {
               {/* {businessData?.categories[1]?.subcategories[1].subMenu?.map((menuItem) =>
                 renderSubMenu(menuItem)
               )} */}
-              {submenuArray?.map((menuItem) =>
+              {/* {submenuArray?.map((menuItem) =>
+                renderSubMenu(menuItem)
+              )} */}
+              {submenuArrayofItems && submenuArrayofItems?.map((menuItem) =>
                 renderSubMenu(menuItem)
               )}
             </ListGroup>

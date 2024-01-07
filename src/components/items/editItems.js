@@ -63,7 +63,7 @@ const EditItems = ({ items, selectedData, setSelectedData, errors, setErrors, di
   return (
     <div>
       <Row>
-        {items.map((field, index) =>
+        {/* {items.map((field, index) =>
           field.type === "text" || field.type === "email" ? (
             <Col xs={items?.length % 2 == 0 ? 12 : 12}>
               <FloatingLabel
@@ -106,6 +106,56 @@ const EditItems = ({ items, selectedData, setSelectedData, errors, setErrors, di
 
               </FloatingLabel>
             </Col>
+          ) : (
+            ""
+          )
+        )} */}
+        {items.map((field, index) =>
+          field.isActive ? (
+            field.type === "text" || field.type === "email" ? (
+              <Col xs={items?.length % 2 === 0 ? 12 : 12} key={index}>
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label={field?.placeholder}
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type={field?.type}
+                    placeholder={field?.placeholder}
+                    name={field?.name}
+                    value={selectedData[field?.name]}
+                    onChange={handleInputChange}
+                    disabled={disable[field?.name]}
+                    className={errors[field?.name] ? "has-error" : ""}
+                    required={field?.required || false}
+                  />
+                </FloatingLabel>
+              </Col>
+            ) : field.type === "DropDown" ? (
+              <Col xs={items?.length % 2 === 0 ? 12 : 12} key={index}>
+                <FloatingLabel
+                  className="mb-3"
+                  controlId="floatingSelect"
+                  label={field?.placeholder}
+                >
+                  <Form.Select
+                    aria-label="Floating label select example"
+                    name={field?.name}
+                    onChange={handleInputChange}
+                    className={errors[field?.name] ? "is-invalid" : ""}
+                  >
+                    <option>Choose To Select</option>
+                    {field?.values.map((value, idx) => (
+                      <option key={idx} value={value}>
+                        {value}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </FloatingLabel>
+              </Col>
+            ) : (
+              ""
+            )
           ) : (
             ""
           )
