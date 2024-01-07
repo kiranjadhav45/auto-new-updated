@@ -83,20 +83,18 @@ const RegisterPage = () => {
         )}
       </div>
       <Row>
-        <Col className="col-15">
+        <Col className="col-16">
           <h2>Login image...</h2>
         </Col>
         <Col
           className="col"
           style={{
-            // marginRight: "20px",
             display: "flex",
             alignItems: "center",
             justifyContent: "end",
             minHeight: "100vh",
             paddingRight: 60,
             width: "100%",
-            // marginTop: 120,
             alignContent: "center",
           }}
         >

@@ -7,23 +7,22 @@ const LoginPage = () => {
   return (
     <Container fluid>
       <Row>
-        <Col className="col-15">
+        <Col className="col-16">
           <h2>Login image...</h2>
         </Col>
         <Col
           className="col"
           style={{
-            // marginRight: "20px",
             display: "flex",
             alignItems: "center",
             justifyContent: "end",
             minHeight: "100vh",
-            padding: 60,
-            // marginTop: 120,
+            paddingRight: 60,
+            width: "100%",
             alignContent: "center",
           }}
         >
-          <div className="rounded p-5 shadow-lg bg-white rounded">
+          <div style={{ width: "100%" }} className="rounded p-5 shadow-lg bg-white rounded">
             <LoginComponent />
           </div>
         </Col>
