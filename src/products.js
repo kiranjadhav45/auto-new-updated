@@ -1,7 +1,7 @@
 export const ItemsData = [
     {
         _id: "657dab0eccc6df20909cfc801",
-        itemCode: "sasas",
+        itemCode: "kiranjadhav",
         itemName: "Product 1",
         itemCategory: "sadasd",
         itemSubCategory: "sdsad",

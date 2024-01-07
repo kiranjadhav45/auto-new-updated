@@ -88,6 +88,7 @@
               "values": "",
               "type": "Input",
               "isActive": true,
+              "default": true,
               "status": "default"
             },
             {
@@ -111,7 +112,7 @@
               "title": "Price",
               "type": "Input",
               "values": "INR",
-              "default": ["INR", "Dollar"],
+              "default": true,
               "isActive": true,
               "status": "default"
             },
@@ -178,6 +179,7 @@
               "type": "Input",
               "title": "Customer Name",
               "values": "",
+              "default": true,
               "isActive": true
             },
             {
@@ -185,6 +187,7 @@
               "title": "Customer Mobile",
               "type": "Input",
               "values": "",
+              "default": true,
               "isActive": true
             },
             {
@@ -233,6 +236,7 @@
               "title": "Employee Name",
               "type": "Input",
               "values": "",
+              "default": true,
               "isActive": true
             },
             {
@@ -240,6 +244,7 @@
               "title": "Employee Mobile",
               "type": "Input",
               "values": "",
+              "default": true,
               "isActive": true
             },
             {

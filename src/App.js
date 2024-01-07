@@ -18,14 +18,14 @@ import VendorsPage from "./pages/Vendors";
 import OrdersPage from "./pages/Orders";
 import LoginPage from "./pages/Auth/LoginPage";
 import RegisterPage from "./pages/Auth/RegisterPage";
-import { useSelector, useDispatch } from 'react-redux'
-import { updateBusiness } from './features/business/businessSlice'
+import { useSelector, useDispatch } from 'react-redux';
+import { updateBusiness } from './features/business/businessSlice';
 import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
-import data from './data.json'
+import data from './data.json';
 function App() {
   console.time('App render Time');
-  const businessData = useSelector((state) => state.business.value)
+  const businessData = useSelector((state) => state.business.value);
   const dispatch = useDispatch()
 
   // useEffect(() => {

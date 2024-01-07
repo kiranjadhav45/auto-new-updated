@@ -39,16 +39,22 @@ const ItemsMaster = ({ currentActiveMenu }) => {
   // console.log(submenuArray, "submenuArray")
 
   const handleSubmenuChange = (menuItem) => {
-    // console.log(menuItem)
-    const newmenuItem = { ...menuItem }
-    newmenuItem.isActive = !newmenuItem.isActive
-    // console.log("clicked")
-    const payload = {
-      url: "//v1/update_submenus",
-      data: newmenuItem
+    if (menuItem?.default == true) {
+      setShow(true)
+      setMessage("can not change default menu")
+      setTimeout(function () {
+        setShow(false)
+      }, 3000);
+    } else {
+      const newmenuItem = { ...menuItem }
+      newmenuItem.isActive = !newmenuItem.isActive
+      const payload = {
+        url: "//v1/update_submenus",
+        data: newmenuItem
+      }
+      dispatch(updateLevelThree(menuItem))
+      updateItems.mutate(payload)
     }
-    dispatch(updateLevelThree(menuItem))
-    updateItems.mutate(payload)
   }
 
   const updateItems = useMutation({
