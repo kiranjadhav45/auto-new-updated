@@ -267,11 +267,10 @@ const VendorsPage = () => {
           </Alert>
         )}
       </div>
-      <Row className="mt-1">
-        <Col className="col-8">
+      <Row className="row mt-1">
+        <Col className="col-lg-8 col-24">
           <div style={{ borderWidth: 1 }}>
             <h2>Vendors Page</h2>
-            {/* <EditVendor items={currentActiveMenu.subMenu} /> */}
             <EditItems disable={disable} setDisable={setDisable} errors={errors} setErrors={setErrors} selectedData={selectedData} setSelectedData={setSelectedData} items={submenuArray} />
             <div className="d-grid gap-2">
               <Button onClick={handleAddVendor} variant="primary">
@@ -280,16 +279,11 @@ const VendorsPage = () => {
             </div>
           </div>
         </Col>
-        <Col className="col col-responsive-table-container">
-          {/* <VendorComponent
-            currentActiveMenu={currentActiveMenu}
-            setCurrentActiveMenu={setCurrentActiveMenu}
-          /> */}
+        <Col className="col-lg-16 col-24 col-responsive-table-container">
           <CommonTable
             handleEditTable={handleEditTable}
             handleDelete={handleDeleteVendor}
             headerData={submenuArray}
-            // data={vendorData}
             data={vendors?.body}
           />
         </Col>

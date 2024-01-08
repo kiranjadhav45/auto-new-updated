@@ -337,7 +337,7 @@ const Items = () => {
         )}
       </div>
       <Row className="mt-1">
-        <Col className="col-8">
+        <Col className="col-lg-8 col-24">
           <div style={{ borderWidth: 1 }}>
             <h2>Items</h2>
             <EditItems disable={disable} setDisable={setDisable} errors={errors} setErrors={setErrors} selectedData={selectedData} setSelectedData={setSelectedData} items={submenuArray} />
@@ -348,7 +348,7 @@ const Items = () => {
             </div>
           </div>
         </Col>
-        <Col className="col col-responsive-table-container">
+        <Col className="col-lg-16 col-24 col-responsive-table-container">
           <CommonTable headerData={submenuArray} handleEditTable={handleEditTable} handleDelete={handleDeleteItems}
             // data={tableData}
             data={items?.body}

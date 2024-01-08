@@ -61,7 +61,7 @@ const TopNavBar = ({ selectedMenu, defaultMenu, setCurrentActiveMenu }) => {
     }
   }, []);
   return (
-    <Navbar bg="light" style={{ borderWidth: 2 }}>
+    <Navbar className="top-navbar" bg="light" style={{ borderWidth: 2 }}>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse
         id="basic-navbar-nav"
@@ -78,7 +78,6 @@ const TopNavBar = ({ selectedMenu, defaultMenu, setCurrentActiveMenu }) => {
                 marginRight: "25px",
               }}
             >
-              {/* {selectedMenu?.name ? selectedMenu?.name : defaultMenu.title} */}
               {businessName && businessName}
             </Nav.Link>
           )}
@@ -105,13 +104,6 @@ const TopNavBar = ({ selectedMenu, defaultMenu, setCurrentActiveMenu }) => {
           <Nav.Link className="top-nav-icon-search" href="#login">
             {showMenu1 && (
               <div>
-                {/* <FloatingLabel
-                controlId="floatingInput"
-                label="Email address"
-                className=""
-              >
-                <Form.Control type="email" placeholder="name@example.com" />
-              </FloatingLabel> */}
                 <input placeholder="Search..." className="top-nav-input" />
               </div>
             )}
@@ -165,10 +157,7 @@ const TopNavBar = ({ selectedMenu, defaultMenu, setCurrentActiveMenu }) => {
             <span onClick={() => handleMenuClick(4)}>Naved Naik</span>
             {showMenu4 && (
               <>
-                <div
-                  // style={{ position: "relative", zIndex: "-1" }}
-                  className="d-flex justify-content-center "
-                >
+                <div className="d-flex justify-content-center ">
                   <div className="text-truncate text-primary tail-notification"></div>
                 </div>
                 <ListGroup className="list-items-top-profile">

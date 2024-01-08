@@ -4,12 +4,12 @@
 
 .col-responsive-table-container {
   overflow-x: auto;
-  -ms-overflow-style: none; // Internet Explorer 10+
-  scrollbar-width: none; // Firefox
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .col-responsive-table-container::-webkit-scrollbar {
-  display: none; // Webkit browsers (Chrome, Safari)
+  display: none;
 }
 
 .has-error {
@@ -62,4 +62,26 @@
 }
 .print-row {
   display: none;
+}
+@media screen and (max-width: 992px) {
+  .bottom-navbar-componat-container {
+    position: fixed;
+    background-color: #fff;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    bottom: 0;
+    z-index: 10;
+  }
+  .bottom-nav-button-container {
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 10px;
+  }
+  .children-componts-container {
+    margin-bottom: 60px;
+  }
+  .top-navbar {
+    display: none;
+  }
 }

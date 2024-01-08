@@ -259,7 +259,7 @@ const TablesPage = () => {
         </Alert>
       )} */}
       <Row className="mt-1">
-        <Col className="col-8">
+        <Col className="col-lg-8 col-24">
           <div style={{ borderWidth: 1 }}>
             <h2>Tables</h2>
             {/* <EditTables items={currentActiveMenu.subMenu} /> */}
@@ -272,7 +272,7 @@ const TablesPage = () => {
             </div>
           </div>
         </Col>
-        <Col className="col col-responsive-table-container">
+        <Col className="col-lg-16 col-24 col-responsive-table-container">
           {/* <TablesComponent
             currentActiveMenu={currentActiveMenu}
             setCurrentActiveMenu={setCurrentActiveMenu}

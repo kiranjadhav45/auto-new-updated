@@ -372,7 +372,7 @@
               "isActive": true,
               "type": "text",
               "validationType": "text",
-              "placeholder": "Something allergic to this food"
+              "placeholder": "Something allergic"
             },
             {
               "name": "portionSize",

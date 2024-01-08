@@ -54,10 +54,10 @@ const BottomNavBar = ({ onSelect, mainMenu, menu }) => {
   };
   return (
     <Nav className="flex-column" style={{ marginTop: 20 }}>
-      <Navbar.Brand style={{ marginLeft: 10, marginBottom: 20 }} href="#home">
+      {/* <Navbar.Brand style={{ marginLeft: 10, marginBottom: 20 }} href="#home">
         <FcGlobe size={35} />
-      </Navbar.Brand>
-      <Col lg="auto">
+      </Navbar.Brand> */}
+      <Col className="bottom-nav-button-container" lg="auto">
         {menu.categories.map((key, index) => (
           <Button
             key={index}

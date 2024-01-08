@@ -28,7 +28,7 @@ const Layout = ({ children, currentActiveMenu, setCurrentActiveMenu }) => {
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-1">
+        <div className="bottom-navbar-componat-container col-1">
           <BottomNavBar
             onSelect={handleSelect}
             mainMenu={dataToPerform[0]}
@@ -41,7 +41,9 @@ const Layout = ({ children, currentActiveMenu, setCurrentActiveMenu }) => {
             defaultMenu={defautName}
             setCurrentActiveMenu={setCurrentActiveMenu}
           />
-          {children}
+          <div className="children-componts-container">
+            {children}
+          </div>
         </div>
       </div>
     </div>
