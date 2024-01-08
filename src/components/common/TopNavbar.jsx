@@ -50,16 +50,6 @@ const TopNavBar = ({ selectedMenu, defaultMenu, setCurrentActiveMenu }) => {
   };
 
   useEffect(() => {
-    // try {
-    //   const token = localStorage.getItem("token");
-    //   if (token) {
-    //     const decodedraw = atob(token);
-    //     const decoded = JSON.parse(decodedraw);
-    //     console.log(decoded, "decoded...");
-    //   }
-    // } catch (error) {
-    //   console.error("Error decoding the string:", error);
-    // }
     try {
       const token = localStorage.getItem("token");
       const decoded = jwtDecode(token);
