@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Alert from 'react-bootstrap/Alert';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Layout from "../../components/common/Layout";
 import { Button, Col, Row } from "react-bootstrap";
 import { PostApi } from "../../utils/PostApi";
@@ -148,6 +150,7 @@ const VendorsPage = () => {
     onSuccess: (data, variable, context) => {
       console.log(data, "array data")
       if (data) {
+
         setShow(true)
         setMessage(data.message)
         if (data.status == "success" && data.statusCode == 200) {
@@ -187,20 +190,46 @@ const VendorsPage = () => {
     onSuccess: (data, variable, context) => {
       // console.log(data, "array data")
       if (data) {
-        setShow(true)
-        setMessage(data.message)
-        // console.log(data, "vendor Data sdfsdfklsm lkdmsf")
         if (data.status == "success" && data.statusode == 200) {
-          // refetch()
+          toast.success(data.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
           queryClient.invalidateQueries({ queryKey: ['vendor'] });
         } else {
+          toast.error(data.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
           // dispatch(updateState(oldItemsData))
         }
       }
-      setTimeout(function () {
-        setShow(false)
-      }, 3000);
     },
+    onError: (error) => {
+      console.log(error, "error")
+      toast.error(error.error, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   })
 
   // edit vendors
@@ -221,15 +250,21 @@ const VendorsPage = () => {
     setSelectedData(event)
   }
 
-
   const mutationUpdate = useMutation({
     mutationFn: PutApi,
     onSuccess: (data, variable, context) => {
       if (data) {
-        setShow(true)
-        setMessage(data.message)
-        // console.log(data, "vendor Data sdfsdfklsm lkdmsf")
         if (data.status == "success" && data.statusCode == 200) {
+          toast.success(data.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
           queryClient.invalidateQueries({ queryKey: ['vendor'] });
           setSelectedData({
             vendorCode: "",
@@ -239,19 +274,43 @@ const VendorsPage = () => {
             vendorAddr: ""
           })
         } else {
-
+          toast.error(data.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
         }
+        // if (data?.error.length > 0) {
+        //   toast.error(data.error, {
+        //     position: "top-right",
+        //     autoClose: 5000,
+        //     hideProgressBar: false,
+        //     closeOnClick: true,
+        //     pauseOnHover: true,
+        //     draggable: true,
+        //     progress: undefined,
+        //     theme: "light",
+        //   });
+        // }
       }
-      setTimeout(function () {
-        setShow(false)
-      }, 3000);
     },
     onError: (error) => {
-      setShow(true)
-      setMessage()
-      setTimeout(function () {
-        setShow(false)
-      }, 3000);
+      console.log(error, "error")
+      toast.error(error.error, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   })
   // console.log(selectedData, "setSelectedData")
@@ -260,13 +319,7 @@ const VendorsPage = () => {
       currentActiveMenu={currentActiveMenu}
       setCurrentActiveMenu={setCurrentActiveMenu}
     >
-      <div className="alert-position" >
-        {show && (
-          <Alert variant="danger">
-            <p>{message}</p>
-          </Alert>
-        )}
-      </div>
+      <ToastContainer />
       <Row className="row mt-1">
         <Col className="col-lg-8 col-24">
           <div style={{ borderWidth: 1 }}>
@@ -293,3 +346,4 @@ const VendorsPage = () => {
 };
 
 export default VendorsPage;
+
