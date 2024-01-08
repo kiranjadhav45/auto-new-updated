@@ -14,9 +14,9 @@ import {
 import { TbLogout2 } from "react-icons/tb";
 import { CgProfile } from "react-icons/cg";
 import { IoIosNotificationsOutline } from "react-icons/io";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./styles.css";
-
+import { jwtDecode } from "jwt-decode";
 import "../../App.css";
 import {
   FcFactoryBreakdown,
@@ -33,6 +33,7 @@ const TopNavBar = ({ selectedMenu, defaultMenu, setCurrentActiveMenu }) => {
     marginLeft: 10,
     marginRight: 10,
   };
+  const [businessName, setBusinessName] = useState("");
   const [showMenu1, setShowMenu1] = useState(false);
   const [showMenu2, setShowMenu2] = useState(false);
   const [showMenu3, setShowMenu3] = useState(false);
@@ -48,6 +49,27 @@ const TopNavBar = ({ selectedMenu, defaultMenu, setCurrentActiveMenu }) => {
     borderTopRightRadius: "10px",
   };
 
+  useEffect(() => {
+    // try {
+    //   const token = localStorage.getItem("token");
+    //   if (token) {
+    //     const decodedraw = atob(token);
+    //     const decoded = JSON.parse(decodedraw);
+    //     console.log(decoded, "decoded...");
+    //   }
+    // } catch (error) {
+    //   console.error("Error decoding the string:", error);
+    // }
+    try {
+      const token = localStorage.getItem("token");
+      const decoded = jwtDecode(token);
+      setBusinessName(decoded?.businessName);
+      console.log(decoded, "decoded JWT payload");
+      console.log(decoded, "decoded...");
+    } catch (error) {
+      console.error("Error decoding:", error);
+    }
+  }, []);
   return (
     <Navbar bg="light" style={{ borderWidth: 2 }}>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -67,7 +89,7 @@ const TopNavBar = ({ selectedMenu, defaultMenu, setCurrentActiveMenu }) => {
               }}
             >
               {/* {selectedMenu?.name ? selectedMenu?.name : defaultMenu.title} */}
-              {businessData.name}
+              {businessName && businessName}
             </Nav.Link>
           )}
           <ButtonGroup size="sm">

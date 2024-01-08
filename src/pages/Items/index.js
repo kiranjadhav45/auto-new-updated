@@ -349,7 +349,7 @@ const Items = () => {
           </div>
         </Col>
         <Col className="col col-responsive-table-container">
-          <CommonTable handleEditTable={handleEditTable} handleDelete={handleDeleteItems}
+          <CommonTable headerData={submenuArray} handleEditTable={handleEditTable} handleDelete={handleDeleteItems}
             // data={tableData}
             data={items?.body}
           />

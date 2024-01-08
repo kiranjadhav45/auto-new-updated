@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form, FloatingLabel, Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { validateText, validateEmail, } from "../../utils/validationUtils";
+import { validateText, validateEmail, validateMobileNumber, validateNumber } from "../../utils/validationUtils";
 
 const EditItems = ({ items, selectedData, setSelectedData, errors, setErrors, disable, setDisable }) => {
   // const [errors, setErrors] = useState({});
@@ -30,19 +30,26 @@ const EditItems = ({ items, selectedData, setSelectedData, errors, setErrors, di
   //     [name]: value,
   //   }));
   // };
-  const handleInputChange = (e) => {
-    const { name, value, type, required } = e.target;
+  const handleInputChange = (e, validationType) => {
+    const { name, value, type, required, className } = e.target;
     let isValid = true;
-
+    console.log(e, "validationType")
+    console.log(validationType, "validationType")
     // Additional validation for required fields
-    if (required == true) {
+    if (required == true && validationType) {
       isValid = false;
-      switch (type) {
+      switch (validationType) {
         case "text":
           isValid = validateText(value);
           break;
         case "email":
           isValid = validateEmail(value);
+          break;
+        case "mobile":
+          isValid = validateMobileNumber(value);
+          break;
+        case "number":
+          isValid = validateNumber(value);
           break;
         default:
           break;
@@ -112,7 +119,7 @@ const EditItems = ({ items, selectedData, setSelectedData, errors, setErrors, di
         )} */}
         {items.map((field, index) =>
           field.isActive ? (
-            field.type === "text" || field.type === "email" ? (
+            field.type === "text" || field.type === "email" || field.type === "mobile" ? (
               <Col xs={items?.length % 2 === 0 ? 12 : 12} key={index}>
                 <FloatingLabel
                   controlId="floatingInput"
@@ -124,7 +131,7 @@ const EditItems = ({ items, selectedData, setSelectedData, errors, setErrors, di
                     placeholder={field?.placeholder}
                     name={field?.name}
                     value={selectedData[field?.name]}
-                    onChange={handleInputChange}
+                    onChange={(e) => handleInputChange(e, field?.validationType)}
                     disabled={disable[field?.name]}
                     className={errors[field?.name] ? "has-error" : ""}
                     required={field?.required || false}

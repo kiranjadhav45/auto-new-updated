@@ -276,6 +276,7 @@ const EmployeesPage = () => {
         </Col>
         <Col className="col col-responsive-table-container" >
           <CommonTable
+            headerData={submenuArray}
             handleEditTable={handleEditTable}
             handleDelete={handleDeleteTable}
             // data={employeeData}

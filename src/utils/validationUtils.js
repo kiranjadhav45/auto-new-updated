@@ -2,7 +2,7 @@
 
 export const validateText = (name) => {
     // Example regex for mobile number validation (adjust as needed)
-    const nameRegex = /^.+.{3,}$/;
+    const nameRegex = /^.+.{2,}$/;
     return name?.length > 0 ? nameRegex.test(name) : true;
 };
 
@@ -34,6 +34,11 @@ export const validateConfirmPassword = (password, confirmPassword) => {
         confirmPassword?.length > 7 &&
         confirmPassword === password
     );
+};
+
+export const validateNumber = (number) => {
+    const numberRegex = /^(?:\d|[1-9]\d+)$/;
+    return number?.length > 0 ? numberRegex.test(number) : true;
 };
 
 export const validateCheckbox = (value) => {

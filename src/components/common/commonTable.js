@@ -17,7 +17,7 @@ import {
 } from "react-icons/fc";
 import { FiEdit, FiChevronDown, FiTrash2 } from "react-icons/fi";
 
-const CommonTable = ({ data, handleEditTable, handleDelete }) => {
+const CommonTable = ({ data, handleEditTable, handleDelete, headerData }) => {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
@@ -134,8 +134,7 @@ const CommonTable = ({ data, handleEditTable, handleDelete }) => {
         <thead>
           <tr>
             <th style={{ minWidth: '150px' }}>Actions</th>
-            {/* {Object.keys(data && data[0]).map((key) => ( */}
-            {Array.isArray(data) && data.length > 0 && Object.keys(data[0]).map((key) => (
+            {/* {Array.isArray(data) && data.length > 0 && Object.keys(data[0]).map((key) => (
               <th key={key} style={{ minWidth: '150px' }}>
                 {key}
                 <FcEmptyFilter
@@ -150,10 +149,16 @@ const CommonTable = ({ data, handleEditTable, handleDelete }) => {
                 />
               </th>
             ))
-            }
+            } */}
+            {headerData && headerData.map((column) => (
+              <th key={column.name} style={{ minWidth: '150px' }}>
+                {column.title}
+                {/* Add sorting logic here if required */}
+              </th>
+            ))}
           </tr >
         </thead >
-        <tbody>
+        {/* <tbody>
           {currentRecords && currentRecords.map((row, index) => (
             <React.Fragment key={index}>
               <tr>
@@ -182,20 +187,13 @@ const CommonTable = ({ data, handleEditTable, handleDelete }) => {
                     onClick={() => handleDelete(row)}
                   />
                 </td>
-
-                {/* {Object.values(row).map((value, colIndex) => (
-                  <td key={colIndex}>{value}</td>
-                ))} */}
                 {Object.entries(row).map(([key, value], colIndex) => (
                   <td key={colIndex}>
-                    {/* Check if the value is an array */}
                     {Array.isArray(value)
                       ? value.map((item, i) => (
                         <div key={i}>
-                          {/* Render properties of each object in the array */}
                           <p>{item.verificationDetails}</p>
                           <p>{item.verificationType}</p>
-                          {/* Add other properties of the nested object */}
                         </div>
                       ))
                       : value}
@@ -205,14 +203,51 @@ const CommonTable = ({ data, handleEditTable, handleDelete }) => {
               {expandedRowIndex === index && (
                 <tr>
                   <td style={{ minWidth: '140px' }} colSpan={Object.keys(row).length + 1}>
-                    {/* Content for expanded row */}
+
                     Expanded content for row {index}
                   </td>
                 </tr>
               )}
             </React.Fragment>
           ))}
+        </tbody> */}
+        <tbody>
+          {filteredData && filteredData.map((row, index) => (
+            <tr key={row._id}>
+              <td >
+                <FiChevronDown
+                  size={24}
+                  color="blue"
+                  style={{
+                    marginRight: 10,
+                    cursor: "pointer",
+                    transform: expandedRowIndex === index ? "rotate(180deg)" : "",
+                    transition: "transform 0.3s ease",
+                  }}
+                  onClick={() => handleExpandRow(index)}
+                />
+                <FiEdit
+                  color="green"
+                  size={24}
+                  style={{ marginRight: 10, cursor: "pointer" }}
+                  onClick={() => handleEditTable(row)}
+                />
+                <FiTrash2
+                  color="red"
+                  size={24}
+                  style={{ marginRight: 10, cursor: "pointer" }}
+                  onClick={() => handleDelete(row)}
+                />
+              </td>
+              {headerData && headerData.map((column) => (
+                <td key={column.name}>
+                  {row[column.name]}
+                </td>
+              ))}
+            </tr>
+          ))}
         </tbody>
+        {filteredData?.length <= 0 ? <div className="text-center">Records Not Found</div> : ""}
       </Table >
 
       <Pagination className="mt-3">{renderPaginationItems()}</Pagination>

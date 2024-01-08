@@ -65,7 +65,7 @@ const VendorsPage = () => {
 
   // get vendors
   const { isLoading, data: vendors, error, refetch } = useQuery({ queryKey: ['vendor'], queryFn: () => GetApi("/v1/vendors") })
-
+  console.warn(submenuArray)
   // onClick add new vendor
   const payloadData = {
     url: "/v1/vendors",
@@ -288,6 +288,7 @@ const VendorsPage = () => {
           <CommonTable
             handleEditTable={handleEditTable}
             handleDelete={handleDeleteVendor}
+            headerData={submenuArray}
             // data={vendorData}
             data={vendors?.body}
           />

@@ -279,6 +279,7 @@ const TablesPage = () => {
           /> */}
           {/* <CommonTable data={data} title={"Tables Data"} /> */}
           <CommonTable
+            headerData={submenuArray}
             handleEditTable={handleEditTable}
             handleDelete={handleDeleteTable}
             // data={tableData} 
