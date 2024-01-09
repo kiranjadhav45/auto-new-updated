@@ -14,6 +14,7 @@ import {
 import { TbLogout2 } from "react-icons/tb";
 import { CgProfile } from "react-icons/cg";
 import { IoIosNotificationsOutline } from "react-icons/io";
+import { FiAlignRight } from "react-icons/fi";
 import React, { useState, useEffect } from "react";
 import "./styles.css";
 import { jwtDecode } from "jwt-decode";
@@ -28,21 +29,22 @@ import {
 import { useSelector } from "react-redux";
 const TopNavBar = ({ selectedMenu, defaultMenu, setCurrentActiveMenu }) => {
   const businessData = useSelector((state) => state.business.value);
-  const iconStyles = {
-    //padding: "10px",
-    marginLeft: 10,
-    marginRight: 10,
-  };
+  // const iconStyles = {
+  //   marginLeft: 10,
+  //   marginRight: 10,
+  // };
   const [businessName, setBusinessName] = useState("");
   const [showMenu1, setShowMenu1] = useState(false);
   const [showMenu2, setShowMenu2] = useState(false);
   const [showMenu3, setShowMenu3] = useState(false);
   const [showMenu4, setShowMenu4] = useState(false);
+  const [showMenu5, setShowMenu5] = useState(false);
   const handleMenuClick = (menuNumber) => {
     setShowMenu1(menuNumber === 1 ? !showMenu1 : false);
     setShowMenu2(menuNumber === 2 ? !showMenu2 : false);
     setShowMenu3(menuNumber === 3 ? !showMenu3 : false);
     setShowMenu4(menuNumber === 4 ? !showMenu4 : false);
+    setShowMenu5(menuNumber === 5 ? !showMenu5 : false);
   };
   const divStyle = {
     borderTopLeftRadius: "10px",
@@ -61,7 +63,7 @@ const TopNavBar = ({ selectedMenu, defaultMenu, setCurrentActiveMenu }) => {
     }
   }, []);
   return (
-    <Navbar className="top-navbar" bg="light" style={{ borderWidth: 2 }}>
+    <Navbar bg="light" style={{ borderWidth: 2 }}>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse
         id="basic-navbar-nav"
@@ -69,19 +71,11 @@ const TopNavBar = ({ selectedMenu, defaultMenu, setCurrentActiveMenu }) => {
       >
         <Nav>
           {businessData && businessData.name && (
-            <Nav.Link
-              href="#home"
-              style={{
-                fontSize: 25,
-                fontWeight: "bold",
-                marginLeft: "5px",
-                marginRight: "25px",
-              }}
-            >
+            <Nav.Link href="#home" className="bussness-name">
               {businessName && businessName}
             </Nav.Link>
           )}
-          <ButtonGroup size="sm">
+          <ButtonGroup className="top-navbar" size="sm">
             {selectedMenu?.subcategories
               ? selectedMenu.subcategories.map((key, index) => (
                   <Button
@@ -103,22 +97,26 @@ const TopNavBar = ({ selectedMenu, defaultMenu, setCurrentActiveMenu }) => {
         <Nav style={{ marginRight: 25 }}>
           <Nav.Link className="top-nav-icon-search" href="#login">
             {showMenu1 && (
-              <div>
+              <div className="search-input-box-container-navbar">
                 <input placeholder="Search..." className="top-nav-input" />
               </div>
             )}
-            <FcSearch
-              style={iconStyles}
-              size={25}
-              onClick={() => handleMenuClick(1)}
-            />
+            <div className="d-flex justify-content-center align-items-center">
+              <FcSearch
+                className="icons-navbar"
+                size={25}
+                onClick={() => handleMenuClick(1)}
+              />
+            </div>
           </Nav.Link>
-          <Nav.Link href="#login" className="top-nav-icons">
-            <FcBriefcase
-              style={iconStyles}
-              size={25}
-              onClick={() => handleMenuClick(2)}
-            />
+          <Nav.Link href="#login" className="top-nav-icons bag-navbar">
+            <div className="d-flex justify-content-center align-items-center">
+              <FcBriefcase
+                className="icons-navbar"
+                size={25}
+                onClick={() => handleMenuClick(2)}
+              />
+            </div>
             {showMenu2 && (
               <ListGroup className="list-items-top-navbar">
                 <div></div>
@@ -127,7 +125,7 @@ const TopNavBar = ({ selectedMenu, defaultMenu, setCurrentActiveMenu }) => {
           </Nav.Link>
           <Nav.Link href="#login" className="top-nav-icons">
             <FcAdvertising
-              style={iconStyles}
+              className="icons-navbar"
               size={25}
               onClick={() => handleMenuClick(3)}
             />
@@ -154,7 +152,17 @@ const TopNavBar = ({ selectedMenu, defaultMenu, setCurrentActiveMenu }) => {
             )}
           </Nav.Link>
           <Nav.Link href="#login" className="top-nav-icons">
-            <span onClick={() => handleMenuClick(4)}>Naved Naik</span>
+            <div
+              className="d-flex profile-image-container"
+              onClick={() => handleMenuClick(4)}
+            >
+              <img
+                className=""
+                src="https://i.ibb.co/wp3Jzcr/Whats-App-Image-2024-01-09-at-1-20-52-PM.jpg"
+                alt=""
+              />
+              <span className="ps-2">Naved Naik</span>
+            </div>
             {showMenu4 && (
               <>
                 <div className="d-flex justify-content-center ">
@@ -200,6 +208,48 @@ const TopNavBar = ({ selectedMenu, defaultMenu, setCurrentActiveMenu }) => {
                   </div>
                 </ListGroup>
               </>
+            )}
+          </Nav.Link>
+          <Nav.Link href="#login" className=" menu-button-navbar">
+            <div
+              className="d-flex profile-image-container"
+              onClick={() => handleMenuClick(5)}
+            >
+              <div className="d-flex justify-content-center align-items-center">
+                <FiAlignRight className="icons-navbar" size={25} />
+              </div>
+            </div>
+            {showMenu5 && (
+              <div className="menu-List-of-nav-submenu">
+                <div
+                  style={{ width: "100%" }}
+                  className="menu-mobile-container"
+                >
+                  <div
+                    style={{ width: "100%" }}
+                    className="menu-mobile-container"
+                  >
+                    {selectedMenu?.subcategories
+                      ? selectedMenu.subcategories.map((key, index) => (
+                          <div
+                            variant="light"
+                            size="sm"
+                            onClick={() => {
+                              setCurrentActiveMenu(key);
+                              handleMenuClick(5);
+                            }}
+                          >
+                            {key.title}
+                          </div>
+                        ))
+                      : defaultMenu?.defaultMenu.map((key) => (
+                          <div variant="light" size="sm">
+                            {key.title}
+                          </div>
+                        ))}
+                  </div>
+                </div>
+              </div>
             )}
           </Nav.Link>
         </Nav>

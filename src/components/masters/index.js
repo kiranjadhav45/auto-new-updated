@@ -117,7 +117,7 @@ const MasterComponent = ({ categories }) => {
         </Col>
       </Row>
       <Row>
-        <Col xs={12} md={4}>
+        <Col xs={24} md={12} lg={6}>
           <ListGroup>
             {categories.map((category) => renderCategory(category))}
           </ListGroup>

@@ -57,7 +57,7 @@
 .top-nav-icons {
   position: relative;
 }
-.list-items-top-navbar{
+.list-items-top-navbar {
   position: absolute;
   left: 50%;
   top: 50px;
@@ -66,7 +66,7 @@
   z-index: 100;
   background-color: #fff;
 }
-.list-items-top-profile{
+.list-items-top-profile {
   position: absolute;
   /* left: 50%; */
   top: 50px;
@@ -76,28 +76,19 @@
   z-index: 100 !important;
   background-color: #fff;
 }
-.top-nav-icon-search{
-  display: flex; 
+.top-nav-icon-search {
+  display: flex;
 }
-.top-nav-input{
-  border-radius: 5px;
-  font-size: 14px;
-  padding: 2px 5px;
-  border: 1px solid #ccc;
-  
-}
-.top-nav-input:focus{
-  outline: none;
-}
-.profile-photo-style{
+
+.profile-photo-style {
   width: 50px;
   height: 50px;
   border-radius: 50%;
 }
-.buttons-profile{
+.buttons-profile {
   font-size: 14px;
 }
-.profile-pop-up-container{
+.profile-pop-up-container {
   border: 1px solid #ccc;
   padding: 20px;
   border-radius: 10px;
@@ -105,7 +96,7 @@
   position: relative;
   z-index: 1000000;
 }
-.tail-notification{
+.tail-notification {
   width: 40px;
   height: 40px;
   border: 1px solid #ccc;

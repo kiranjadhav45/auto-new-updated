@@ -55,29 +55,3 @@ const Upload = ({ onChange, fileSize, fileType, title }) => {
 };
 
 export default Upload;
-
-// allowedFileTypes = [
-//   "image/jpeg",
-//   "image/png",
-//   "image/gif",
-//   "image/bmp",
-//   "image/webp",
-//   "application/pdf",
-//   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // Excel (.xlsx)
-//   "application/vnd.ms-excel", // Older Excel formats (.xls)
-//   "application/vnd.google-apps.spreadsheet", // Google Sheets
-//   "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // Word (.docx)
-//   "application/msword", // Older Word formats (.doc)
-// ];
-
-{
-    //   const handleFileUpload = (message, file) => {
-    //     console.log(message);
-    //     console.log(file);
-    //   };
-    /* <Upload
-    size={2}
-    fileType={["image/jpeg", "image/png", "application/pdf"]}
-    onChange={handleFileUpload}
-  />; */
-}

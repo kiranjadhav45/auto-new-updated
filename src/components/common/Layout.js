@@ -35,7 +35,7 @@ const Layout = ({ children, currentActiveMenu, setCurrentActiveMenu }) => {
             menu={businessData}
           />
         </div>
-        <div className="col-23">
+        <div style={{ position: "relative" }} className="col">
           <TopNavBar
             selectedMenu={selectedMenu}
             defaultMenu={defautName}

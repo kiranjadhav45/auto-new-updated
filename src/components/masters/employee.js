@@ -111,7 +111,7 @@ const EmployeeMaster = ({ currentActiveMenu }) => {
         )}
       </div>
       <Row>
-        <Col xs={12} md={4}>
+        <Col xs={24} md={12} lg={6}>
           {currentActiveMenu?.subMenu && (
             <ListGroup>
               {/* {businessData?.categories[1]?.subcategories[4].subMenu?.map((menuItem) =>

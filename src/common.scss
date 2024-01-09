@@ -21,13 +21,6 @@
 .has-error:focus {
   outline: none;
 }
-
-// style= {
-//     {
-//     position: "absolute", top: "10px", width: "30%", left: "0px"
-//   }
-// }
-
 .alert-position {
   position: fixed;
   top: 10px;
@@ -53,7 +46,7 @@
   background-color: #fff;
 }
 .listGroup-container {
-  position: relative;
+  // cc;
 }
 .listGroup {
   position: absolute;
@@ -62,6 +55,33 @@
 }
 .print-row {
   display: none;
+}
+.bussness-name {
+  font-size: 25px;
+  font-weight: bold;
+  margin-left: 5px;
+  margin-right: 25px;
+}
+.profile-image-container img {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+}
+.menu-button-navbar {
+  display: none;
+}
+.icons-navbar {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.top-nav-input {
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 2px 5px;
+  border: 1px solid #ccc;
+}
+.top-nav-input:focus {
+  outline: none;
 }
 @media screen and (max-width: 992px) {
   .bottom-navbar-componat-container {
@@ -83,5 +103,64 @@
   }
   .top-navbar {
     display: none;
+  }
+  .bussness-name {
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  .profile-image-container span {
+    display: none;
+  }
+  .bag-navbar {
+    display: none;
+  }
+  .menu-button-navbar {
+    // display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .icons-navbar {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  .menu-List-of-nav-submenu {
+    position: absolute;
+    top: 65px;
+    width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    padding: 16px 16px;
+    z-index: 10;
+    box-shadow: 0px 15px 10px -15px #111;
+  }
+  .menu-mobile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 10px;
+    width: 100%;
+  }
+  .search-input-box-container-navbar {
+    position: absolute;
+    top: 65px;
+    width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    padding: 16px 16px;
+    z-index: 10;
+    box-shadow: 0px 15px 10px -15px #111;
+  }
+  .top-nav-input {
+    width: 100%;
+    border-radius: 5px;
+    background-color: rgba(204, 204, 204, 0.2);
+    font-size: 16px;
+    padding: 10px 5px;
+    border: 1px solid #ccc;
   }
 }

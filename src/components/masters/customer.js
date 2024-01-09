@@ -107,7 +107,7 @@ const CustomerMaster = ({ currentActiveMenu }) => {
       </div>
       <h2>Customer Master</h2>
       <Row>
-        <Col xs={12} md={4}>
+        <Col xs={24} md={12} lg={6}>
           {currentActiveMenu?.subMenu && (
             <ListGroup>
               {/* {currentActiveMenu.subMenu.map((menuItem) =>
