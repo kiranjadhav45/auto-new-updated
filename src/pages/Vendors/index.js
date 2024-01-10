@@ -111,7 +111,6 @@ const VendorsPage = () => {
     if (!anyErrorIsTrue) {
       if (selectedData._id && !handleUpdateAdd) {
         // update vendor
-        // console.log(payloadUpdate, "payloadUpdate")
         mutationUpdate.mutate(payloadUpdate)
         let newData = { ...disable }
         newData.vendorCode = false
@@ -137,24 +136,38 @@ const VendorsPage = () => {
         });
       }
     } else {
-      setShow(true)
-      setMessage("please fill requied field")
-      setTimeout(function () {
-        setShow(false)
-      }, 3000);
+      setTimeout(() => {
+        toast.error('Please Fill Requied Field', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }, 100);
     }
   };
-
   const mutationPost = useMutation({
     mutationFn: PostApi,
     onSuccess: (data, variable, context) => {
       console.log(data, "array data")
       if (data) {
-
-        setShow(true)
-        setMessage(data.message)
         if (data.status == "success" && data.statusCode == 200) {
-          // refetch()
+          setTimeout(() => {
+            toast.success(data.message, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
+          }, 100);
           queryClient.invalidateQueries({ queryKey: ['vendor'] });
           setSelectedData({
             vendorCode: "",
@@ -163,19 +176,25 @@ const VendorsPage = () => {
             vendorMobile: "",
             vendorAddr: ""
           })
-        } else {
-          setMessage(data.error)
-          // dispatch(updateState(oldItemsData))
+        } else if (data?.error.length > 0) {
+          setTimeout(() => {
+            toast.error(data?.error, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
+          }, 100);
         }
-        setTimeout(function () {
-          setShow(false)
-        }, 3000);
       }
     },
   })
 
   // delete vendors
-
   const handleDeleteVendor = (idToDelete) => {
     const deletePayloadData = {
       url: "/v1/vendors/",
@@ -188,52 +207,41 @@ const VendorsPage = () => {
   const mutationDelete = useMutation({
     mutationFn: DeleteApi,
     onSuccess: (data, variable, context) => {
-      // console.log(data, "array data")
       if (data) {
-        if (data.status == "success" && data.statusode == 200) {
-          toast.success(data.message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+        if (data?.status == "success" && data?.statusCode == 200) {
           queryClient.invalidateQueries({ queryKey: ['vendor'] });
-        } else {
-          toast.error(data.message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+          setTimeout(() => {
+            toast.success(data.message, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
+          }, 100);
+        } else if (data?.error) {
+          setTimeout(() => {
+            toast.error(data?.error, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
+          }, 100);
           // dispatch(updateState(oldItemsData))
         }
       }
     },
-    onError: (error) => {
-      console.log(error, "error")
-      toast.error(error.error, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
   })
 
   // edit vendors
-
   const newSelectedData = { ...selectedData }
   delete newSelectedData._id;
   const payloadUpdate = {
@@ -242,7 +250,11 @@ const VendorsPage = () => {
   }
 
   const handleEditTable = (event) => {
-    // console.log(event, "event")
+    const newErrors = { ...errors };
+    submenuArray.forEach((submenuItem) => {
+      newErrors[submenuItem.name] = false;
+    });
+    setErrors(newErrors);
     setHandleUpdateAdd(false)
     let newData = { ...disable }
     newData.vendorCode = true
@@ -255,16 +267,18 @@ const VendorsPage = () => {
     onSuccess: (data, variable, context) => {
       if (data) {
         if (data.status == "success" && data.statusCode == 200) {
-          toast.success(data.message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+          setTimeout(() => {
+            toast.success(data.message, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
+          }, 100);
           queryClient.invalidateQueries({ queryKey: ['vendor'] });
           setSelectedData({
             vendorCode: "",
@@ -273,53 +287,38 @@ const VendorsPage = () => {
             vendorMobile: "",
             vendorAddr: ""
           })
-        } else {
-          toast.error(data.message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+        } else if (data?.error.length > 0) {
+          setTimeout(() => {
+            toast.error(data?.error, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
+          }, 100);
         }
-        // if (data?.error.length > 0) {
-        //   toast.error(data.error, {
-        //     position: "top-right",
-        //     autoClose: 5000,
-        //     hideProgressBar: false,
-        //     closeOnClick: true,
-        //     pauseOnHover: true,
-        //     draggable: true,
-        //     progress: undefined,
-        //     theme: "light",
-        //   });
-        // }
       }
     },
-    onError: (error) => {
-      console.log(error, "error")
-      toast.error(error.error, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
   })
-  // console.log(selectedData, "setSelectedData")
   return (
     <Layout
       currentActiveMenu={currentActiveMenu}
       setCurrentActiveMenu={setCurrentActiveMenu}
     >
-      <ToastContainer />
+      <ToastContainer position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored" />
       <Row className="row mt-1">
         <Col className="col-lg-8 col-24">
           <div style={{ borderWidth: 1 }}>

@@ -9,7 +9,6 @@ const billSlice = createSlice({
         // },
         addBill: (state, action) => {
             const newProducts = action.payload;
-
             // Check if state.products exists and is an array
             if (Array.isArray(state.products)) {
                 // Append the new products to the existing ones

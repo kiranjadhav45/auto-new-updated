@@ -79,6 +79,13 @@ const TablesPage = () => {
   // post items
 
   const handleEditTable = (event) => {
+    const newErrors = { ...errors };
+    submenuArray.forEach((submenuItem) => {
+      newErrors[submenuItem.name] = false;
+    });
+    setErrors(newErrors);
+
+
     console.log(event, "handleUpdateAdd")
     setHandleUpdateAdd(false)
     setSelectedData(event)

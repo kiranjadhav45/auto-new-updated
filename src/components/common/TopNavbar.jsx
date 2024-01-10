@@ -161,7 +161,7 @@ const TopNavBar = ({ selectedMenu, defaultMenu, setCurrentActiveMenu }) => {
                 src="https://i.ibb.co/wp3Jzcr/Whats-App-Image-2024-01-09-at-1-20-52-PM.jpg"
                 alt=""
               />
-              <span className="ps-2">Naved Naik</span>
+              <span className="ps-2">{businessName && businessName}</span>
             </div>
             {showMenu4 && (
               <>
@@ -180,7 +180,7 @@ const TopNavBar = ({ selectedMenu, defaultMenu, setCurrentActiveMenu }) => {
                     <div className="d-flex justify-content-center mt-2">
                       <span>Name:</span>
                       <span className="ps-2">
-                        <b>Neha Jadhav</b>
+                        <b>{businessName && businessName}</b>
                       </span>
                     </div>
                     <div className="d-flex justify-content-center mt-2">

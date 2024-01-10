@@ -129,7 +129,6 @@ const CommonTable = ({ data, handleEditTable, handleDelete, headerData }) => {
           </Row>
         </Form>
       </Navbar>
-
       <Table style={{ overflow: "auto" }} responsive striped bordered hover>
         <thead>
           <tr>

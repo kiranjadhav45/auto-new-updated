@@ -127,6 +127,13 @@ const Items = () => {
 
   // onClick add new vendor
   const handleEditTable = (event) => {
+    const newErrors = { ...errors };
+    submenuArray.forEach((submenuItem) => {
+      newErrors[submenuItem.name] = false;
+    });
+    setErrors(newErrors);
+
+
     setHandleUpdateAdd(false)
     setSelectedData(event)
 
@@ -274,13 +281,28 @@ const Items = () => {
         setShow(true)
         setMessage(data.message)
         if (data.status == "success" && data.statusCode == 200) {
+          let newData = { ...disable }
+          newData.itemCode = false
+          setDisable(newData)
           queryClient.invalidateQueries({ queryKey: ['items'] });
           setSelectedData({
-            vendorCode: "",
-            vendorName: "",
-            vendorEmail: "",
-            vendorMobile: "",
-            vendorAddr: ""
+            itemCode: "",
+            itemName: "",
+            itemCategory: "",
+            itemSubCategory: "",
+            itemPrice: "",
+            ingredients: "",
+            recipe: "",
+            allergen: "",
+            portionSize: "",
+            status: "",
+            tax: "",
+            discount: "",
+            images: "",
+            currentStock: "",
+            barcode: "",
+            salesHistory: "",
+            customNotes: ""
           })
         }
       } else {
@@ -292,7 +314,6 @@ const Items = () => {
       }, 3000);
     },
   })
-
 
   // delete items
   const handleDeleteItems = (idToDelete) => {
