@@ -5,7 +5,7 @@ import Layout from "../../components/common/Layout";
 import { ItemsData } from "../../products";
 import { FaCircleMinus } from "react-icons/fa6";
 import { FaPlusCircle } from "react-icons/fa";
-import { addProduct, removeProduct, increseQuantity, dcreaseQuantity, removeAllProducts } from "../../features/bill/billSlice";
+import { addProduct, removeProduct, increseQuantity, dcreaseQuantity, removeAllProducts, addBill } from "../../features/bill/billSlice";
 import { useDispatch, useSelector } from 'react-redux'
 import { PostApi } from "../../utils/PostApi";
 import { GetApi } from "../../utils/GetApi";
@@ -25,6 +25,8 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState("");
   const [searchedProduct, setsearchedProduct] = useState(false);
+  // const [currentBillProduct, setCurrentBillProduct] = useState(false);
+
   const [totalBill, setTotalBill] = useState(0);
 
   const handleInputChange = (e) => {
@@ -42,16 +44,16 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
 
   // get bill 
   const { isLoading, data: billsFromServer, error, refetch } = useQuery({ queryKey: ['bill'], queryFn: () => GetApi("/v1/allbilling") })
-  console.log(billsFromServer, "billsFromServer")
+  // console.log(billsFromServer, "billsFromServer")
 
   const handleSaveBill = () => {
     const PostPayload = {
       data: {
         items: bill,
-        tax: 5,
-        discount: 2
+        // tax: 5,
+        // discount: 2
       },
-      url: "//v1/billing"
+      url: "/v1/billing"
     }
     mutationSaveBill.mutate(PostPayload)
   }
@@ -83,7 +85,6 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-
   const getCurrentDate = () => {
     const currentDate = new Date();
     const formattedDate = currentDate.toLocaleDateString('en-GB'); // 'en-GB' represents the format DD/MM/YYYY
@@ -94,13 +95,16 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
     let hours = currentDate.getHours();
     const minutes = currentDate.getMinutes();
     const ampm = hours >= 12 ? 'PM' : 'AM';
-
     hours %= 12;
-    hours = hours || 12; // Handle midnight (0 hours)
-
+    hours = hours || 12;
     const formattedTime = `${hours}:${minutes < 10 ? '0' + minutes : minutes} ${ampm}`;
     return formattedTime;
   };
+  const handleBillClick = (clickedBill) => {
+    dispatch(addBill(clickedBill.items))
+    console.log(clickedBill, "clickedBill")
+  }
+  console.log(mutationSaveBill, "mutationSaveBill")
   return (
     <Layout
       currentActiveMenu={currentActiveMenu}
@@ -127,12 +131,12 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
                 </tr>
               </thead>
               <tbody>
-                {bill && bill.map((product) => (
+                {bill && bill?.map((product) => (
                   <tr key={product.id}>
-                    <td>{product.itemName}</td>
-                    <td>{product.quantity}</td>
-                    <td>{product.itemPrice}</td>
-                    <td>{product.itemPrice * product.quantity}</td>
+                    <td>{product?.itemName}</td>
+                    <td>{product?.quantity}</td>
+                    <td>{product?.itemPrice}</td>
+                    <td>{product?.itemPrice * product?.quantity}</td>
                   </tr>
                 ))}
               </tbody>
@@ -149,9 +153,9 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
       <Row className="mt-1">
         <Col className="col-24 col-lg-6">
           <div style={{ borderWidth: 1 }}>
-            <h2>Orders Page</h2>
-            <div>
-              {billsFromServer && billsFromServer.body.map((item) => <span className="bill">{item.itemCode}</span>)}
+            <h2>Recent Bills</h2>
+            <div className="d-flex flex-wrap my-2">
+              {billsFromServer && billsFromServer?.body.map((item) => <span onClick={() => handleBillClick(item)} className="single-bill m-2 ">{item.billNumber}</span>)}
             </div>
           </div>
         </Col>
@@ -179,8 +183,8 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
             </Form>
             <div className="listGroup-container">
               {searchedProduct.length > 0 ? (<ListGroup className="listGroup">
-                {searchedProduct && searchedProduct.map((item) => (
-                  <ListGroup.Item className="cursor-pointer" onClick={() => { dispatch(addProduct(item)); setsearchedProduct("") }} >{item.itemName}</ListGroup.Item>
+                {searchedProduct && searchedProduct?.map((item) => (
+                  <ListGroup.Item className="cursor-pointer" onClick={() => { dispatch(addProduct(item)); setsearchedProduct("") }} >{item?.itemName}</ListGroup.Item>
                 ))}
               </ListGroup>) : ""}
             </div>
@@ -194,15 +198,15 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
                 </tr>
               </thead>
               <tbody>
-                {bill && bill.map((product) => (
-                  <tr key={product.id}>
-                    <td>{product.itemName}</td>
-                    <td>{product.itemPrice}</td>
-                    <td>{product.quantity}</td>
+                {bill && bill?.map((product) => (
+                  <tr key={product?.id}>
+                    <td>{product?.itemName}</td>
+                    <td>{product?.itemPrice}</td>
+                    <td>{product?.quantity}</td>
                     <td>
                       <div className="d-flex align-items-center">
                         <div className=" cursor-pointer"><FaCircleMinus size={25} onClick={() => dispatch(dcreaseQuantity(product))} /></div>
-                        <div className="mx-2"><strong>{product.quantity}</strong> </div>
+                        <div className="mx-2"><strong>{product?.quantity}</strong> </div>
                         <div className=" cursor-pointer"><FaPlusCircle size={25} onClick={() => dispatch(increseQuantity(product))} /></div>
                       </div>
 
@@ -243,9 +247,10 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
             </div>
             <Button
               onClick={handleSaveBill}
+              disabled={mutationSaveBill.isPending}
             // onClick={() => dispatch(removeAllProducts())}
             >
-              Save Bill
+              {mutationSaveBill.isPending ? "Loading" : "Save Bill"}
             </Button>
             <Button
               className="ms-4"

@@ -268,8 +268,8 @@ const EmployeesPage = () => {
             <h2>Employee Page</h2>
             <EditItems disable={disable} setDisable={setDisable} errors={errors} setErrors={setErrors} selectedData={selectedData} setSelectedData={setSelectedData} items={submenuArray} />
             <div className="d-grid gap-2">
-              <Button onClick={handleAddVendor} variant="primary">
-                {handleUpdateAdd == true ? "Add New Employee" : "Update Employee"}
+              <Button disabled={mutationPost.isPending || mutationUpdate.isPending} onClick={handleAddVendor} variant="primary">
+                {mutationPost.isPending || mutationUpdate.isPending ? "loading" : handleUpdateAdd == true ? "Add New Employee" : "Update Employee"}
               </Button>
             </div>
           </div>

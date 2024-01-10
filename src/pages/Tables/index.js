@@ -266,8 +266,8 @@ const TablesPage = () => {
             {/* <EditItems items={submenuArray} /> */}
             <EditItems disable={disable} setDisable={setDisable} errors={errors} setErrors={setErrors} selectedData={selectedData} setSelectedData={setSelectedData} items={submenuArray} />
             <div className="d-grid gap-2">
-              <Button onClick={handleAddTable} variant="primary">
-                {handleUpdateAdd == true ? "Add New Table" : "Update Table"}
+              <Button disabled={mutationPost.isPending || mutationUpdate.isPending} onClick={handleAddTable} variant="primary">
+                {mutationPost.isPending || mutationUpdate.isPending ? "loading" : handleUpdateAdd == true ? "Add New Table" : "Update Table"}
               </Button>
             </div>
           </div>
