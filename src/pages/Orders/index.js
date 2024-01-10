@@ -3,11 +3,14 @@ import { Form, Table, Button, FloatingLabel, Col, Row } from "react-bootstrap";
 import ListGroup from 'react-bootstrap/ListGroup';
 import Layout from "../../components/common/Layout";
 import { ItemsData } from "../../products";
+import { FaCircleMinus } from "react-icons/fa6";
+import { FaPlusCircle } from "react-icons/fa";
 import { addProduct, removeProduct, increseQuantity, dcreaseQuantity, removeAllProducts } from "../../features/bill/billSlice";
 import { useDispatch, useSelector } from 'react-redux'
 import { PostApi } from "../../utils/PostApi";
 import { GetApi } from "../../utils/GetApi";
 import { useReactToPrint } from 'react-to-print';
+import { MdDelete } from "react-icons/md";
 import {
   useQuery,
   useMutation,
@@ -144,7 +147,7 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
         </Col>
       </Row>
       <Row className="mt-1">
-        <Col className="col-6">
+        <Col className="col-24 col-lg-6">
           <div style={{ borderWidth: 1 }}>
             <h2>Orders Page</h2>
             <div>
@@ -154,7 +157,7 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
         </Col>
         <Col className="col">
           <div>
-            <h2>Billing Page</h2>
+            {/* <h2>Billing Page</h2> */}
             <Form>
               {/* ... (previous form code) */}
               <Button variant="primary"
@@ -197,27 +200,37 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
                     <td>{product.itemPrice}</td>
                     <td>{product.quantity}</td>
                     <td>
-                      <Button
+                      <div className="d-flex align-items-center">
+                        <div className=" cursor-pointer"><FaCircleMinus size={25} onClick={() => dispatch(dcreaseQuantity(product))} /></div>
+                        <div className="mx-2"><strong>{product.quantity}</strong> </div>
+                        <div className=" cursor-pointer"><FaPlusCircle size={25} onClick={() => dispatch(increseQuantity(product))} /></div>
+                      </div>
+
+                      {/* <Button
                         variant="outline-primary"
-                        onClick={() => dispatch(dcreaseQuantity(product))}
+                        
                       >
                         -
-                      </Button>{" "}
-                      {product.quantity}{" "}
-                      <Button
+                      </Button>{" "} */}
+                      {" "}
+                      {/* <Button
                         variant="outline-primary"
                         onClick={() => dispatch(increseQuantity(product))}
                       >
                         +
-                      </Button>
+                      </Button> */}
+
                     </td>
-                    <td>
-                      <Button
+                    <td >
+                      {/* <Button
                         variant="danger"
                         onClick={() => dispatch(removeProduct(product))}
                       >
                         Remove
-                      </Button>
+                      </Button> */}
+                      <div style={{ height: "100%" }} className="my-auto d-flex justify-content-center">
+                        <MdDelete color="#bb2124" size={25} onClick={() => dispatch(removeProduct(product))} className="cursor-pointer" />
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -250,3 +263,6 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
 };
 
 export default OrdersPage;
+
+
+

@@ -1,6 +1,6 @@
 // Layout.js
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TopNavBar from "./TopNavbar";
 import bundleData from "../../data.json";
 // import mainData from "../../business.json";
@@ -14,6 +14,7 @@ const Layout = ({ children, currentActiveMenu, setCurrentActiveMenu }) => {
   // const [dataToPerform, setDataToPerform] = useState(bundleData.resto);
   const [dataToPerform, setDataToPerform] = useState(businessData);
   const [selectedMenu, setSelectedMenu] = useState("Clean Slate");
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   const [defautName, setDefaultName] = useState({
     // title: mainData?.businesses[0].name,
@@ -25,17 +26,34 @@ const Layout = ({ children, currentActiveMenu, setCurrentActiveMenu }) => {
     navigate(menu?.path);
     setSelectedMenu(menu);
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 992);
+    };
+
+    // Initial check
+    handleResize();
+
+    // Add event listener for window resize
+    window.addEventListener('resize', handleResize);
+
+    // Remove event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="bottom-navbar-componat-container col-1">
+        <div className={isSmallScreen ? 'bottom-navbar-componat-container' : ' col-1'}>
           <BottomNavBar
             onSelect={handleSelect}
             mainMenu={dataToPerform[0]}
             menu={businessData}
           />
         </div>
-        <div style={{ position: "relative" }} className="col">
+        <div style={{ position: "relative" }} className={isSmallScreen ? 'col-24' : 'col-23'}>
           <TopNavBar
             selectedMenu={selectedMenu}
             defaultMenu={defautName}
