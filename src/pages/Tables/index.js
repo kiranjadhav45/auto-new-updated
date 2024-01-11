@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Layout from "../../components/common/Layout";
 import { Col, Row, Button } from "react-bootstrap";
 import Alert from 'react-bootstrap/Alert';
+import { ToastContainer, toast } from 'react-toastify';
 import EditTables from "../../components/tables/editTables";
 import TablesComponent from "../../components/tables";
 import { useSelector, useDispatch } from 'react-redux'
@@ -12,6 +13,7 @@ import { DeleteApi } from "../../utils/DeleteApi"
 import { PutApi } from "../../utils/PutApi"
 import { PostApi } from "../../utils/PostApi"
 import { addTable, deleteTable } from "../../features/table/tableSlice"
+import { AlertMessage } from "../../utils/constant"
 import {
   useQuery,
   useMutation,
@@ -85,7 +87,6 @@ const TablesPage = () => {
     });
     setErrors(newErrors);
 
-
     console.log(event, "handleUpdateAdd")
     setHandleUpdateAdd(false)
     setSelectedData(event)
@@ -95,7 +96,6 @@ const TablesPage = () => {
     setDisable(newData)
     setSelectedData(event)
   }
-
   const payloadDataPost = {
     url: "/v1/table",
     data: selectedData
@@ -152,11 +152,9 @@ const TablesPage = () => {
         });
       }
     } else {
-      setShow(true)
-      setMessage("please fill requied field")
-      setTimeout(function () {
-        setShow(false)
-      }, 3000);
+      setTimeout(() => {
+        toast.error("please fill requied field", { AlertMessage });
+      }, 100);
     }
   };
 
@@ -165,12 +163,18 @@ const TablesPage = () => {
   const mutationPost = useMutation({
     mutationFn: PostApi,
     onSuccess: (data, variable, context) => {
-      // console.log(data, "array data")
       if (data) {
-        setMessage(data.message)
-        setShow(true)
+        if (data.status == "success") {
+          setTimeout(() => {
+            toast.success(data.message, { AlertMessage });
+          }, 100);
+        }
+        if (data.status == "error") {
+          setTimeout(() => {
+            toast.error(data.message, { AlertMessage });
+          }, 100);
+        }
         if (data.status == "success" && data.statusCode == 200) {
-          // refetch()
           queryClient.invalidateQueries({ queryKey: ['table'] });
           setSelectedData({
             tableCode: "",
@@ -179,14 +183,12 @@ const TablesPage = () => {
             tablePlacement: "",
             tableQR: "",
           })
-        } else {
-          // setMessage(data.error)
-          // setShow(true)
-          // dispatch(updateState(oldItemsData))
         }
-        setTimeout(function () {
-          setShow(false)
-        }, 3000);
+        if (data?.error.length > 0) {
+          setTimeout(() => {
+            toast.error(data?.error, { AlertMessage });
+          }, 100);
+        }
       }
     },
   })
@@ -196,8 +198,16 @@ const TablesPage = () => {
     mutationFn: PutApi,
     onSuccess: (data, variable, context) => {
       if (data) {
-        setShow(true)
-        setMessage(data.message)
+        if (data.status == "success") {
+          setTimeout(() => {
+            toast.success(data.message, { AlertMessage });
+          }, 100);
+        }
+        if (data.status == "error") {
+          setTimeout(() => {
+            toast.error(data.message, { AlertMessage });
+          }, 100);
+        }
         if (data.status == "success" && data.statusCode == 200) {
           queryClient.invalidateQueries({ queryKey: ['table'] });
           setSelectedData({
@@ -208,13 +218,20 @@ const TablesPage = () => {
             tableQR: "",
           })
         }
-      } else {
-        setShow(data.error)
-        setMessage(data.message)
+      } else if (data?.error.length > 0) {
+        setTimeout(() => {
+          toast.error(data?.error, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        }, 100);
       }
-      setTimeout(function () {
-        setShow(false)
-      }, 3000);
     },
   })
 
@@ -232,19 +249,17 @@ const TablesPage = () => {
     mutationFn: DeleteApi,
     onSuccess: (data, variable, context) => {
       if (data) {
-        setMessage(data?.message)
-        setShow(true)
         if (data?.status == "success" && data?.statusCode == 200) {
-          // refetch()
-          console.log("success delete")
+          setTimeout(() => {
+            toast.success(data.message, { AlertMessage });
+          }, 100);
           queryClient.invalidateQueries({ queryKey: ['table'] });
-        } else {
-          // dispatch(updateState(oldItemsData))
+        } else if (data?.error.length > 0) {
+          setTimeout(() => {
+            toast.error(data?.error, { AlertMessage });
+          }, 100);
         }
       }
-      setTimeout(function () {
-        setShow(false)
-      }, 3000);
     },
   })
 
@@ -253,18 +268,17 @@ const TablesPage = () => {
       currentActiveMenu={currentActiveMenu}
       setCurrentActiveMenu={setCurrentActiveMenu}
     >
-      <div className="alert-position" >
-        {show && (
-          <Alert variant="danger">
-            <p>{message}</p>
-          </Alert>
-        )}
-      </div>
-      {/* {show && (
-        <Alert variant="danger">
-          <p>{message}</p>
-        </Alert>
-      )} */}
+      <ToastContainer position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       <Row className="mt-1">
         <Col className="col-lg-8 col-24">
           <div style={{ borderWidth: 1 }}>

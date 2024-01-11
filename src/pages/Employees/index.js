@@ -4,6 +4,7 @@ import BottomNavBar from "../../components/common/BottomNavbar";
 import Alert from 'react-bootstrap/Alert';
 import Layout from "../../components/common/Layout";
 import { Col, Row, Button } from "react-bootstrap";
+import { ToastContainer, toast } from 'react-toastify';
 import ItemsMaster from "../../components/masters/items";
 import TaxMaster from "../../components/masters/tax";
 import CustomerMaster from "../../components/masters/customer";
@@ -20,6 +21,7 @@ import { GetApi } from "../../utils/GetApi"
 import { DeleteApi } from "../../utils/DeleteApi"
 import { PutApi } from "../../utils/PutApi"
 import { PostApi } from "../../utils/PostApi"
+import { AlertMessage } from "../../utils/constant"
 import {
   useQuery,
   useMutation,
@@ -80,36 +82,19 @@ const EmployeesPage = () => {
     mutationFn: DeleteApi,
     onSuccess: (data, variable, context) => {
       if (data) {
-        setMessage(data?.message)
-        setShow(true)
         if (data?.status == "success" && data?.statusCode == 200) {
-          // refetch()
-          console.log("success delete")
           queryClient.invalidateQueries({ queryKey: ['employee'] });
-        } else {
-          // dispatch(updateState(oldItemsData))
+          setTimeout(() => {
+            toast.success(data.message, { AlertMessage });
+          }, 100);
+        } else if (data?.error.length > 0) {
+          setTimeout(() => {
+            toast.error(data?.error, { AlertMessage });
+          }, 100);
         }
       }
-      setTimeout(function () {
-        setShow(false)
-      }, 3000);
     },
   })
-
-
-
-  // const handleAddVendor = () => {
-  //   dispatch(addEmployee(selectedData));
-  //   setSelectedData({
-  //     employeeCode: "",
-  //     employeeName: "",
-  //     employeeEmail: "",
-  //     employeeMobile: "",
-  //     employeeAddr: "",
-  //     employeeVerify: "",
-  //   });
-  //   setHandleUpdateAdd(true)
-  // };
 
   const handleEditTable = (event) => {
     const newErrors = { ...errors };
@@ -127,9 +112,6 @@ const EmployeesPage = () => {
     newData.employeeCode = true
     setDisable(newData)
     setSelectedData(event)
-    // setHandleUpdateAdd(false)
-    // console.log(event)
-    // setSelectedData(event)
   }
   const payloadDataPost = {
     url: "/v1/employee",
@@ -190,11 +172,9 @@ const EmployeesPage = () => {
         });
       }
     } else {
-      setShow(true)
-      setMessage("please fill requied field")
-      setTimeout(function () {
-        setShow(false)
-      }, 3000);
+      setTimeout(() => {
+        toast.error('Please Fill Requied Field', { AlertMessage });
+      }, 100);
     }
   };
 
@@ -202,12 +182,8 @@ const EmployeesPage = () => {
   const mutationPost = useMutation({
     mutationFn: PostApi,
     onSuccess: (data, variable, context) => {
-      // console.log(data, "array data")
       if (data) {
-        setMessage(data.message)
-        setShow(true)
         if (data.status == "success" && data.statusCode == 200) {
-          // refetch()
           queryClient.invalidateQueries({ queryKey: ['employee'] });
           setSelectedData({
             employeeCode: "",
@@ -217,25 +193,26 @@ const EmployeesPage = () => {
             employeeAddr: "",
             employeeVerify: "",
           })
-        } else {
-          // setMessage(data.error)
-          // setShow(true)
-          // dispatch(updateState(oldItemsData))
+          setTimeout(() => {
+            toast.success(data.message, { AlertMessage });
+          }, 100);
+        } else if (data?.error.length > 0) {
+          setTimeout(() => {
+            toast.error(data?.error, { AlertMessage });
+          }, 100);
+        } else if (data?.message) {
+          setTimeout(() => {
+            toast.error(data?.message, { AlertMessage });
+          }, 100);
         }
-        setTimeout(function () {
-          setShow(false)
-        }, 3000);
       }
     },
   })
-
   // update mutation 
   const mutationUpdate = useMutation({
     mutationFn: PutApi,
     onSuccess: (data, variable, context) => {
       if (data) {
-        setShow(true)
-        setMessage(data.message)
         if (data.status == "success" && data.statusCode == 200) {
           queryClient.invalidateQueries({ queryKey: ['employee'] });
           setSelectedData({
@@ -246,29 +223,37 @@ const EmployeesPage = () => {
             employeeAddr: "",
             employeeVerify: "",
           })
+          setTimeout(() => {
+            toast.success(data.message, { AlertMessage });
+          }, 100);
+        } else if (data?.error.length > 0) {
+          setTimeout(() => {
+            toast.error(data?.error, { AlertMessage });
+          }, 100);
+        } else if (data.message) {
+          setTimeout(() => {
+            toast.error(data?.message, { AlertMessage });
+          }, 100);
         }
-      } else {
-        setShow(data.error)
-        setMessage(data.message)
       }
-      setTimeout(function () {
-        setShow(false)
-      }, 3000);
     },
   })
-  console.log(employee?.body, "employee?.body")
   return (
     <Layout
       currentActiveMenu={currentActiveMenu}
       setCurrentActiveMenu={setCurrentActiveMenu}
     >
-      <div className="alert-position" >
-        {show && (
-          <Alert variant="danger">
-            <p>{message}</p>
-          </Alert>
-        )}
-      </div>
+      <ToastContainer position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored" />
+
       <Row className="mt-1">
         <Col className="col-lg-8 col-24">
           <div style={{ borderWidth: 1 }}>
@@ -296,3 +281,4 @@ const EmployeesPage = () => {
 };
 
 export default EmployeesPage;
+

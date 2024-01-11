@@ -9,6 +9,7 @@ import { GetApi } from "../../utils/GetApi";
 import { DeleteApi } from "../../utils/DeleteApi";
 import { PutApi } from "../../utils/PutApi";
 import { useSelector, useDispatch } from "react-redux";
+import { AlertMessage } from "../../utils/constant"
 import {
   addVendor,
   deleteVendor,
@@ -120,16 +121,7 @@ const VendorsPage = () => {
       }
     } else {
       setTimeout(() => {
-        toast.error('Please Fill Requied Field', {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.error('Please Fill Requied Field', { AlertMessage });
       }, 100);
     }
   };
@@ -140,16 +132,7 @@ const VendorsPage = () => {
       if (data) {
         if (data.status == "success" && data.statusCode == 200) {
           setTimeout(() => {
-            toast.success(data.message, {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "colored",
-            });
+            toast.success(data.message, { AlertMessage });
           }, 100);
           queryClient.invalidateQueries({ queryKey: ['vendor'] });
           setSelectedData({
@@ -161,16 +144,7 @@ const VendorsPage = () => {
           })
         } else if (data?.error.length > 0) {
           setTimeout(() => {
-            toast.error(data?.error, {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "colored",
-            });
+            toast.error(data?.error, { AlertMessage });
           }, 100);
         }
       }
@@ -194,29 +168,11 @@ const VendorsPage = () => {
         if (data?.status == "success" && data?.statusCode == 200) {
           queryClient.invalidateQueries({ queryKey: ['vendor'] });
           setTimeout(() => {
-            toast.success(data.message, {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "colored",
-            });
+            toast.success(data.message, { AlertMessage });
           }, 100);
         } else if (data?.error) {
           setTimeout(() => {
-            toast.error(data?.error, {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "colored",
-            });
+            toast.error(data?.error, { AlertMessage });
           }, 100);
           // dispatch(updateState(oldItemsData))
         }
@@ -251,16 +207,7 @@ const VendorsPage = () => {
       if (data) {
         if (data.status == "success" && data.statusCode == 200) {
           setTimeout(() => {
-            toast.success(data.message, {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "colored",
-            });
+            toast.success(data.message, { AlertMessage });
           }, 100);
           queryClient.invalidateQueries({ queryKey: ['vendor'] });
           setSelectedData({
@@ -272,16 +219,7 @@ const VendorsPage = () => {
           })
         } else if (data?.error.length > 0) {
           setTimeout(() => {
-            toast.error(data?.error, {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "colored",
-            });
+            toast.error(data?.error, { AlertMessage });
           }, 100);
         }
       }

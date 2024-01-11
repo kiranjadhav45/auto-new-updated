@@ -4,6 +4,7 @@ import TopNavBar from "../../components/common/TopNavbar";
 import BottomNavBar from "../../components/common/BottomNavbar";
 import { PostApi } from "../../utils/PostApi";
 import Layout from "../../components/common/Layout";
+import { ToastContainer, toast } from 'react-toastify';
 import { Col, Row, Button } from "react-bootstrap";
 import ItemsMaster from "../../components/masters/items";
 import TaxMaster from "../../components/masters/tax";
@@ -24,6 +25,7 @@ import {
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query'
+import { AlertMessage } from "../../utils/constant"
 const Items = () => {
   const dispatch = useDispatch()
   const queryClient = useQueryClient()
@@ -35,7 +37,6 @@ const Items = () => {
     subMenu: [{}],
     title: "Index",
   });
-
   const [disable, setDisable] = useState({
     itemCode: "",
     itemName: "",
@@ -55,8 +56,6 @@ const Items = () => {
     salesHistory: "",
     customNotes: ""
   });
-  const [show, setShow] = useState(false);
-  const [message, setMessage] = useState("");
   const [errors, setErrors] = useState({
     itemCode: "",
     itemName: "",
@@ -133,7 +132,6 @@ const Items = () => {
     });
     setErrors(newErrors);
 
-
     setHandleUpdateAdd(false)
     setSelectedData(event)
 
@@ -170,7 +168,6 @@ const Items = () => {
     setErrors(newErrors);
     const anyErrorIsTrue = Object.values(newErrors).some(value => value === true);
     if (!anyErrorIsTrue) {
-      console.log("clecked")
       if (selectedData._id && !handleUpdateAdd) {
         // update vendor
         mutationUpdate.mutate(payloadDataUpdate)
@@ -221,11 +218,9 @@ const Items = () => {
         });
       }
     } else {
-      setShow(true)
-      setMessage("please fill requied field")
-      setTimeout(function () {
-        setShow(false)
-      }, 3000);
+      setTimeout(() => {
+        toast.error("please fill requied field", { AlertMessage });
+      }, 100);
     }
   };
 
@@ -234,12 +229,18 @@ const Items = () => {
   const mutationPost = useMutation({
     mutationFn: PostApi,
     onSuccess: (data, variable, context) => {
-      console.log(data, "array data")
       if (data) {
-        setMessage(data.message)
-        setShow(true)
+        if (data.status == "success") {
+          setTimeout(() => {
+            toast.success(data.message, { AlertMessage });
+          }, 100);
+        }
+        if (data.status == "error") {
+          setTimeout(() => {
+            toast.error(data.message, { AlertMessage });
+          }, 100);
+        }
         if (data.status == "success" && data.statusCode == 200) {
-          // refetch()
           queryClient.invalidateQueries({ queryKey: ['items'] });
           setSelectedData({
             itemCode: "",
@@ -260,26 +261,31 @@ const Items = () => {
             salesHistory: "",
             customNotes: ""
           })
-        } else {
-          // setMessage(data.error)
-          // setShow(true)
-          // dispatch(updateState(oldItemsData))
         }
-        setTimeout(function () {
-          setShow(false)
-        }, 3000);
+        if (data?.error.length > 0) {
+          setTimeout(() => {
+            toast.error(data?.error, { AlertMessage });
+          }, 100);
+        }
       }
     },
   })
-
 
   // update mutation 
   const mutationUpdate = useMutation({
     mutationFn: PutApi,
     onSuccess: (data, variable, context) => {
       if (data) {
-        setShow(true)
-        setMessage(data.message)
+        if (data.status == "success") {
+          setTimeout(() => {
+            toast.success(data.message, { AlertMessage });
+          }, 100);
+        }
+        if (data.status == "error") {
+          setTimeout(() => {
+            toast.error(data.message, { AlertMessage });
+          }, 100);
+        }
         if (data.status == "success" && data.statusCode == 200) {
           let newData = { ...disable }
           newData.itemCode = false
@@ -305,13 +311,12 @@ const Items = () => {
             customNotes: ""
           })
         }
-      } else {
-        setShow(data.error)
-        setMessage(data.message)
+        if (data?.error.length > 0) {
+          setTimeout(() => {
+            toast.error(data?.error, { AlertMessage });
+          }, 100);
+        }
       }
-      setTimeout(function () {
-        setShow(false)
-      }, 3000);
     },
   })
 
@@ -329,19 +334,25 @@ const Items = () => {
     mutationFn: DeleteApi,
     onSuccess: (data, variable, context) => {
       if (data) {
-        setMessage(data?.message)
-        setShow(true)
+        if (data.status == "success") {
+          setTimeout(() => {
+            toast.success(data.message, { AlertMessage });
+          }, 100);
+        }
+        if (data.status == "error") {
+          setTimeout(() => {
+            toast.error(data.message, { AlertMessage });
+          }, 100);
+        }
         if (data?.status == "success" && data?.statusCode == 200) {
-          // refetch()
-          console.log("success delete")
           queryClient.invalidateQueries({ queryKey: ['items'] });
-        } else {
-          // dispatch(updateState(oldItemsData))
+        }
+        if (data?.error.length > 0) {
+          setTimeout(() => {
+            toast.error(data?.error, { AlertMessage });
+          }, 100);
         }
       }
-      setTimeout(function () {
-        setShow(false)
-      }, 3000);
     },
   })
 
@@ -350,13 +361,16 @@ const Items = () => {
       currentActiveMenu={currentActiveMenu}
       setCurrentActiveMenu={setCurrentActiveMenu}
     >
-      <div className="alert-position" >
-        {show && (
-          <Alert variant="danger">
-            <p>{message}</p>
-          </Alert>
-        )}
-      </div>
+      <ToastContainer position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored" />
       <Row className="mt-1">
         <Col className="col-lg-8 col-24">
           <div style={{ borderWidth: 1 }}>
