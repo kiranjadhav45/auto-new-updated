@@ -84,7 +84,7 @@ const BusinessRegisterComponent = ({ onSubmit, formData, setFormData, mutation, 
         >
           <option value="">Select</option>
           <option value="resto">Restaurant</option>
-          <option value="hotel">Hotel</option>
+          <option value="shop">Shop</option>
         </Form.Control>
       </FloatingLabel>
 
