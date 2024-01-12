@@ -4,6 +4,8 @@ import { Row, Col } from "react-bootstrap"
 import { Form, Button, FloatingLabel } from "react-bootstrap";
 import { validateEmail, validateMobileNumber, validateText } from "../../utils/validationUtils"
 import { IoIosArrowBack } from "react-icons/io";
+import { ToastContainer, toast } from 'react-toastify';
+import { AlertMessage } from "../../utils/constant"
 const BusinessRegisterComponent = ({ onSubmit, formData, setFormData, mutation, setStep }) => {
   const [isValidBusinessName, setIsValidBusinessName] = useState(true)
   const [isValidBusinessMobile, setIsValidBusinessMobile] = useState(true)
@@ -15,8 +17,6 @@ const BusinessRegisterComponent = ({ onSubmit, formData, setFormData, mutation, 
   const handleSubmit = (e) => {
     const { businessName, businessMobile, businessEmail, businessAddress, businessType } = formData
     e.preventDefault();
-
-
     // You can add validation logic here
     if (isValidBusinessName && isValidBusinessMobile && isValidBusinessEmail && isValidBusinessAddress && isValidBusinessType) {
       if (businessName.length > 0 && businessMobile.length > 0 && businessEmail.length > 0 && businessAddress.length > 0 && businessType.length > 0) {
@@ -39,6 +39,11 @@ const BusinessRegisterComponent = ({ onSubmit, formData, setFormData, mutation, 
           setIsValidBusinessType(false)
         }
       }
+    }
+    if (isValidBusinessName == false || isValidBusinessMobile == false || isValidBusinessEmail == false || isValidBusinessAddress == false || isValidBusinessType == false) {
+      setTimeout(() => {
+        toast.error("please fill required field", { AlertMessage });
+      }, 100);
     }
     // You can add validation logic here
 
@@ -69,87 +74,99 @@ const BusinessRegisterComponent = ({ onSubmit, formData, setFormData, mutation, 
     }
   }
   return (
-    <Form className="text-center">
-      <img
-        src="https://via.placeholder.com/150"
-        alt="Profile Pic"
-        className="img-fluid rounded-circle mb-5"
-      />
-      <FloatingLabel controlId="formBusinessType" className={`mb-3 ${isValidBusinessType ? '' : 'has-error'}`} label="Choose Business Type">
-        <Form.Control
-          as="select"
-          onChange={handleInputChange}
-          name="businessType"
-          value={formData.businessType}
-        >
-          <option value="">Select</option>
-          <option value="resto">Restaurant</option>
-          <option value="shop">Shop</option>
-        </Form.Control>
-      </FloatingLabel>
-
-      <FloatingLabel controlId="formBusinessName" className={`mb-3 ${isValidBusinessName ? '' : 'has-error'}`} label="Business Name">
-        <Form.Control
-          type="text"
-          placeholder=" "
-          name="businessName"
-          onChange={handleInputChange}
-          value={formData.businessName}
+    <>
+      <ToastContainer position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored" />
+      <Form className="text-center">
+        <img
+          src="https://via.placeholder.com/150"
+          alt="Profile Pic"
+          className="img-fluid rounded-circle mb-5"
         />
-      </FloatingLabel>
-
-      <FloatingLabel controlId="formBusinessEmail" className={`mb-3 ${isValidBusinessEmail ? '' : 'has-error'}`} label="Business Email">
-        <Form.Control
-          type="email"
-          placeholder=" "
-          name="businessEmail"
-          value={formData.businessEmail}
-          onChange={handleInputChange}
-        />
-      </FloatingLabel>
-
-      <FloatingLabel controlId="formBusinessAddress" className={`mb-3 ${isValidBusinessAddress ? '' : 'has-error'}`} label="Business Address">
-        <Form.Control
-          type="text"
-          placeholder=""
-          name="businessAddress"
-          value={formData.businessAddress}
-          onChange={handleInputChange}
-        />
-      </FloatingLabel>
-
-      <FloatingLabel
-        controlId="formBusinessContactNumber"
-        label="Business Contact Number"
-        className={`mb-3 ${isValidBusinessMobile ? '' : 'has-error'}`}
-      >
-        <Form.Control
-          type="text"
-          placeholder=""
-          name="businessMobile"
-          onChange={handleInputChange}
-          value={formData.businessMobile}
-        />
-      </FloatingLabel>
-      <Row>
-        <Col style={{ display: "flex", alignItems: "center", justifyContent: "center" }} className="col-2">
-          <div onClick={() => setStep(1)} className="back-button">
-            <IoIosArrowBack size={22} />
-          </div>
-        </Col>
-        <Col>
-          <Button
-            variant="info"
-            type="submit"
-            className="mt-3 w-100"
-            onClick={handleSubmit}
-            disabled={mutation.isPending == true}
+        <FloatingLabel controlId="formBusinessType" className={`mb-3 ${isValidBusinessType ? '' : 'has-error'}`} label="Choose Business Type">
+          <Form.Control
+            as="select"
+            onChange={handleInputChange}
+            name="businessType"
+            value={formData.businessType}
           >
-            {mutation.isPending == true ? "Loading" : "Create My Account"}
-          </Button>
-        </Col>
-      </Row>
-    </Form>
+            <option value="">Select</option>
+            <option value="resto">Restaurant</option>
+            <option value="shop">Shop</option>
+          </Form.Control>
+        </FloatingLabel>
+
+        <FloatingLabel controlId="formBusinessName" className={`mb-3 ${isValidBusinessName ? '' : 'has-error'}`} label="Business Name">
+          <Form.Control
+            type="text"
+            placeholder=" "
+            name="businessName"
+            onChange={handleInputChange}
+            value={formData.businessName}
+          />
+        </FloatingLabel>
+
+        <FloatingLabel controlId="formBusinessEmail" className={`mb-3 ${isValidBusinessEmail ? '' : 'has-error'}`} label="Business Email">
+          <Form.Control
+            type="email"
+            placeholder=" "
+            name="businessEmail"
+            value={formData.businessEmail}
+            onChange={handleInputChange}
+          />
+        </FloatingLabel>
+
+        <FloatingLabel controlId="formBusinessAddress" className={`mb-3 ${isValidBusinessAddress ? '' : 'has-error'}`} label="Business Address">
+          <Form.Control
+            type="text"
+            placeholder=""
+            name="businessAddress"
+            value={formData.businessAddress}
+            onChange={handleInputChange}
+          />
+        </FloatingLabel>
+
+        <FloatingLabel
+          controlId="formBusinessContactNumber"
+          label="Business Contact Number"
+          className={`mb-3 ${isValidBusinessMobile ? '' : 'has-error'}`}
+        >
+          <Form.Control
+            type="text"
+            placeholder=""
+            name="businessMobile"
+            onChange={handleInputChange}
+            value={formData.businessMobile}
+          />
+        </FloatingLabel>
+        <Row>
+          <Col style={{ display: "flex", alignItems: "center", justifyContent: "center" }} className="col-2">
+            <div onClick={() => setStep(1)} className="back-button">
+              <IoIosArrowBack size={22} />
+            </div>
+          </Col>
+          <Col>
+            <Button
+              variant="info"
+              type="submit"
+              className="mt-3 w-100"
+              onClick={handleSubmit}
+              disabled={mutation.isPending == true}
+            >
+              {mutation.isPending == true ? "Loading" : "Create My Account"}
+            </Button>
+          </Col>
+        </Row>
+      </Form>
+    </>
   );
 };
 

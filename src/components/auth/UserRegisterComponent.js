@@ -5,6 +5,8 @@ import { validateEmail, validatePassword, validateMobileNumber, validateConfirmP
 import { click } from "@testing-library/user-event/dist/click";
 import EyeCloseIcon from "../../icons/EyeCloseIcon";
 import EyeOpenIcon from "../../icons/EyeOpenIcon";
+import { ToastContainer, toast } from 'react-toastify';
+import { AlertMessage } from "../../utils/constant"
 const UserRegisterComponent = ({ onNext, formData, setFormData }) => {
   const [showPassword, setShowPassword] = useState(false)
   const [showPassword2, setShowPassword2] = useState(false)
@@ -13,6 +15,7 @@ const UserRegisterComponent = ({ onNext, formData, setFormData }) => {
   const [isValidEmail, setIsValidEmail] = useState(true)
   const [isValidPassword, setIsValidPassword] = useState(true)
   const [isValidConfirmPassword, setIsValidConfirmPassword] = useState(true)
+
   const handleInput = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -64,86 +67,104 @@ const UserRegisterComponent = ({ onNext, formData, setFormData }) => {
         }
       }
     }
+    if (isValidName == false || isValidMobile == false || isValidEmail == false || isValidPassword == false || isValidConfirmPassword == false) {
+      setTimeout(() => {
+        toast.error("please fill required field", { AlertMessage });
+      }, 100);
+    }
   };
   return (
-    <Form className="text-center">
-      <img
-        src="https://via.placeholder.com/150"
-        alt="Profile Pic"
-        className="img-fluid rounded-circle mb-5"
-      />
-      <FloatingLabel className={`mb-3 ${isValidName ? '' : 'has-error'}`} controlId="formName" label="Name">
-        <Form.Control
-          type="text"
-          // className="mb-3"
-          placeholder=" "
-          name="name"
-          onChange={handleInput}
-          value={formData.name}
-        // onChange={(e) => setName(e.target.value)}
-        />
-      </FloatingLabel>
+    <>
+      <ToastContainer position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored" />
 
-      <FloatingLabel controlId="formMobile" className={`mb-3 ${isValidMobile ? '' : 'has-error'}`} label="Mobile">
-        <Form.Control
-          type="text"
-          // className="mb-3"
-          placeholder=" "
-          name="mobile"
-          onChange={handleInput}
-          value={formData.mobile}
-        // onChange={(e) => setMobile(e.target.value)}
+      <Form className="text-center">
+        <img
+          src="https://via.placeholder.com/150"
+          alt="Profile Pic"
+          className="img-fluid rounded-circle mb-5"
         />
-      </FloatingLabel>
+        <FloatingLabel className={`mb-3 ${isValidName ? '' : 'has-error'}`} controlId="formName" label="Name">
+          <Form.Control
+            type="text"
+            // className="mb-3"
+            placeholder=" "
+            name="name"
+            onChange={handleInput}
+            value={formData.name}
+          // onChange={(e) => setName(e.target.value)}
+          />
+        </FloatingLabel>
 
-      <FloatingLabel className={`mb-3 ${isValidEmail ? '' : 'has-error'}`} controlId="formEmail" label="Email">
-        <Form.Control
-          type="email"
-          // className="mb-3"
-          placeholder=" "
-          name="email"
-          onChange={handleInput}
-          value={formData.email}
-        // onChange={(e) => setEmail(e.target.value)}
-        />
-      </FloatingLabel>
+        <FloatingLabel controlId="formMobile" className={`mb-3 ${isValidMobile ? '' : 'has-error'}`} label="Mobile">
+          <Form.Control
+            type="text"
+            // className="mb-3"
+            placeholder=" "
+            name="mobile"
+            onChange={handleInput}
+            value={formData.mobile}
+          // onChange={(e) => setMobile(e.target.value)}
+          />
+        </FloatingLabel>
 
-      <FloatingLabel className={`mb-3 ${isValidPassword ? '' : 'has-error'}`} controlId="formPassword" label="Password">
-        <Form.Control
-          type={showPassword == true ? "text" : "password"}
-          placeholder=" "
-          name="password"
-          onChange={handleInput}
-          value={formData.password}
-        />
-        <div onClick={() => setShowPassword((prev) => !prev)} className="eyeButton">
-          {showPassword == true ? < EyeOpenIcon width={22} height={22} /> : <EyeCloseIcon width={22} height={22} />}
-        </div>
-      </FloatingLabel>
+        <FloatingLabel className={`mb-3 ${isValidEmail ? '' : 'has-error'}`} controlId="formEmail" label="Email">
+          <Form.Control
+            type="email"
+            // className="mb-3"
+            placeholder=" "
+            name="email"
+            onChange={handleInput}
+            value={formData.email}
+          // onChange={(e) => setEmail(e.target.value)}
+          />
+        </FloatingLabel>
 
-      <FloatingLabel controlId="formConfirmPassword" className={`mb-3 ${isValidConfirmPassword ? '' : 'has-error'}`} label="Confirm Password">
-        <Form.Control
-          type={showPassword2 == true ? "text" : "password"}
-          placeholder=" "
-          // className="mb-3"
-          name="confirmPassword"
-          onChange={handleInput}
-          value={formData.confirmPassword}
-        // onChange={(e) => setConfirmPassword(e.target.value)}
-        />
-        <div onClick={() => setShowPassword2((prev) => !prev)} className="eyeButton">
-          {showPassword2 == true ? < EyeOpenIcon width={22} height={22} /> : <EyeCloseIcon width={22} height={22} />}
-        </div>
-      </FloatingLabel>
-      <Button
-        variant="info"
-        type="submit"
-        className="mt-3 w-100"
-        onClick={handleNext}
-      >
-        Create Account
-      </Button>
-    </Form>
+        <FloatingLabel className={`mb-3 ${isValidPassword ? '' : 'has-error'}`} controlId="formPassword" label="Password">
+          <Form.Control
+            type={showPassword == true ? "text" : "password"}
+            placeholder=" "
+            name="password"
+            onChange={handleInput}
+            value={formData.password}
+          />
+          <div onClick={() => setShowPassword((prev) => !prev)} className="eyeButton">
+            {showPassword == true ? < EyeOpenIcon width={22} height={22} /> : <EyeCloseIcon width={22} height={22} />}
+          </div>
+        </FloatingLabel>
+
+        <FloatingLabel controlId="formConfirmPassword" className={`mb-3 ${isValidConfirmPassword ? '' : 'has-error'}`} label="Confirm Password">
+          <Form.Control
+            type={showPassword2 == true ? "text" : "password"}
+            placeholder=" "
+            // className="mb-3"
+            name="confirmPassword"
+            onChange={handleInput}
+            value={formData.confirmPassword}
+          // onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          <div onClick={() => setShowPassword2((prev) => !prev)} className="eyeButton">
+            {showPassword2 == true ? < EyeOpenIcon width={22} height={22} /> : <EyeCloseIcon width={22} height={22} />}
+          </div>
+        </FloatingLabel>
+        <Button
+          variant="info"
+          type="submit"
+          className="mt-3 w-100"
+          onClick={handleNext}
+        >
+          Create Account
+        </Button>
+      </Form>
+    </>
   );
 };
 

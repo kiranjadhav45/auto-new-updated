@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PostApi } from "../../utils/PostApi";
 import { jwtDecode } from "jwt-decode";
+import { ToastContainer, toast } from 'react-toastify';
 // import { useNavigate } from 'react-router-dom';
 import EyeCloseIcon from "../../icons/EyeCloseIcon";
 import EyeOpenIcon from "../../icons/EyeOpenIcon";
@@ -12,6 +13,7 @@ import axios from 'axios';
 import { validateEmail, validatePassword } from "../../utils/validationUtils"
 import { useSelector, useDispatch } from 'react-redux'
 import { updateBusiness } from '../../features/business/businessSlice'
+import { AlertMessage } from "../../utils/constant"
 import {
   useQuery,
   useMutation,
@@ -20,9 +22,6 @@ import {
 // import { relative } from "path";
 
 const LoginComponent = () => {
-  // const navigate = useNavigate();
-  const [show, setShow] = useState(false);
-  const [message, setMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false)
   const [errors, setErrors] = useState({
     email: "",
@@ -55,23 +54,29 @@ const LoginComponent = () => {
     if (!anyErrorIsTrue) {
       mutation.mutate(paylosdasd)
     } else {
-      setMessage("please enter email and password")
-      setShow(true)
-      setTimeout(function () {
-        setShow(false)
-      }, 3000);
+      setTimeout(() => {
+        toast.error("please enter email and password", { AlertMessage });
+      }, 100);
     }
   };
   const mutation = useMutation({
     mutationFn: PostApi,
     onSuccess: (data, variable, context) => {
       if (data) {
-        setMessage(data?.message)
-        setShow(true)
+        if (data.status == "success") {
+          setTimeout(() => {
+            toast.success(data?.message, { AlertMessage });
+          }, 100);
+        }
+        if (data.status == "error") {
+          setTimeout(() => {
+            toast.error(data?.message, { AlertMessage });
+          }, 100);
+        }
         if (data?.status == "success" && data?.statusCode == 200) {
           if (data?.access_token) {
             localStorage.setItem("token", data.access_token)
-            if (data.body && data.body.bundle) {
+            if (data?.body && data?.body?.bundle) {
               try {
                 const bundleFromData = data.body.bundle;
                 // Storing the bundle directly in localStorage
@@ -97,15 +102,9 @@ const LoginComponent = () => {
             navigate("/vendors")
           }
         }
-        setTimeout(function () {
-          setShow(false)
-        }, 3000);
       } else {
         return null
       }
-      setTimeout(function () {
-        setShow(false)
-      }, 3000);
     },
   })
 
@@ -115,13 +114,6 @@ const LoginComponent = () => {
       ...prevData,
       [name]: value,
     }));
-    // if (name == "email") {
-    //   setIsValidEmail(validateEmail(value));
-    // }
-    // if (name == "password") {
-    //   setIsValidPassword(validatePassword(value));
-    // }
-    // const { name, value, type } = e.target;
     let isValid = true;
     switch (type) {
       case "email":
@@ -140,18 +132,16 @@ const LoginComponent = () => {
   };
   return (
     <>
-      <div className="alert-position" >
-        {/* {show && (
-          <Alert variant="danger" onClose={() => setShow(false)}>
-            <p>{mutation.data && mutation.data.message}</p>
-          </Alert>
-        )} */}
-        {show && (
-          <Alert variant="danger">
-            <p>{message}</p>
-          </Alert>
-        )}
-      </div>
+      <ToastContainer position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored" />
       <Form className="text-center">
         <img
           src="https://via.placeholder.com/150"

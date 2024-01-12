@@ -7,9 +7,10 @@ import UserRegisterComponent from "../../components/auth/UserRegisterComponent";
 import BusinessRegisterComponent from "./BusinessRegisterComponent";
 import { Row, Col, Container } from "react-bootstrap";
 import { useQuery, useMutation, useQueryClient, } from '@tanstack/react-query'
+import { AlertMessage } from "../../utils/constant"
+import { ToastContainer, toast } from 'react-toastify';
 const RegisterPage = () => {
   const [step, setStep] = useState(1);
-  const [show, setShow] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     mobile: "",
@@ -42,16 +43,21 @@ const RegisterPage = () => {
   const mutation = useMutation({
     mutationFn: PostApi,
     onSuccess: (data, variable, context) => {
-      // console.log(data, "data")
       if (data) {
-        setShow(true)
+        if (data.status == "success") {
+          setTimeout(() => {
+            toast.success(data?.message, { AlertMessage });
+          }, 100);
+        }
+        if (data.status == "error") {
+          setTimeout(() => {
+            toast.error(data?.message, { AlertMessage });
+          }, 100);
+        }
         if (data.status == "success" && data.statusCode == "200") {
           navigate("/")
         }
       }
-      setTimeout(function () {
-        setShow(false)
-      }, 3000);
     },
   })
 
@@ -61,27 +67,20 @@ const RegisterPage = () => {
 
   const handleBusinessSubmit = (e) => {
     e.preventDefault();
-    // if (!formData.email.length > 0 && !formData.email.length > 0) {
-    //   setIsValidPassword(false)
-    //   setIsValidEmail(false)
-    // } else {
-    //   if (isValidEmail == true && isValidPassword == true) {
-    //   }
-    // }
     mutation.mutate(paylosdasd)
-    // Implement logic to submit business registration data
-
-    // alert("Business Registration Submitted!");
   };
   return (
     <Container fluid>
-      <div className="alert-position" >
-        {show && (
-          <Alert variant="danger" onClose={() => setShow(false)}>
-            <p style={{ textAlign: "center" }}>{mutation.data && mutation.data.message}</p>
-          </Alert>
-        )}
-      </div>
+      <ToastContainer position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored" />
       <Row>
         <Col className="col-16">
           <h2>Login image...</h2>

@@ -33,8 +33,8 @@ const EditItems = ({ items, selectedData, setSelectedData, errors, setErrors, di
   const handleInputChange = (e, validationType) => {
     const { name, value, type, required, className } = e.target;
     let isValid = true;
-    console.log(e, "validationType")
-    console.log(validationType, "validationType")
+    // console.log(e, "validationType")
+    // console.log(validationType, "validationType")
     // Additional validation for required fields
     if (required == true && validationType) {
       isValid = false;
@@ -119,7 +119,7 @@ const EditItems = ({ items, selectedData, setSelectedData, errors, setErrors, di
         )} */}
         {items.map((field, index) =>
           field.isActive ? (
-            field.type === "text" || field.type === "email" || field.type === "mobile" ? (
+            field.type === "text" || field.type === "email" || field.type === "mobile" || field.type === "number" ? (
               <Col xs={items?.length % 2 === 0 ? 12 : 12} key={index}>
                 <FloatingLabel
                   controlId="floatingInput"

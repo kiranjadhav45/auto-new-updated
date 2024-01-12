@@ -42,7 +42,7 @@ const EmployeesPage = () => {
   const employeesCategory = businessData?.categories?.find(category => category?.name === "Employees");
   const employeeSubmenu = employeesCategory?.subcategories?.find(sub => sub?.name === "employeea");
   const submenuArray = employeeSubmenu?.subMenu;
-  console.log(submenuArray, "submenuArray employeea");
+  // console.log(submenuArray, "submenuArray employeea");
 
   const [handleUpdateAdd, setHandleUpdateAdd] = useState(true)
   const [selectedData, setSelectedData] = useState({
@@ -104,7 +104,7 @@ const EmployeesPage = () => {
     setErrors(newErrors);
 
 
-    console.log(event, "handleUpdateAdd")
+    // console.log(event, "handleUpdateAdd")
     setHandleUpdateAdd(false)
     setSelectedData(event)
 
@@ -134,7 +134,7 @@ const EmployeesPage = () => {
     // Iterate through submenuArray for required fields
     submenuArray.forEach((submenuItem) => {
       if (!submenuItem.required) {
-        console.log("clicked")
+        // console.log("clicked")
         newErrors[submenuItem.name] = false;
       }
     });
@@ -142,9 +142,9 @@ const EmployeesPage = () => {
     setErrors(newErrors);
     const anyErrorIsTrue = Object.values(newErrors).some(value => value === true);
     if (!anyErrorIsTrue) {
-      console.log(handleUpdateAdd)
+      // console.log(handleUpdateAdd)
       if (selectedData?._id && !handleUpdateAdd) {
-        console.log("clecked")
+        // console.log("clecked")
         // update vendor
         mutationUpdate.mutate(payloadDataUpdate)
         let newData = { ...disable }
@@ -183,6 +183,17 @@ const EmployeesPage = () => {
     mutationFn: PostApi,
     onSuccess: (data, variable, context) => {
       if (data) {
+        console.log(data, "data")
+        if (data?.response?.status != 200 || data.status == "error") {
+          setTimeout(() => {
+            toast.error(data?.response?.data?.message || data.message, { AlertMessage });
+          }, 100);
+        }
+        if (data?.status == "success") {
+          setTimeout(() => {
+            toast.success(data.message, { AlertMessage });
+          }, 100);
+        }
         if (data.status == "success" && data.statusCode == 200) {
           queryClient.invalidateQueries({ queryKey: ['employee'] });
           setSelectedData({
@@ -193,16 +204,9 @@ const EmployeesPage = () => {
             employeeAddr: "",
             employeeVerify: "",
           })
-          setTimeout(() => {
-            toast.success(data.message, { AlertMessage });
-          }, 100);
         } else if (data?.error.length > 0) {
           setTimeout(() => {
             toast.error(data?.error, { AlertMessage });
-          }, 100);
-        } else if (data?.message) {
-          setTimeout(() => {
-            toast.error(data?.message, { AlertMessage });
           }, 100);
         }
       }
@@ -213,6 +217,16 @@ const EmployeesPage = () => {
     mutationFn: PutApi,
     onSuccess: (data, variable, context) => {
       if (data) {
+        if (data?.response?.status !== 200) {
+          setTimeout(() => {
+            toast.error(data?.response?.data?.message, { AlertMessage });
+          }, 100);
+        }
+        if (data?.status == "success") {
+          setTimeout(() => {
+            toast.success(data.message, { AlertMessage });
+          }, 100);
+        }
         if (data.status == "success" && data.statusCode == 200) {
           queryClient.invalidateQueries({ queryKey: ['employee'] });
           setSelectedData({
@@ -223,16 +237,9 @@ const EmployeesPage = () => {
             employeeAddr: "",
             employeeVerify: "",
           })
-          setTimeout(() => {
-            toast.success(data.message, { AlertMessage });
-          }, 100);
         } else if (data?.error.length > 0) {
           setTimeout(() => {
             toast.error(data?.error, { AlertMessage });
-          }, 100);
-        } else if (data.message) {
-          setTimeout(() => {
-            toast.error(data?.message, { AlertMessage });
           }, 100);
         }
       }
@@ -253,7 +260,6 @@ const EmployeesPage = () => {
         draggable
         pauseOnHover
         theme="colored" />
-
       <Row className="mt-1">
         <Col className="col-lg-8 col-24">
           <div style={{ borderWidth: 1 }}>

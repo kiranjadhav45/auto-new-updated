@@ -310,7 +310,7 @@
               "required":true,
               "type": "text",
               "validationType": "text",
-              "placeholder": "Enter Food Code..."
+              "placeholder": "Enter Food Code"
             },
             {
               "name": "itemName",
@@ -344,7 +344,7 @@
               "title": "Food Price",
               "isActive": true,
               "required":true,
-              "type": "text",
+              "type": "number",
               "validationType": "number",
               "placeholder": "Enter Food Price"
             },
@@ -394,7 +394,7 @@
               "name": "tax",
               "title": "Taxable",
               "isActive": true,
-              "type": "text",
+              "type": "number",
               "validationType": "number",
               "placeholder": "Enter Tax"
             },
@@ -402,7 +402,7 @@
               "name": "discount",
               "title": "Discount",
               "isActive": true,
-              "type": "text",
+              "type": "number",
               "validationType": "number",
               "placeholder": "Enter Discount"
             },
@@ -419,7 +419,7 @@
               "name": "currentStock",
               "title": "Current Stock",
               "isActive": true,
-              "type": "text",
+              "type": "number",
               "validationType": "number",
               "placeholder": "Items in stock"
             },
@@ -427,7 +427,7 @@
               "name": "barcode",
               "title": "Bar Code",
               "isActive": true,
-              "type": "text",
+              "type": "number",
               "validationType": "number",
               "placeholder": "Enter Barcode"
             },
@@ -476,6 +476,7 @@
               "name": "tableName",
               "title": "Table Name",
               "isActive": true,
+              "required":true,
               "type": "text",
               "validationType": "text",
               "placeholder": "Enter Table Name"
@@ -558,6 +559,7 @@
               "isActive": true,
               "required":true,
               "type": "text",
+              "validationType": "mobile",
               "values": ["Lawn", "Terrace"],
               "placeholder": "Enter Mobile no"
             },
@@ -627,7 +629,7 @@
               "title": "Vendor Mobile",
               "isActive": true,
               "type": "text",
-              "validationType": "mobile",
+              "validationType":"mobile",
               "required":true,
               "values": ["Lawn", "Terrace"],
               "placeholder": "Vendor Mobile"
