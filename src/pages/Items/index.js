@@ -83,17 +83,17 @@ const Items = () => {
     itemCategory: "",
     itemSubCategory: "",
     itemPrice: "",
-    ingredients: ["rotti", "chapati"],
+    ingredients: "",
     recipe: "",
     allergen: "",
     portionSize: "",
     status: "",
     tax: "",
     discount: "",
-    images: ["ImageURL1", "ImageURL2"],
+    images: "",
     currentStock: "",
     barcode: "",
-    salesHistory: [{ "date": "2023-01-01T12:00:00.000Z", "action": "Sale" }],
+    salesHistory: "",
     customNotes: ""
   });
 
