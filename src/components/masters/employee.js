@@ -1,6 +1,8 @@
 // const EmployeeMaster = ({ currentActiveMenu, setCurrentActiveMenu }) => {
 import React, { useState } from "react";
 import Alert from 'react-bootstrap/Alert';
+import { ToastContainer, toast } from 'react-toastify';
+import { AlertMessage } from "../../utils/constant"
 import {
   ListGroup,
   Form,
@@ -22,8 +24,6 @@ const EmployeeMaster = ({ currentActiveMenu }) => {
   const businessData = useSelector((state) => state.business.value)
   const dispatch = useDispatch()
   const [selectedSubMenu, setSelectedSubMenu] = useState(null);
-  const [show, setShow] = useState(false);
-  const [message, setMessage] = useState("");
   const employeesCategory = businessData?.categories?.find(category => category?.name === "Masters");
   const employeeSubmenu = employeesCategory?.subcategories?.find(sub => sub?.name === "employeeMaster");
   const submenuArray = employeeSubmenu?.subMenu;
@@ -41,11 +41,9 @@ const EmployeeMaster = ({ currentActiveMenu }) => {
 
   const handleSubmenuChange = (menuItem) => {
     if (menuItem?.default == true) {
-      setShow(true)
-      setMessage("can not change default menu")
-      setTimeout(function () {
-        setShow(false)
-      }, 3000);
+      setTimeout(() => {
+        toast.error("can not change default menu", { AlertMessage });
+      }, 100);
     } else {
       const newmenuItem = { ...menuItem }
       newmenuItem.isActive = !newmenuItem.isActive
@@ -63,15 +61,18 @@ const EmployeeMaster = ({ currentActiveMenu }) => {
     mutationFn: PostApi,
     onSuccess: (data, variable, context) => {
       if (data) {
-        setShow(true)
-        setMessage(data.message)
-        if (data.status == "success" && data.statusCode == 200) {
-
+        if (data.status == "success") {
+          setTimeout(() => {
+            toast.success(data.message, { AlertMessage });
+          }, 100);
         }
+        if (data.status == "error") {
+          setTimeout(() => {
+            toast.error(data.message, { AlertMessage });
+          }, 100);
+        }
+        // if (data.status == "success" && data.statusCode == 200) { }
       }
-      setTimeout(function () {
-        setShow(false)
-      }, 3000);
     },
   })
 
@@ -103,13 +104,16 @@ const EmployeeMaster = ({ currentActiveMenu }) => {
   return (
     <Container fluid>
       <h2>Employee Master</h2>
-      <div className="alert-position" >
-        {show && (
-          <Alert variant="danger">
-            <p>{message}</p>
-          </Alert>
-        )}
-      </div>
+      <ToastContainer position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored" />
       <Row>
         <Col xs={24} md={12} lg={6}>
           {currentActiveMenu?.subMenu && (

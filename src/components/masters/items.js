@@ -1,6 +1,8 @@
 // const ItemsMaster = ({ currentActiveMenu, setCurrentActiveMenu }) => {
 import React, { useState } from "react";
 import Alert from 'react-bootstrap/Alert';
+import { ToastContainer, toast } from 'react-toastify';
+import { AlertMessage } from "../../utils/constant"
 import {
   ListGroup,
   Form,
@@ -21,8 +23,6 @@ import {
 
 const ItemsMaster = ({ currentActiveMenu }) => {
   const dispatch = useDispatch()
-  const [show, setShow] = useState(false);
-  const [message, setMessage] = useState("");
   const businessData = useSelector((state) => state.business.value)
   const [newItemsData, setNewItemsData] = useState(businessData?.categories[1]?.subcategories[1].subMenu)
   // console.log(businessData.categories[1].subcategories[1].subMenu)
@@ -50,11 +50,9 @@ const ItemsMaster = ({ currentActiveMenu }) => {
 
   const handleSubmenuChange = (menuItem) => {
     if (menuItem?.default == true) {
-      setShow(true)
-      setMessage("can not change default menu")
-      setTimeout(function () {
-        setShow(false)
-      }, 3000);
+      setTimeout(() => {
+        toast.error("can not change default menu", { AlertMessage });
+      }, 100);
     } else {
       const newmenuItem = { ...menuItem }
       newmenuItem.isActive = !newmenuItem.isActive
@@ -71,15 +69,19 @@ const ItemsMaster = ({ currentActiveMenu }) => {
     mutationFn: PostApi,
     onSuccess: (data, variable, context) => {
       if (data) {
-        setShow(true)
-        setMessage(data.message)
+        if (data.status == "success") {
+          setTimeout(() => {
+            toast.success(data.message, { AlertMessage });
+          }, 100);
+        }
+        if (data.status == "error") {
+          setTimeout(() => {
+            toast.error(data.message, { AlertMessage });
+          }, 100);
+        }
         if (data.status == "success" && data.statusCode == 200) {
-
         }
       }
-      setTimeout(function () {
-        setShow(false)
-      }, 3000);
     },
   })
 
@@ -110,13 +112,16 @@ const ItemsMaster = ({ currentActiveMenu }) => {
   );
   return (
     <Container fluid>
-      <div className="alert-position" >
-        {show && (
-          <Alert variant="danger">
-            <p>{message}</p>
-          </Alert>
-        )}
-      </div>
+      <ToastContainer position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored" />
       <h2>Items</h2>
       <Row>
         <Col xs={24} md={12} lg={6}>
