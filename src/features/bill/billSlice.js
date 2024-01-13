@@ -12,8 +12,8 @@ const billSlice = createSlice({
             // Check if state.products exists and is an array
             if (Array.isArray(state.products)) {
                 // Append the new products to the existing ones
-                const updatedProducts = [...state.products, ...newProducts];
-                return { ...state, products: updatedProducts };
+                const updatedProducts = [...newProducts];
+                return { products: updatedProducts };
             } else {
                 // If state.products is not properly initialized, set it to the new products
                 return { ...state, products: newProducts };

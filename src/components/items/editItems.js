@@ -117,9 +117,9 @@ const EditItems = ({ items, selectedData, setSelectedData, errors, setErrors, di
             ""
           )
         )} */}
-        {items.map((field, index) =>
-          field.isActive ? (
-            field.type === "text" || field.type === "email" || field.type === "mobile" || field.type === "number" ? (
+        {items?.map((field, index) =>
+          field?.isActive ? (
+            field?.type === "text" || field?.type === "email" || field?.type === "mobile" || field?.type === "number" ? (
               <Col xs={items?.length % 2 === 0 ? 12 : 12} key={index}>
                 <FloatingLabel
                   controlId="floatingInput"

@@ -16,6 +16,7 @@ import TablesPage from "./pages/Tables";
 import EmployeesPage from "./pages/Employees";
 import VendorsPage from "./pages/Vendors";
 import OrdersPage from "./pages/Orders";
+import CustomerPage from "./pages/Customers";
 import LoginPage from "./pages/Auth/LoginPage";
 import RegisterPage from "./pages/Auth/RegisterPage";
 import { useSelector, useDispatch } from 'react-redux';
@@ -95,6 +96,7 @@ function App() {
         <Route path="/employees" element={<EmployeesPage />} />
         <Route path="/vendors" element={<VendorsPage />} />
         <Route path="/orders" element={<OrdersPage />} />
+        <Route path="/customer" element={<CustomerPage />} />
       </Routes>
     </BrowserRouter>
   );

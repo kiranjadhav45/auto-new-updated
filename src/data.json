@@ -645,6 +645,59 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Customers",
+      "icon": "Customers",
+      "path": "/customer",
+      "title": "Customers",
+      "isActive": true,
+      "default": true,
+      "subcategories": [
+        {
+          "name": "customer",
+          "title": "Customers",
+          "isActive": true,
+          "subMenu": [
+            {
+              "name": "customerName",
+              "title": "Customer Name",
+              "isActive": true,
+              "required":true,
+              "type": "text",
+              "validationType": "text",
+              "placeholder": "Enter Customer Name"
+            },
+            {
+              "name": "customerEmail",
+              "title": "Customer Email",
+              "isActive": true,
+              "type": "email",
+              "values": [],
+              "validationType": "email",
+              "placeholder": "Enter Customer Email"
+            },
+            {
+              "name": "customerMobile",
+              "title": "Customer Mobile",
+              "isActive": true,
+              "required":true,
+              "type": "number",
+              "validationType": "mobile",
+              "values": ["Lawn", "Terrace"],
+              "placeholder": "Enter Mobile no"
+            },
+            {
+              "name": "customerAddr",
+              "title": "Customer Address",
+              "isActive": true,
+              "type": "text",
+              "validationType": "text",
+              "placeholder": "Enter Address"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
