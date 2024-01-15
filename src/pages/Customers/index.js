@@ -101,7 +101,7 @@ const CustomersPage = () => {
         const anyErrorIsTrue = Object.values(newErrors).some(value => value === true);
         if (!anyErrorIsTrue) {
             if (selectedData._id && !handleUpdateAdd) {
-                // update vendor
+                // update customer
                 mutationUpdate.mutate(updatePayloadData)
                 setSelectedData({
                     customerName: "",
@@ -110,7 +110,7 @@ const CustomersPage = () => {
                     customerAddr: "",
                 });
             } else {
-                // add new vendor
+                // add new customer
                 mutationPost.mutate(postPayloadData)
                 setHandleUpdateAdd(true)
                 setSelectedData({
@@ -236,7 +236,7 @@ const CustomersPage = () => {
                                 disabled={mutationPost.isPending || mutationUpdate.isPending}
                                 onClick={handleAddVendor}
                                 variant="primary">
-                                {mutationPost.isPending || mutationUpdate.isPending ? "loading" : handleUpdateAdd == true ? "Add New Vendor" : "Update Vendor"}
+                                {mutationPost.isPending || mutationUpdate.isPending ? "loading" : handleUpdateAdd == true ? "Add New Customer" : "Update Customer"}
                             </Button>
                         </div>
                     </div>

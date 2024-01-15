@@ -99,6 +99,7 @@ const VendorsPage = () => {
         let newData = { ...disable }
         newData.vendorCode = false
         setDisable(newData)
+        setHandleUpdateAdd(true)
         setSelectedData({
           vendorCode: "",
           vendorName: "",
@@ -110,7 +111,6 @@ const VendorsPage = () => {
         // add new vendor
         dispatch(addVendor(selectedData));
         mutationPost.mutate(payloadData)
-        setHandleUpdateAdd(true)
         setSelectedData({
           vendorCode: "",
           vendorName: "",

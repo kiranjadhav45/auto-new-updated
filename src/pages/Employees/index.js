@@ -150,6 +150,7 @@ const EmployeesPage = () => {
         let newData = { ...disable }
         newData.employeeCode = false
         setDisable(newData)
+        setHandleUpdateAdd(true)
         setSelectedData({
           employeeCode: "",
           employeeName: "",

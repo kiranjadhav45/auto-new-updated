@@ -131,6 +131,7 @@ const TablesPage = () => {
         mutationUpdate.mutate(payloadDataUpdate)
         let newData = { ...disable }
         newData.tableCode = false
+        setHandleUpdateAdd(true)
         setDisable(newData)
         setSelectedData({
           tableCode: "",
