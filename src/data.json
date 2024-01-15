@@ -507,7 +507,6 @@
               "name": "tableQR",
               "title": "Table QR",
               "isActive": true,
-              "required":true,
               "type": "text",
               "validationType": "text",
               "placeholder": "Enter Table QR Code"
