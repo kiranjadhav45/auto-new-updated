@@ -1,7 +1,7 @@
 export const ItemsData = [
     {
         _id: "657dab0eccc6df20909cfc801",
-        itemCode: "kiranjadhav",
+        itemCode: "20000",
         itemName: "Product 1",
         itemCategory: "sadasd",
         itemSubCategory: "sdsad",
@@ -22,7 +22,7 @@ export const ItemsData = [
     },
     {
         _id: "657dab0eccc6df20909cfc802",
-        itemCode: "kiran",
+        itemCode: "30000",
         itemName: "Product 2",
         itemCategory: "sadasd",
         itemSubCategory: "sdsad",
@@ -43,7 +43,7 @@ export const ItemsData = [
     },
     {
         _id: "657dab0eccc6df20909cfc03",
-        itemCode: "sdsad",
+        itemCode: "022sexod",
         itemName: "Product 3",
         itemCategory: "sadasd",
         itemSubCategory: "sdsad",
@@ -64,7 +64,7 @@ export const ItemsData = [
     },
     {
         _id: "657dab0eccc6df20909cfc04",
-        itemCode: "sdsad",
+        itemCode: "200",
         itemName: "Product 4",
         itemCategory: "sadasd",
         itemSubCategory: "sdsad",
@@ -85,7 +85,7 @@ export const ItemsData = [
     },
     {
         _id: "657dab0eccc6df20909cfc05",
-        itemCode: "sdsad",
+        itemCode: "2000",
         itemName: "Product 5",
         itemCategory: "sadasd",
         itemSubCategory: "sdsad",
@@ -106,7 +106,7 @@ export const ItemsData = [
     },
     {
         _id: "657dab0eccc6df20909cfc06",
-        itemCode: "sdsad",
+        itemCode: "200f0",
         itemName: "Product 6",
         itemCategory: "sadasd",
         itemSubCategory: "sdsad",
@@ -127,7 +127,7 @@ export const ItemsData = [
     },
     {
         _id: "657dab0eccc6df20909cfc07",
-        itemCode: "sdsad",
+        itemCode: "2000j0",
         itemName: "Product 7",
         itemCategory: "sadasd",
         itemSubCategory: "sdsad",

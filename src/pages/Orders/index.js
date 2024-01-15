@@ -104,7 +104,7 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
     dispatch(addBill(clickedBill.items))
     console.log(clickedBill, "clickedBill")
   }
-  console.log(mutationSaveBill, "mutationSaveBill")
+  // console.log(mutationSaveBill, "mutationSaveBill")
   return (
     <Layout
       currentActiveMenu={currentActiveMenu}

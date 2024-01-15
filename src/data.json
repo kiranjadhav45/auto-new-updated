@@ -502,7 +502,6 @@
               "values": ["Lawn", "Terrace"],
               "placeholder": "Choose Table Location"
             },
-
             {
               "name": "tableQR",
               "title": "Table QR",
