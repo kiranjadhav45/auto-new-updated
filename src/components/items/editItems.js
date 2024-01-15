@@ -149,6 +149,7 @@ const EditItems = ({ items, selectedData, setSelectedData, errors, setErrors, di
                     aria-label="Floating label select example"
                     name={field?.name}
                     onChange={handleInputChange}
+                    value={selectedData[field?.name]}
                     className={errors[field?.name] ? "is-invalid" : ""}
                   >
                     <option>Choose To Select</option>
