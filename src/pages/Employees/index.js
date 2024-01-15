@@ -162,7 +162,6 @@ const EmployeesPage = () => {
       } else {
         // add new vendor
         mutationPost.mutate(payloadDataPost)
-        setHandleUpdateAdd(true)
         setSelectedData({
           employeeCode: "",
           employeeName: "",

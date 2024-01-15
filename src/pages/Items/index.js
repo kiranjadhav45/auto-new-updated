@@ -193,6 +193,7 @@ const Items = () => {
           salesHistory: "",
           customNotes: ""
         });
+        setHandleUpdateAdd(true)
       } else {
         // add new vendor
         mutationPost.mutate(payloadDataPost)

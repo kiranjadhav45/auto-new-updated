@@ -143,7 +143,6 @@ const TablesPage = () => {
       } else {
         // add new vendor
         mutationPost.mutate(payloadDataPost)
-        setHandleUpdateAdd(true)
         setSelectedData({
           tableCode: "",
           tableName: "",

@@ -103,6 +103,7 @@ const CustomersPage = () => {
             if (selectedData._id && !handleUpdateAdd) {
                 // update customer
                 mutationUpdate.mutate(updatePayloadData)
+                setHandleUpdateAdd(true)
                 setSelectedData({
                     customerName: "",
                     customerEmail: "",
@@ -112,7 +113,6 @@ const CustomersPage = () => {
             } else {
                 // add new customer
                 mutationPost.mutate(postPayloadData)
-                setHandleUpdateAdd(true)
                 setSelectedData({
                     customerName: "",
                     customerEmail: "",
