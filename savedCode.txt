@@ -1,0 +1,173 @@
+
+#items with enter to next input 
+
+
+import React, { useState } from "react";
+import { Button, Form, FloatingLabel, Col, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { validateText, validateEmail, validateMobileNumber, validateNumber } from "../../utils/validationUtils";
+
+const EditItems = ({ items, selectedData, setSelectedData, errors, setErrors, disable, setDisable }) => {
+  const navigate = useNavigate();
+  const [currentInput, setCurrentInput] = useState(0);
+
+  // const handleInputChange = (e, validationType, index) => {
+  //   const { name, value, type, required, className } = e.target;
+  //   let isValid = true;
+  //   if (required == true && validationType) {
+  //     isValid = false;
+  //     switch (validationType) {
+  //       case "text":
+  //         isValid = validateText(value);
+  //         break;
+  //       case "email":
+  //         isValid = validateEmail(value);
+  //         break;
+  //       case "mobile":
+  //         isValid = validateMobileNumber(value);
+  //         break;
+  //       case "number":
+  //         isValid = validateNumber(value);
+  //         break;
+  //       default:
+  //         break;
+  //     }
+  //   } else { }
+
+  //   setErrors((prevErrors) => ({
+  //     ...prevErrors,
+  //     [name]: !isValid,
+  //   }));
+  //   setSelectedData((prevData) => ({
+  //     ...prevData,
+  //     [name]: value,
+  //   }));
+
+
+  //   if (e.key === 'Enter' && index === items.length - 1) {
+  //     e.preventDefault();
+  //     document.getElementById(`input0`).focus(); // Focus on the first input field
+  //   }
+  // };
+
+  const handleInputChange = (e, validationType, index) => {
+    const { name, value, type, required, className } = e.target;
+    let isValid = true;
+
+    if (required && validationType) {
+      isValid = false;
+      switch (validationType) {
+        case "text":
+          isValid = validateText(value);
+          break;
+        case "email":
+          isValid = validateEmail(value);
+          break;
+        case "mobile":
+          isValid = validateMobileNumber(value);
+          break;
+        case "number":
+          isValid = validateNumber(value);
+          break;
+        default:
+          break;
+      }
+    }
+
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: !isValid,
+    }));
+
+    setSelectedData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+
+    if (e.key === 'Enter' && index === items.length - 1) {
+      e.preventDefault();
+      document.getElementById(`input0`).focus(); // Focus on the first input field
+    }
+  };
+  const hasErrors = Object.values(errors).some((error) => error);
+
+  
+  const handleEnterKey = (event, index) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      const nextInput = (index + 1) % items.length;
+      setCurrentInput(nextInput);
+
+      const nextInputId = `input${nextInput}`;
+      const nextInputElement = document.getElementById(nextInputId);
+
+      if (nextInputElement) {
+        nextInputElement.focus();
+      }
+    }
+  };
+
+
+  return (
+    <div>
+      <Row>
+        {items?.map((field, index) =>
+          field?.isActive ? (
+            field?.type === "text" || field?.type === "email" || field?.type === "mobile" || field?.type === "number" ? (
+              <Col xs={items?.length % 2 === 0 ? 12 : 12} key={index}>
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label={field?.placeholder}
+                  className="mb-3"
+                >
+                  <Form.Control
+                    id={`input${index}`}
+                    type={field?.type}
+                    placeholder={field?.placeholder}
+                    name={field?.name}
+                    value={selectedData[field?.name]}
+                    onChange={(e) => handleInputChange(e, field?.validationType, index)}
+                    disabled={disable[field?.name]}
+                    className={errors[field?.name] ? "has-error" : ""}
+                    required={field?.required || false}
+                    onKeyDown={(event) => handleEnterKey(event, index)}
+                  />
+                </FloatingLabel>
+              </Col>
+            ) : field.type === "DropDown" ? (
+              <Col xs={items?.length % 2 === 0 ? 12 : 12} key={index}>
+                <FloatingLabel
+                  className="mb-3"
+                  controlId="floatingSelect"
+                  label={field?.placeholder}
+                >
+                  <Form.Select
+                    aria-label="Floating label select example"
+                    name={field?.name}
+                    onChange={handleInputChange}
+                    className={errors[field?.name] ? "is-invalid" : ""}
+                    onKeyDown={(event) => handleEnterKey(event, index)}
+                    id={`input${index}`}
+                  >
+                    <option>Choose To Select</option>
+                    {field?.values.map((value, idx) => (
+                      <option key={idx} value={value}>
+                        {value}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </FloatingLabel>
+              </Col>
+            ) : (
+              ""
+            )
+          ) : (
+            ""
+          )
+        )}
+      </Row>
+    </div >
+  );
+};
+
+export default EditItems;
