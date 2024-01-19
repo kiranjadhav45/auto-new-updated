@@ -1,8 +1,8 @@
 // const EmployeeMaster = ({ currentActiveMenu, setCurrentActiveMenu }) => {
 import React, { useState } from "react";
-import Alert from 'react-bootstrap/Alert';
-import { ToastContainer, toast } from 'react-toastify';
-import { AlertMessage } from "../../utils/constant"
+import Alert from "react-bootstrap/Alert";
+import { ToastContainer, toast } from "react-toastify";
+import { AlertMessage } from "../../utils/constant";
 import {
   ListGroup,
   Form,
@@ -16,24 +16,30 @@ import {
   useMutation,
   useQueryClient,
   QueryClient,
-} from '@tanstack/react-query'
-import { useSelector, useDispatch } from 'react-redux'
-import { updateLevelThree } from '../../features/business/businessSlice'
+} from "@tanstack/react-query";
+import { useSelector, useDispatch } from "react-redux";
+import { updateLevelThree } from "../../features/business/businessSlice";
 import { PostApi } from "../../utils/PostApi";
 const EmployeeMaster = ({ currentActiveMenu }) => {
-  const businessData = useSelector((state) => state.business.value)
-  const dispatch = useDispatch()
+  const businessData = useSelector((state) => state.business.value);
+  const dispatch = useDispatch();
   const [selectedSubMenu, setSelectedSubMenu] = useState(null);
-  const employeesCategory = businessData?.categories?.find(category => category?.name === "Masters");
-  const employeeSubmenu = employeesCategory?.subcategories?.find(sub => sub?.name === "employeeMaster");
+  const employeesCategory = businessData?.categories?.find(
+    (category) => category?.name === "Masters"
+  );
+  const employeeSubmenu = employeesCategory?.subcategories?.find(
+    (sub) => sub?.name === "employeeMaster"
+  );
   const submenuArray = employeeSubmenu?.subMenu;
   // console.log(submenuArray, "submenuArray")
 
-  const employeesCat = businessData?.categories?.find(category => category?.name === "Masters");
-  const employeeSubmenuCat = employeesCategory?.subcategories?.find(sub => sub?.name === "employeeMaster");
+  const employeesCat = businessData?.categories?.find(
+    (category) => category?.name === "Masters"
+  );
+  const employeeSubmenuCat = employeesCategory?.subcategories?.find(
+    (sub) => sub?.name === "employeeMaster"
+  );
   const submenuArrayCat = employeeSubmenu?.subMenu;
-
-
 
   const handleSubMenuSelect = (menuItem) => {
     setSelectedSubMenu(menuItem);
@@ -45,17 +51,17 @@ const EmployeeMaster = ({ currentActiveMenu }) => {
         toast.error("can not change default menu", { AlertMessage });
       }, 100);
     } else {
-      const newmenuItem = { ...menuItem }
-      newmenuItem.isActive = !newmenuItem.isActive
-      console.log("clicked")
+      const newmenuItem = { ...menuItem };
+      newmenuItem.isActive = !newmenuItem.isActive;
+      console.log("clicked");
       const payload = {
         url: "//v1/update_submenus",
-        data: newmenuItem
-      }
-      dispatch(updateLevelThree(menuItem))
-      updateItems.mutate(payload)
+        data: newmenuItem,
+      };
+      dispatch(updateLevelThree(menuItem));
+      updateItems.mutate(payload);
     }
-  }
+  };
 
   const updateItems = useMutation({
     mutationFn: PostApi,
@@ -74,7 +80,7 @@ const EmployeeMaster = ({ currentActiveMenu }) => {
         // if (data.status == "success" && data.statusCode == 200) { }
       }
     },
-  })
+  });
 
   const renderSubMenu = (menuItem) => (
     <ListGroup.Item
@@ -104,7 +110,8 @@ const EmployeeMaster = ({ currentActiveMenu }) => {
   return (
     <Container fluid>
       <h2>Employee Master</h2>
-      <ToastContainer position="top-right"
+      <ToastContainer
+        position="top-center"
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
@@ -113,7 +120,8 @@ const EmployeeMaster = ({ currentActiveMenu }) => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="colored" />
+        theme="colored"
+      />
       <Row>
         <Col xs={24} md={12} lg={6}>
           {currentActiveMenu?.subMenu && (
@@ -124,9 +132,8 @@ const EmployeeMaster = ({ currentActiveMenu }) => {
               {/* {submenuArray?.map((menuItem) =>
                 renderSubMenu(menuItem)
               )} */}
-              {submenuArrayCat && submenuArrayCat?.map((menuItem) =>
-                renderSubMenu(menuItem)
-              )}
+              {submenuArrayCat &&
+                submenuArrayCat?.map((menuItem) => renderSubMenu(menuItem))}
             </ListGroup>
           )}
         </Col>

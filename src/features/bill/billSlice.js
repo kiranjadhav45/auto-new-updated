@@ -4,9 +4,6 @@ const billSlice = createSlice({
     name: 'products',
     initialState: { products: [] },
     reducers: {
-        // addBill: (state, action) => {
-        //     state.products = action.payload
-        // },
         addBill: (state, action) => {
             const newProducts = action.payload;
             // Check if state.products exists and is an array

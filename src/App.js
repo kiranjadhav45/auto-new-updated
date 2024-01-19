@@ -24,6 +24,7 @@ import { updateBusiness } from './features/business/businessSlice';
 import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import data from './data.json';
+import ProfileDetails from "./components/user/profileDetails";
 function App() {
   console.time('App render Time');
   const businessData = useSelector((state) => state.business.value);
@@ -97,6 +98,7 @@ function App() {
         <Route path="/vendors" element={<VendorsPage />} />
         <Route path="/orders" element={<OrdersPage />} />
         <Route path="/customer" element={<CustomerPage />} />
+        <Route path="/profile" element={<ProfileDetails />} />
       </Routes>
     </BrowserRouter>
   );

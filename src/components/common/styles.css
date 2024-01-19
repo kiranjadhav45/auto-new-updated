@@ -44,12 +44,12 @@
 /* upload css */
 
 .file-upload-button {
-  padding: 6px 16px;
+  padding: 3px 8px;
   border-radius: 5px;
   background-color: blueviolet;
   color: #fff;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 10px;
 }
 
 /* top navbar */
