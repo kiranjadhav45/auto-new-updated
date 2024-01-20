@@ -15,6 +15,7 @@ import {
     useMutation,
     useQueryClient,
     QueryClient,
+    keepPreviousData
 } from '@tanstack/react-query'
 const CustomersPage = () => {
     const queryClient = useQueryClient()
@@ -56,7 +57,7 @@ const CustomersPage = () => {
 
 
     // get all customers
-    const { isLoading, data: customer, error, refetch } = useQuery({ queryKey: ['customer'], queryFn: () => GetApi("/v1/customer") })
+    const { isLoading, data: customer, error, refetch } = useQuery({ queryKey: ['customer'], queryFn: () => GetApi("/v1/customer"), placeholderData: keepPreviousData, staleTime: 30000 })
 
     // handle update customer
     // edit vendors

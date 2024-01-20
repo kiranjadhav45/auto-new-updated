@@ -21,6 +21,7 @@ import {
   useMutation,
   useQueryClient,
   QueryClient,
+  keepPreviousData,
 } from '@tanstack/react-query'
 const VendorsPage = () => {
   const queryClient = useQueryClient()
@@ -64,7 +65,7 @@ const VendorsPage = () => {
   const submenuArray = employeeSubmenu?.subMenu;
 
   // get vendors
-  const { isLoading, data: vendors, error, refetch } = useQuery({ queryKey: ['vendor'], queryFn: () => GetApi("/v1/vendors") })
+  const { isLoading, data: vendors, error, refetch } = useQuery({ queryKey: ['vendor'], queryFn: () => GetApi("/v1/vendors"), placeholderData: keepPreviousData, staleTime: 30000 })
   console.warn(submenuArray)
   // onClick add new vendor
   const payloadData = {

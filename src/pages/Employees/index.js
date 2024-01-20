@@ -26,6 +26,7 @@ import {
   useQuery,
   useMutation,
   useQueryClient,
+  keepPreviousData,
 } from '@tanstack/react-query'
 const EmployeesPage = () => {
 
@@ -67,7 +68,7 @@ const EmployeesPage = () => {
 
   // get items
 
-  const { isLoading, data: employee, error, refetch } = useQuery({ queryKey: ['employee'], queryFn: () => GetApi("//v1/employee") })
+  const { isLoading, data: employee, error, refetch } = useQuery({ queryKey: ['employee'], queryFn: () => GetApi("//v1/employee"), placeholderData: keepPreviousData, staleTime: 30000 })
 
   // delete tables 
   const handleDeleteTable = (idToDelete) => {

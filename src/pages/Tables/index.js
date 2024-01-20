@@ -18,6 +18,7 @@ import {
   useQuery,
   useMutation,
   useQueryClient,
+  keepPreviousData,
 } from '@tanstack/react-query'
 const TablesPage = () => {
   const dispatch = useDispatch();
@@ -51,7 +52,6 @@ const TablesPage = () => {
     tablePlacement: "",
     tableQR: "",
   });
-
   const [disable, setDisable] = useState({
     tableCode: "",
     tableName: "",
@@ -76,7 +76,7 @@ const TablesPage = () => {
   };
 
   // get items
-  const { isLoading, data: table, error, refetch } = useQuery({ queryKey: ['table'], queryFn: () => GetApi("/v1/table") })
+  const { isLoading, data: table, error, refetch } = useQuery({ queryKey: ['table'], queryFn: () => GetApi("/v1/table"), placeholderData: keepPreviousData, staleTime: 30000 })
 
   // post items
 

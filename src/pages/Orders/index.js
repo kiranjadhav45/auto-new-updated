@@ -11,26 +11,36 @@ import { PostApi } from "../../utils/PostApi";
 import { GetApi } from "../../utils/GetApi";
 import { useReactToPrint } from 'react-to-print';
 import { MdDelete } from "react-icons/md";
+import debounce from "lodash.debounce";
 import {
   useQuery,
   useMutation,
   useQueryClient,
+  keepPreviousData,
 } from '@tanstack/react-query'
-
+import { useSearchParams } from "react-router-dom";
 const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
   const dispatch = useDispatch()
   const queryClient = useQueryClient()
+  const [searchParams, setSearchParams] = useSearchParams({ search: '' })
   const bill = useSelector((state) => state.bill.products)
   const [products, setProducts] = useState(ItemsData)
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState("");
+  // const [search, setSearch] = useState("");
   const [searchedProduct, setsearchedProduct] = useState(false);
   // const [currentBillProduct, setCurrentBillProduct] = useState(false);
-
   const [totalBill, setTotalBill] = useState(0);
 
+  const search = searchParams.get('search') || ""
   const handleInputChange = (e) => {
+    e.preventDefault();
     const value = e.target.value
+    debounce(
+      () => {
+        setSearchParams({ search: value });
+        queryClient.invalidateQueries({ queryKey: ['searched', search] });
+      }, 1000)
     const searchedItems = products.filter((item) => item.itemName.includes(value));
     setsearchedProduct(searchedItems);
   }
@@ -43,9 +53,8 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
   }, [bill])
 
   // get bill 
-  const { isLoading, data: billsFromServer, error, refetch } = useQuery({ queryKey: ['bill'], queryFn: () => GetApi("/v1/allbilling") })
-  // console.log(billsFromServer, "billsFromServer")
-
+  const { isLoading, data: billsFromServer, error, refetch } = useQuery({ queryKey: ['bill'], queryFn: () => GetApi("/v1/allbilling"), placeholderData: keepPreviousData, staleTime: 30000 })
+  const { isLoading: searchLoading, data: searchData, error: searchError, refetch: searchRefetch } = useQuery({ queryKey: ['searched', search], queryFn: () => GetApi(`//v1/item/search?search=${search}`) })
   const handleSaveBill = () => {
     const PostPayload = {
       data: {
@@ -57,7 +66,8 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
     }
     mutationSaveBill.mutate(PostPayload)
   }
-
+  console.log(searchData, "searchData")
+  // console.log(searchParams.get('search'), "searchParams")
 
   const mutationSaveBill = useMutation({
     mutationFn: PostApi,
@@ -155,7 +165,7 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
           <div style={{ borderWidth: 1 }}>
             <h2>Recent Bills</h2>
             <div className="d-flex flex-wrap my-2">
-              {billsFromServer && billsFromServer?.body.map((item) => <span onClick={() => handleBillClick(item)} className="single-bill m-2 ">{item.billNumber}</span>)}
+              {billsFromServer && billsFromServer?.items.map((item) => <span onClick={() => handleBillClick(item)} className="single-bill m-2 ">{item.billNumber}</span>)}
             </div>
           </div>
         </Col>
@@ -177,7 +187,14 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
                 <Form.Control
                   type="text"
                   placeholder="search"
-                  onChange={handleInputChange}
+                  // onChange={handleInputChange}
+                  onChange={
+                    debounce(
+                      (e) => {
+                        setSearchParams({ search: e.target.value });
+                        queryClient.invalidateQueries({ queryKey: ['searched', search] });
+                      }, 1000)
+                  }
                 />
               </FloatingLabel>
             </Form>
@@ -209,29 +226,6 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
                         <div className="mx-2"><strong>{product?.quantity}</strong> </div>
                         <div className=" cursor-pointer"><FaPlusCircle size={25} onClick={() => dispatch(increseQuantity(product))} /></div>
                       </div>
-
-                      {/* <Button
-                        variant="outline-primary"
-                        
-                      >
-                        -
-                      </Button>{" "} */}
-                      {" "}
-                      {/* <Button
-                        variant="outline-primary"
-                        onClick={() => dispatch(increseQuantity(product))}
-                      >
-                        +
-                      </Button> */}
-
-                    </td>
-                    <td >
-                      {/* <Button
-                        variant="danger"
-                        onClick={() => dispatch(removeProduct(product))}
-                      >
-                        Remove
-                      </Button> */}
                       <div style={{ height: "100%" }} className="my-auto d-flex justify-content-center">
                         <MdDelete color="#bb2124" size={25} onClick={() => dispatch(removeProduct(product))} className="cursor-pointer" />
                       </div>

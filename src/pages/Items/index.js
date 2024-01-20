@@ -24,6 +24,7 @@ import {
   useQuery,
   useMutation,
   useQueryClient,
+  keepPreviousData,
 } from '@tanstack/react-query'
 import { AlertMessage } from "../../utils/constant"
 const Items = () => {
@@ -122,7 +123,7 @@ const Items = () => {
   const submenuArray = subcategories?.subMenu;
 
   // get items
-  const { isLoading, data: items, error, refetch } = useQuery({ queryKey: ['items'], queryFn: () => GetApi("//v1/item") })
+  const { isLoading, data: items, error, refetch } = useQuery({ queryKey: ['items'], queryFn: () => GetApi("//v1/item"), placeholderData: keepPreviousData, staleTime: 30000 })
 
   // onClick add new vendor
   const handleEditTable = (event) => {
