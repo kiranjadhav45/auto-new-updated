@@ -32,7 +32,7 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
   // const [currentBillProduct, setCurrentBillProduct] = useState(false);
   const [totalBill, setTotalBill] = useState(0);
 
-  const search = searchParams.get('search') || ""
+  let search = searchParams.get('search') || ""
   const handleInputChange = (e) => {
     e.preventDefault();
     const value = e.target.value
@@ -53,20 +53,16 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
   }, [bill])
 
   // get bill 
-  const { isLoading, data: billsFromServer, error, refetch } = useQuery({ queryKey: ['bill'], queryFn: () => GetApi("/v1/allbilling"), placeholderData: keepPreviousData, staleTime: 30000 })
+  const { isLoading, data: billsFromServer, error, refetch } = useQuery({ queryKey: ['bill'], queryFn: () => GetApi("//v1/allbilling"), placeholderData: keepPreviousData, staleTime: 100 })
   const { isLoading: searchLoading, data: searchData, error: searchError, refetch: searchRefetch } = useQuery({ queryKey: ['searched', search], queryFn: () => GetApi(`//v1/item/search?search=${search}`) })
   const handleSaveBill = () => {
     const PostPayload = {
-      data: {
-        items: bill,
-        // tax: 5,
-        // discount: 2
-      },
-      url: "/v1/billing"
+      data: bill,
+      url: "//v1/billing"
     }
     mutationSaveBill.mutate(PostPayload)
   }
-  console.log(searchData, "searchData")
+  console.log(billsFromServer, "billsFromServer")
   // console.log(searchParams.get('search'), "searchParams")
 
   const mutationSaveBill = useMutation({
@@ -114,7 +110,13 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
     dispatch(addBill(clickedBill.items))
     console.log(clickedBill, "clickedBill")
   }
-  // console.log(mutationSaveBill, "mutationSaveBill")
+  console.log(searchData?.body, "searchData")
+  const handleOnAddProductToBill = (item) => {
+    const newData = { ...item, quantity: 1 }
+    dispatch(addProduct(newData))
+    setSearchParams({ search: '' })
+    search = ""
+  }
   return (
     <Layout
       currentActiveMenu={currentActiveMenu}
@@ -165,7 +167,7 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
           <div style={{ borderWidth: 1 }}>
             <h2>Recent Bills</h2>
             <div className="d-flex flex-wrap my-2">
-              {billsFromServer && billsFromServer?.items.map((item) => <span onClick={() => handleBillClick(item)} className="single-bill m-2 ">{item.billNumber}</span>)}
+              {billsFromServer && billsFromServer?.body?.map((item) => <span onClick={handleBillClick(item)} className="single-bill m-2 ">{item.billNumber}</span>)}
             </div>
           </div>
         </Col>
@@ -193,17 +195,25 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
                       (e) => {
                         setSearchParams({ search: e.target.value });
                         queryClient.invalidateQueries({ queryKey: ['searched', search] });
-                      }, 1000)
+                      }, 500)
                   }
                 />
               </FloatingLabel>
             </Form>
             <div className="listGroup-container">
-              {searchedProduct.length > 0 ? (<ListGroup className="listGroup">
+              {/* {searchedProduct.length > 0 ? (<ListGroup className="listGroup">
                 {searchedProduct && searchedProduct?.map((item) => (
                   <ListGroup.Item className="cursor-pointer" onClick={() => { dispatch(addProduct(item)); setsearchedProduct("") }} >{item?.itemName}</ListGroup.Item>
+                ))} */}
+              {searchData && (<ListGroup className="listGroup">
+                {searchData && searchData?.body?.map((item) => (
+                  <ListGroup.Item className="cursor-pointer"
+                    onClick={
+                      () =>
+                        handleOnAddProductToBill(item)
+                    } >{item?.itemName}</ListGroup.Item>
                 ))}
-              </ListGroup>) : ""}
+              </ListGroup>)}
             </div>
             <Table striped bordered hover>
               <thead>
@@ -222,12 +232,14 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
                     <td>{product?.quantity}</td>
                     <td>
                       <div className="d-flex align-items-center">
-                        <div className=" cursor-pointer"><FaCircleMinus size={25} onClick={() => dispatch(dcreaseQuantity(product))} /></div>
-                        <div className="mx-2"><strong>{product?.quantity}</strong> </div>
-                        <div className=" cursor-pointer"><FaPlusCircle size={25} onClick={() => dispatch(increseQuantity(product))} /></div>
-                      </div>
-                      <div style={{ height: "100%" }} className="my-auto d-flex justify-content-center">
-                        <MdDelete color="#bb2124" size={25} onClick={() => dispatch(removeProduct(product))} className="cursor-pointer" />
+                        <div className="d-flex align-items-center">
+                          <div className=" cursor-pointer"><FaCircleMinus size={25} onClick={() => dispatch(dcreaseQuantity(product))} /></div>
+                          <div className="mx-2"><strong>{product?.quantity}</strong> </div>
+                          <div className=" cursor-pointer"><FaPlusCircle size={25} onClick={() => dispatch(increseQuantity(product))} /></div>
+                        </div>
+                        <div style={{ height: "100%" }} className="ms-1 ms-lg-2 my-auto d-flex justify-content-center">
+                          <MdDelete color="#bb2124" size={25} onClick={() => dispatch(removeProduct(product))} className="cursor-pointer" />
+                        </div>
                       </div>
                     </td>
                   </tr>
