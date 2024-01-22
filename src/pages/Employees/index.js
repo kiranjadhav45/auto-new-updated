@@ -83,15 +83,18 @@ const EmployeesPage = () => {
     mutationFn: DeleteApi,
     onSuccess: (data, variable, context) => {
       if (data) {
-        if (data?.status == "success" && data?.statusCode == 200) {
-          queryClient.invalidateQueries({ queryKey: ['employee'] });
+        if (data.status == "success") {
           setTimeout(() => {
             toast.success(data.message, { AlertMessage });
           }, 100);
-        } else if (data?.error.length > 0) {
+        }
+        if (data.status == "error") {
           setTimeout(() => {
-            toast.error(data?.error, { AlertMessage });
+            toast.error(data.message, { AlertMessage });
           }, 100);
+        }
+        if (data?.status == "success" && data?.statusCode == 200) {
+          queryClient.invalidateQueries({ queryKey: ['employee'] });
         }
       }
     },
@@ -184,15 +187,14 @@ const EmployeesPage = () => {
     mutationFn: PostApi,
     onSuccess: (data, variable, context) => {
       if (data) {
-        console.log(data, "data")
-        if (data?.response?.status != 200 || data.status == "error") {
-          setTimeout(() => {
-            toast.error(data?.response?.data?.message || data.message, { AlertMessage });
-          }, 100);
-        }
-        if (data?.status == "success") {
+        if (data.status == "success") {
           setTimeout(() => {
             toast.success(data.message, { AlertMessage });
+          }, 100);
+        }
+        if (data.status == "error") {
+          setTimeout(() => {
+            toast.error(data.message, { AlertMessage });
           }, 100);
         }
         if (data.status == "success" && data.statusCode == 200) {
@@ -205,10 +207,6 @@ const EmployeesPage = () => {
             employeeAddr: "",
             employeeVerify: "",
           })
-        } else if (data?.error.length > 0) {
-          setTimeout(() => {
-            toast.error(data?.error, { AlertMessage });
-          }, 100);
         }
       }
     },
@@ -218,14 +216,14 @@ const EmployeesPage = () => {
     mutationFn: PutApi,
     onSuccess: (data, variable, context) => {
       if (data) {
-        if (data?.response?.status !== 200) {
-          setTimeout(() => {
-            toast.error(data?.response?.data?.message, { AlertMessage });
-          }, 100);
-        }
-        if (data?.status == "success") {
+        if (data.status == "success") {
           setTimeout(() => {
             toast.success(data.message, { AlertMessage });
+          }, 100);
+        }
+        if (data.status == "error") {
+          setTimeout(() => {
+            toast.error(data.message, { AlertMessage });
           }, 100);
         }
         if (data.status == "success" && data.statusCode == 200) {
@@ -238,10 +236,6 @@ const EmployeesPage = () => {
             employeeAddr: "",
             employeeVerify: "",
           })
-        } else if (data?.error.length > 0) {
-          setTimeout(() => {
-            toast.error(data?.error, { AlertMessage });
-          }, 100);
         }
       }
     },

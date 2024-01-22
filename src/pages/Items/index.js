@@ -264,11 +264,6 @@ const Items = () => {
             customNotes: ""
           })
         }
-        if (data?.error.length > 0) {
-          setTimeout(() => {
-            toast.error(data?.error, { AlertMessage });
-          }, 100);
-        }
       }
     },
   })
@@ -313,11 +308,6 @@ const Items = () => {
             customNotes: ""
           })
         }
-        if (data?.error.length > 0) {
-          setTimeout(() => {
-            toast.error(data?.error, { AlertMessage });
-          }, 100);
-        }
       }
     },
   })
@@ -348,11 +338,6 @@ const Items = () => {
         }
         if (data?.status == "success" && data?.statusCode == 200) {
           queryClient.invalidateQueries({ queryKey: ['items'] });
-        }
-        if (data?.error.length > 0) {
-          setTimeout(() => {
-            toast.error(data?.error, { AlertMessage });
-          }, 100);
         }
       }
     },
