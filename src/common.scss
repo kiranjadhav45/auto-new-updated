@@ -89,6 +89,43 @@
   border-radius: 10px;
   cursor: pointer;
 }
+.export-button {
+  outline: none;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  font-weight: 600;
+  padding: 4px 10px;
+}
+.report-title {
+  font-weight: 600;
+  font-size: 20px;
+}
+.container-of-month-and-year {
+  background-color: #f2f1f19f;
+  padding: 40px 20px;
+  border-radius: 10px;
+}
+.card-reports {
+  background-color: #f2f1f19f;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 10px;
+  gap: 10px;
+}
+.card-reports div:nth-child(1) {
+  font-weight: 500;
+}
+.card-reports div:nth-child(2) {
+  font-weight: 600;
+  font-size: 20px;
+}
 @media screen and (max-width: 992px) {
   .bottom-navbar-componat-container {
     position: fixed;
