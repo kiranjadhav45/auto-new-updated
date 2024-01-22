@@ -12,6 +12,8 @@ import { GetApi } from "../../utils/GetApi";
 import { useReactToPrint } from 'react-to-print';
 import { MdDelete } from "react-icons/md";
 import debounce from "lodash.debounce";
+import { ToastContainer, toast } from 'react-toastify';
+import { AlertMessage } from "../../utils/constant"
 import {
   useQuery,
   useMutation,
@@ -25,8 +27,6 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
   const [searchParams, setSearchParams] = useSearchParams({ search: '' })
   const bill = useSelector((state) => state.bill.products)
   const [products, setProducts] = useState(ItemsData)
-  const [show, setShow] = useState(false);
-  const [message, setMessage] = useState("");
   // const [search, setSearch] = useState("");
   const [searchedProduct, setsearchedProduct] = useState(false);
   // const [currentBillProduct, setCurrentBillProduct] = useState(false);
@@ -62,6 +62,7 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
     }
     mutationSaveBill.mutate(PostPayload)
   }
+  // console.log(bill, "bill") 
   console.log(billsFromServer, "billsFromServer")
   // console.log(searchParams.get('search'), "searchParams")
 
@@ -69,23 +70,28 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
     mutationFn: PostApi,
     onSuccess: (data, variable, context) => {
       if (data) {
-        setMessage(data?.message)
-        setShow(true)
+        if (data.status == "success") {
+          setTimeout(() => {
+            toast.success(data.message, { AlertMessage });
+          }, 100);
+        }
+        if (data.status == "error") {
+          setTimeout(() => {
+            toast.error(data.message, { AlertMessage });
+          }, 100);
+        }
         if (data?.status == "success" && data?.statusCode == 200) {
           // refetch()
           dispatch(removeAllProducts())
-          console.log("saved success")
+          // console.log("saved success")
           queryClient.invalidateQueries({ queryKey: ['bill'] });
         } else {
           // dispatch(updateState(oldItemsData))
         }
       }
-      setTimeout(function () {
-        setShow(false)
-      }, 3000);
     },
   })
-
+  // console.log(mutationSaveBill, "mutationSaveBill")
 
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
@@ -108,9 +114,9 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
   };
   const handleBillClick = (clickedBill) => {
     dispatch(addBill(clickedBill.items))
-    console.log(clickedBill, "clickedBill")
+    // console.log(clickedBill, "clickedBill")
   }
-  console.log(searchData?.body, "searchData")
+  // console.log(searchData?.body, "searchData")
   const handleOnAddProductToBill = (item) => {
     const newData = { ...item, quantity: 1 }
     dispatch(addProduct(newData))
@@ -122,6 +128,17 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
       currentActiveMenu={currentActiveMenu}
       setCurrentActiveMenu={setCurrentActiveMenu}
     >
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored" />
       <Row className="mt-1 print-row">
         <Col>
           <div ref={componentRef} className="p-4">
