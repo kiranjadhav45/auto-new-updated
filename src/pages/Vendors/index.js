@@ -74,7 +74,6 @@ const VendorsPage = () => {
   }
   const handleAddVendor = () => {
     const newErrors = { ...errors };
-
     for (const key in selectedData) {
       if (selectedData.hasOwnProperty(key) && newErrors.hasOwnProperty(key)) {
         if (selectedData[key] === "") {
@@ -131,10 +130,17 @@ const VendorsPage = () => {
     onSuccess: (data, variable, context) => {
       console.log(data, "array data")
       if (data) {
-        if (data.status == "success" && data.statusCode == 200) {
+        if (data.status == "success") {
           setTimeout(() => {
             toast.success(data.message, { AlertMessage });
           }, 100);
+        }
+        if (data.status == "error") {
+          setTimeout(() => {
+            toast.error(data.message, { AlertMessage });
+          }, 100);
+        }
+        if (data.status == "success" && data.statusCode == 200) {
           queryClient.invalidateQueries({ queryKey: ['vendor'] });
           setSelectedData({
             vendorCode: "",
@@ -143,10 +149,6 @@ const VendorsPage = () => {
             vendorMobile: "",
             vendorAddr: ""
           })
-        } else if (data?.error.length > 0) {
-          setTimeout(() => {
-            toast.error(data?.error, { AlertMessage });
-          }, 100);
         }
       }
     },
@@ -166,16 +168,18 @@ const VendorsPage = () => {
     mutationFn: DeleteApi,
     onSuccess: (data, variable, context) => {
       if (data) {
-        if (data?.status == "success" && data?.statusCode == 200) {
-          queryClient.invalidateQueries({ queryKey: ['vendor'] });
+        if (data.status == "success") {
           setTimeout(() => {
             toast.success(data.message, { AlertMessage });
           }, 100);
-        } else if (data?.error) {
+        }
+        if (data.status == "error") {
           setTimeout(() => {
-            toast.error(data?.error, { AlertMessage });
+            toast.error(data.message, { AlertMessage });
           }, 100);
-          // dispatch(updateState(oldItemsData))
+        }
+        if (data?.status == "success" && data?.statusCode == 200) {
+          queryClient.invalidateQueries({ queryKey: ['vendor'] });
         }
       }
     },
@@ -206,10 +210,17 @@ const VendorsPage = () => {
     mutationFn: PutApi,
     onSuccess: (data, variable, context) => {
       if (data) {
-        if (data.status == "success" && data.statusCode == 200) {
+        if (data.status == "success") {
           setTimeout(() => {
             toast.success(data.message, { AlertMessage });
           }, 100);
+        }
+        if (data.status == "error") {
+          setTimeout(() => {
+            toast.error(data.message, { AlertMessage });
+          }, 100);
+        }
+        if (data.status == "success" && data.statusCode == 200) {
           queryClient.invalidateQueries({ queryKey: ['vendor'] });
           setSelectedData({
             vendorCode: "",
@@ -218,10 +229,6 @@ const VendorsPage = () => {
             vendorMobile: "",
             vendorAddr: ""
           })
-        } else if (data?.error.length > 0) {
-          setTimeout(() => {
-            toast.error(data?.error, { AlertMessage });
-          }, 100);
         }
       }
     },
