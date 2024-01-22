@@ -184,11 +184,6 @@ const TablesPage = () => {
             tableQR: "",
           })
         }
-        if (data?.error.length > 0) {
-          setTimeout(() => {
-            toast.error(data?.error, { AlertMessage });
-          }, 100);
-        }
       }
     },
   })
@@ -218,19 +213,6 @@ const TablesPage = () => {
             tableQR: "",
           })
         }
-      } else if (data?.error.length > 0) {
-        setTimeout(() => {
-          toast.error(data?.error, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
-        }, 100);
       }
     },
   })
@@ -249,15 +231,18 @@ const TablesPage = () => {
     mutationFn: DeleteApi,
     onSuccess: (data, variable, context) => {
       if (data) {
-        if (data?.status == "success" && data?.statusCode == 200) {
+        if (data.status == "success") {
           setTimeout(() => {
             toast.success(data.message, { AlertMessage });
           }, 100);
-          queryClient.invalidateQueries({ queryKey: ['table'] });
-        } else if (data?.error.length > 0) {
+        }
+        if (data.status == "error") {
           setTimeout(() => {
-            toast.error(data?.error, { AlertMessage });
+            toast.error(data.message, { AlertMessage });
           }, 100);
+        }
+        if (data?.status == "success" && data?.statusCode == 200) {
+          queryClient.invalidateQueries({ queryKey: ['table'] });
         }
       }
     },
