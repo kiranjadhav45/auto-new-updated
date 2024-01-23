@@ -53,8 +53,17 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
   }, [bill])
 
   // get bill 
-  const { isLoading, data: billsFromServer, error, refetch } = useQuery({ queryKey: ['bill'], queryFn: () => GetApi("//v1/allbilling"), placeholderData: keepPreviousData, staleTime: 100 })
-  const { isLoading: searchLoading, data: searchData, error: searchError, refetch: searchRefetch } = useQuery({ queryKey: ['searched', search], queryFn: () => GetApi(`//v1/item/search?search=${search}`) })
+  const { isLoading, data: billsFromServer, error, refetch } = useQuery({
+    queryKey: ['bill'],
+    queryFn: () => GetApi("//v1/allbilling"),
+    placeholderData: keepPreviousData,
+    staleTime: 30000,
+  })
+  const { isLoading: searchLoading, data: searchData, error: searchError, refetch: searchRefetch } = useQuery({
+    queryKey: ['searched', search],
+    queryFn: () => GetApi(`//v1/item/search?search=${search}`)
+  })
+
   const handleSaveBill = () => {
     const PostPayload = {
       data: bill,
@@ -184,7 +193,7 @@ const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
           <div style={{ borderWidth: 1 }}>
             <h2>Recent Bills</h2>
             <div className="d-flex flex-wrap my-2">
-              {billsFromServer && billsFromServer?.body?.map((item) => <span onClick={handleBillClick(item)} className="single-bill m-2 ">{item.billNumber}</span>)}
+              {billsFromServer && billsFromServer?.bills?.map((item) => <span onClick={() => handleBillClick(item)} className="single-bill m-2 ">{item.billNumber}</span>)}
             </div>
           </div>
         </Col>
