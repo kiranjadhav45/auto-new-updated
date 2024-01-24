@@ -1,0 +1,36 @@
+{
+  "month": "January",
+  "year":2023,
+  "purchases": {
+    "purchase": 1200,
+    "cancel": 200,
+    "total": 1000
+  },
+  "sales": {
+    "sale": 1500,
+    "cancel": 300,
+    "total": 1200
+  },
+  "totalExpense": 5000
+},
+
+
+{
+  "report": {
+      "month": "January",
+      "purchases": {
+          "purchase": 0,
+          "purchasecancel": 0,
+          "total": 0
+      },
+      "sales": {
+          "sale": 2,
+          "salecancel": 2,
+          "total": 4
+      },
+      "totalExpense": 4,
+      "year": 2024
+  },
+  "status": "success",
+   "message": "Report entries retrieved successfully",                                                                                       "statusCode": 200
+}
