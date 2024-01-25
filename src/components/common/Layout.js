@@ -8,12 +8,14 @@ import BottomNavBar from "./BottomNavbar";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
 import { updateBusiness } from '../../features/business/businessSlice'
+import { useLocation } from "react-router-dom";
 const Layout = ({ children, currentActiveMenu, setCurrentActiveMenu }) => {
+  const location = useLocation();
   const navigate = useNavigate();
   const businessData = useSelector((state) => state.business.value)
   // const [dataToPerform, setDataToPerform] = useState(bundleData.resto);
   const [dataToPerform, setDataToPerform] = useState(businessData);
-  const [selectedMenu, setSelectedMenu] = useState("Clean Slate");
+  const [selectedMenu, setSelectedMenu] = useState(location.state?.selectedMenu || null);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   const [defautName, setDefaultName] = useState({
@@ -23,9 +25,14 @@ const Layout = ({ children, currentActiveMenu, setCurrentActiveMenu }) => {
     defaultMenu: businessData.defaultMenu,
   });
   const handleSelect = (menu, index) => {
-    navigate(menu?.path);
+    // setSelectedMenu(menu);
+    // navigate(menu?.path);
+
     setSelectedMenu(menu);
+    // Update URL with selected menu information
+    navigate(menu?.path, { state: { selectedMenu: menu } });
   };
+
 
   useEffect(() => {
     const handleResize = () => {
