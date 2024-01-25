@@ -21,7 +21,14 @@ import {
   keepPreviousData,
 } from '@tanstack/react-query'
 import { useSearchParams } from "react-router-dom";
-const OrdersPage = ({ currentActiveMenu, setCurrentActiveMenu, mainMenu }) => {
+const OrdersPage = ({ mainMenu }) => {
+
+  const [currentActiveMenu, setCurrentActiveMenu] = useState({
+    isActive: true,
+    name: "index",
+    subMenu: [{}],
+    title: "Index",
+  });
   const dispatch = useDispatch()
   const queryClient = useQueryClient()
   const [searchParams, setSearchParams] = useSearchParams({ search: '' })
