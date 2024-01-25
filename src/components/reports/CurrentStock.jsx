@@ -104,6 +104,27 @@ const CurrentStock = () => {
               <td>1</td>
               <td>1</td>
             </tr>
+            <tr class="">
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+            </tr>
+            <tr class="">
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+            </tr>
+            <tr class="">
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+            </tr>
           </tbody>
         </Table>
       </Row>
