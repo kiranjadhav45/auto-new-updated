@@ -159,39 +159,58 @@ const OrdersPage = ({ mainMenu }) => {
         <Col>
           <div ref={componentRef} className="p-4">
             <h1 className="text-center">HR Resorts</h1>
-            <div>
+            <div className="text-center">Kole Tal Karad Dist Satara</div>
+            <div className="text-center">Phone No - 6754545445 , 5656565656</div>
+            <div className="text-center">Email id - hrresort7@gmail.com</div>
+            <div className="d-flex justify-content-between align-items-center">
               <p><strong>Bill No</strong> : 1001</p>
+              <p><strong>Table No</strong> : T43</p>
             </div>
             <div className="d-flex justify-content-between align-items-center">
               <p><strong>Time</strong> : {getCurrentTime()}</p>
               <p><strong>Date</strong>  : {getCurrentDate()}</p>
             </div>
+            <div className="mb-2">Customer Name: Cash Sales</div>
             <Table striped bordered hover>
               <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Quantity</th>
-                  <th>Price</th>
-                  <th>Total Price</th>
+                <tr style={{ width: "100%" }}>
+                  <th style={{ width: "5%" }}>Sr No</th>
+                  <th style={{ width: "40%" }}>Item</th>
+                  <th style={{ width: "10%" }}>Qty</th>
+                  <th style={{ width: "20%" }}>Price</th>
+                  <th style={{ width: "25%" }}>Amt</th>
                 </tr>
               </thead>
               <tbody>
-                {bill && bill?.map((product) => (
-                  <tr key={product.id}>
-                    <td>{product?.itemName}</td>
-                    <td>{product?.quantity}</td>
-                    <td>{product?.itemPrice}</td>
-                    <td>{product?.itemPrice * product?.quantity}</td>
+                {bill && bill?.map((product, index) => (
+                  <tr style={{ width: "100%" }} key={product.id}>
+                    <td style={{ width: "5%" }}>{index + 1}</td>
+                    <td style={{ width: "40%" }}>{product?.itemName}</td>
+                    <td style={{ width: "10%" }}>{product?.quantity}</td>
+                    <td style={{ width: "20%" }}>{product?.itemPrice}</td>
+                    <td style={{ width: "25%" }}>{product?.itemPrice * product?.quantity}</td>
                   </tr>
                 ))}
               </tbody>
             </Table>
-            <div>
-              <h5>
-                Total Amount: {totalBill}
-              </h5>
+            <div className="text-end">
+              <div style={{ fontSize: "1.2rem" }} className="d-flex align-items-center justify-content-between">
+                <div>
+                  <span>Served By:</span><span className="ms-2"><b> Dhanaji</b></span>
+                </div>
+                <div>
+                  <span>Total</span><span className="ms-2"><b>: {totalBill} </b></span>
+                </div>
+              </div>
+              <div style={{ fontSize: "1.2rem" }}>
+                <span>Total Amount </span><span className="ms-2"><b>: {totalBill} </b></span>
+              </div>
+              <div style={{ fontSize: "1.2rem" }}>
+                <span>Net Total </span><span className="ms-2"><b>: {totalBill} </b></span>
+              </div>
             </div>
             <div className="text-center mt-4">Thank You Visit Again 😊</div>
+            <div className="text-center mt-4">Happy...</div>
           </div>
         </Col>
       </Row>
