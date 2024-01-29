@@ -149,7 +149,29 @@
 //   outline: "none",
 //   borderBottom: "1px solid #212529",
 // }}
+.login-container-col {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  min-height: 100vh;
+  padding-right: 60px;
+  width: 100%;
+  align-items: center;
+}
 @media screen and (max-width: 992px) {
+  .hide-col-on-mobile-and-tab {
+    display: none;
+  }
+  .login-container-col {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    min-height: 95vh;
+    padding-right: 16px;
+    padding-left: 16px;
+    width: 100%;
+    align-items: center;
+  }
   .bottom-navbar-componat-container {
     position: fixed;
     background-color: #fff;
