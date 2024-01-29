@@ -17,7 +17,7 @@ const Masters = () => {
   // console.log("daya to perform...", dataToPerform);
   const [currentActiveMenu, setCurrentActiveMenu] = useState({
     isActive: true,
-    name: "index",
+    name: "menuMaster",
     subMenu: [{}],
     title: "Index",
   });
