@@ -257,7 +257,7 @@ const OrdersPage = ({ mainMenu }) => {
                 {searchedProduct && searchedProduct?.map((item) => (
                   <ListGroup.Item className="cursor-pointer" onClick={() => { dispatch(addProduct(item)); setsearchedProduct("") }} >{item?.itemName}</ListGroup.Item>
                 ))} */}
-              {searchData && (<ListGroup className="listGroup">
+              {/* {searchData && (<ListGroup className="listGroup">
                 {searchData && searchData?.body?.map((item) => (
                   <ListGroup.Item className="cursor-pointer"
                     onClick={
@@ -265,7 +265,21 @@ const OrdersPage = ({ mainMenu }) => {
                         handleOnAddProductToBill(item)
                     } >{item?.itemName}</ListGroup.Item>
                 ))}
-              </ListGroup>)}
+              </ListGroup>)} */}
+              {searchData && Array.isArray(searchData.body) && (
+                <ListGroup className="listGroup">
+                  {searchData.body.map((item) => (
+                    <ListGroup.Item
+                      key={item.itemId} // Make sure to add a unique key for each list item
+                      className="cursor-pointer"
+                      onClick={() => handleOnAddProductToBill(item)}
+                    >
+                      {item.itemName}
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+              )}
+
             </div>
             <Table striped bordered hover>
               <thead>
