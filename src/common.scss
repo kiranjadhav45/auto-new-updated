@@ -7,9 +7,28 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+.responsive-table {
+  overflow-x: auto;
+}
+.responsive-table::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
 
-.col-responsive-table-container::-webkit-scrollbar {
-  display: none;
+.table-scrollable th:nth-child(1),
+.table-scrollable td:nth-child(1) {
+  position: sticky;
+  left: 0;
+}
+.table-scrollable th:nth-child(2),
+.table-scrollable td:nth-child(2) {
+  position: sticky;
+  left: 150px;
+}
+.table-scrollable th:nth-child(3),
+.table-scrollable td:nth-child(3) {
+  position: sticky;
+  left: 300px;
 }
 
 .has-error {

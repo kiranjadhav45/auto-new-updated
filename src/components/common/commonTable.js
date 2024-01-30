@@ -129,11 +129,14 @@ const CommonTable = ({ data, handleEditTable, handleDelete, headerData }) => {
           </Row>
         </Form>
       </Navbar>
-      <Table style={{ overflow: "auto" }} responsive striped bordered hover>
-        <thead>
-          <tr>
-            <th style={{ minWidth: '150px' }}>Actions</th>
-            {/* {Array.isArray(data) && data.length > 0 && Object.keys(data[0]).map((key) => (
+      <div className="responsive-table">
+
+
+        <Table className="table-scrollable" striped bordered hover>
+          <thead>
+            <tr>
+              <th style={{ minWidth: '150px' }}>Actions</th>
+              {/* {Array.isArray(data) && data.length > 0 && Object.keys(data[0]).map((key) => (
               <th key={key} style={{ minWidth: '150px' }}>
                 {key}
                 <FcEmptyFilter
@@ -149,15 +152,15 @@ const CommonTable = ({ data, handleEditTable, handleDelete, headerData }) => {
               </th>
             ))
             } */}
-            {headerData && headerData.map((column) => (
-              <th key={column.name} style={{ minWidth: '150px' }}>
-                {column.title}
-                {/* Add sorting logic here if required */}
-              </th>
-            ))}
-          </tr >
-        </thead >
-        {/* <tbody>
+              {headerData && headerData.map((column) => (
+                <th key={column.name} style={{ minWidth: '150px' }}>
+                  {column.title}
+                  {/* Add sorting logic here if required */}
+                </th>
+              ))}
+            </tr >
+          </thead >
+          {/* <tbody>
           {currentRecords && currentRecords.map((row, index) => (
             <React.Fragment key={index}>
               <tr>
@@ -210,45 +213,45 @@ const CommonTable = ({ data, handleEditTable, handleDelete, headerData }) => {
             </React.Fragment>
           ))}
         </tbody> */}
-        <tbody>
-          {filteredData && filteredData.map((row, index) => (
-            <tr key={row._id}>
-              <td >
-                <FiChevronDown
-                  size={24}
-                  color="blue"
-                  style={{
-                    marginRight: 10,
-                    cursor: "pointer",
-                    transform: expandedRowIndex === index ? "rotate(180deg)" : "",
-                    transition: "transform 0.3s ease",
-                  }}
-                  onClick={() => handleExpandRow(index)}
-                />
-                <FiEdit
-                  color="green"
-                  size={24}
-                  style={{ marginRight: 10, cursor: "pointer" }}
-                  onClick={() => handleEditTable(row)}
-                />
-                <FiTrash2
-                  color="red"
-                  size={24}
-                  style={{ marginRight: 10, cursor: "pointer" }}
-                  onClick={() => handleDelete(row)}
-                />
-              </td>
-              {headerData && headerData.map((column) => (
-                <td key={column.name}>
-                  {row[column.name]}
+          <tbody>
+            {filteredData && filteredData.map((row, index) => (
+              <tr key={row._id}>
+                <td >
+                  <FiChevronDown
+                    size={24}
+                    color="blue"
+                    style={{
+                      marginRight: 10,
+                      cursor: "pointer",
+                      transform: expandedRowIndex === index ? "rotate(180deg)" : "",
+                      transition: "transform 0.3s ease",
+                    }}
+                    onClick={() => handleExpandRow(index)}
+                  />
+                  <FiEdit
+                    color="green"
+                    size={24}
+                    style={{ marginRight: 10, cursor: "pointer" }}
+                    onClick={() => handleEditTable(row)}
+                  />
+                  <FiTrash2
+                    color="red"
+                    size={24}
+                    style={{ marginRight: 10, cursor: "pointer" }}
+                    onClick={() => handleDelete(row)}
+                  />
                 </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-        {filteredData?.length <= 0 ? <div className="text-center">Records Not Found</div> : ""}
-      </Table >
-
+                {headerData && headerData.map((column) => (
+                  <td key={column.name}>
+                    {row[column.name]}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+          {filteredData?.length <= 0 ? <div className="text-center">Records Not Found</div> : ""}
+        </Table >
+      </div>
       <Pagination className="mt-3">{renderPaginationItems()}</Pagination>
     </div >
   );

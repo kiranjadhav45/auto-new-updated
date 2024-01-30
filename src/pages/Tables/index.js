@@ -279,7 +279,7 @@ const TablesPage = () => {
             </div>
           </div>
         </Col>
-        <Col className="col-lg-16 col-24 col-responsive-table-container">
+        <Col className="col-lg-16 col-24">
           {/* <TablesComponent
             currentActiveMenu={currentActiveMenu}
             setCurrentActiveMenu={setCurrentActiveMenu}

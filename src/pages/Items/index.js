@@ -371,7 +371,7 @@ const Items = () => {
             </div>
           </div>
         </Col>
-        <Col className="col-lg-16 col-24 col-responsive-table-container">
+        <Col className="col-lg-16 col-24">
           <CommonTable headerData={submenuArray} handleEditTable={handleEditTable} handleDelete={handleDeleteItems}
             // data={tableData}
             data={items?.body}
