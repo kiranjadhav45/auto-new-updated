@@ -35,6 +35,7 @@ const OrdersPage = ({ mainMenu }) => {
   const bill = useSelector((state) => state.bill.products)
   const [products, setProducts] = useState(ItemsData)
   const [search, setSearch] = useState("");
+  const [searchData, setSearchData] = useState("");
   const [searchedProduct, setsearchedProduct] = useState(false);
   // const [currentBillProduct, setCurrentBillProduct] = useState(false);
   const [totalBill, setTotalBill] = useState(0);
@@ -67,10 +68,11 @@ const OrdersPage = ({ mainMenu }) => {
     placeholderData: keepPreviousData,
     staleTime: 30000,
   })
-  const { isLoading: searchLoading, data: searchData, error: searchError, refetch: searchRefetch } = useQuery({
-    queryKey: ['searched', search],
-    queryFn: () => GetApi(`//v1/item/search?search=${search}`)
-  })
+  // const { isLoading: searchLoading, data: searchData, error: searchError, refetch: searchRefetch } = useQuery({
+  //   queryKey: ['searched', search],
+  //   queryFn: () => GetApi(`//v1/item/search?search=${search}`)
+  // })
+
 
   const handleSaveBill = () => {
     if (bill.length > 0) {
@@ -135,14 +137,27 @@ const OrdersPage = ({ mainMenu }) => {
     dispatch(addBill(clickedBill.items))
     // console.log(clickedBill, "clickedBill")
   }
+
   // console.log(searchData?.body, "searchData")
   const handleOnAddProductToBill = (item) => {
     const newData = { ...item, quantity: 1 }
     dispatch(addProduct(newData))
     setSearch("")
     // setSearchParams({ search: '' })
-    setSearch("")
+    // setSearch("")
   }
+
+  const handleSearchItems = (e) => {
+    setSearch(e.target.value)
+    const getData = GetApi(`//v1/item/search?search=${e.target.value}`)
+    console.log(getData, "Get Data")
+    getData.then((response) => {
+      setSearchData(response)
+    }).catch((error) => {
+      console.error('Error fetching data:', error);
+    });
+  }
+
   return (
     <Layout
       currentActiveMenu={currentActiveMenu}
@@ -245,7 +260,8 @@ const OrdersPage = ({ mainMenu }) => {
                 <Form.Control
                   type="text"
                   placeholder="search"
-                  onChange={(e) => setSearch(e.target.value)}
+                  // onChange={(e) =>  setSearch(e.target.value)}
+                  onChange={handleSearchItems}
                   value={search}
                 // onChange={
                 //   debounce(
@@ -272,7 +288,7 @@ const OrdersPage = ({ mainMenu }) => {
                     } >{item?.itemName}</ListGroup.Item>
                 ))}
               </ListGroup>)} */}
-              {searchData && Array.isArray(searchData.body) && (
+              {search?.length > 0 ? Array.isArray(searchData.body) && (
                 <ListGroup className="listGroup">
                   {searchData.body.map((item) => (
                     <ListGroup.Item
@@ -284,7 +300,7 @@ const OrdersPage = ({ mainMenu }) => {
                     </ListGroup.Item>
                   ))}
                 </ListGroup>
-              )}
+              ) : ""}
 
             </div>
             <Table striped bordered hover>
