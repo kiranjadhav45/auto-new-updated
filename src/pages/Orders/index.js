@@ -20,7 +20,7 @@ import {
   useQueryClient,
   keepPreviousData,
 } from '@tanstack/react-query'
-import { useSearchParams } from "react-router-dom";
+// import { useSearchParams } from "react-router-dom";
 const OrdersPage = ({ mainMenu }) => {
 
   const [currentActiveMenu, setCurrentActiveMenu] = useState({
@@ -31,21 +31,22 @@ const OrdersPage = ({ mainMenu }) => {
   });
   const dispatch = useDispatch()
   const queryClient = useQueryClient()
-  const [searchParams, setSearchParams] = useSearchParams({ search: '' })
+  // const [searchParams, setSearchParams] = useSearchParams({ search: '' })
   const bill = useSelector((state) => state.bill.products)
   const [products, setProducts] = useState(ItemsData)
-  // const [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");
   const [searchedProduct, setsearchedProduct] = useState(false);
   // const [currentBillProduct, setCurrentBillProduct] = useState(false);
   const [totalBill, setTotalBill] = useState(0);
 
-  let search = searchParams.get('search') || ""
+  // let search = searchParams.get('search') || ""
   const handleInputChange = (e) => {
     e.preventDefault();
     const value = e.target.value
     debounce(
       () => {
-        setSearchParams({ search: value });
+        // setSearchParams({ search: value });
+        setSearch(e.target.value)
         queryClient.invalidateQueries({ queryKey: ['searched', search] });
       }, 1000)
     const searchedItems = products.filter((item) => item.itemName.includes(value));
@@ -136,8 +137,9 @@ const OrdersPage = ({ mainMenu }) => {
   const handleOnAddProductToBill = (item) => {
     const newData = { ...item, quantity: 1 }
     dispatch(addProduct(newData))
-    setSearchParams({ search: '' })
-    search = ""
+    setSearch("")
+    // setSearchParams({ search: '' })
+    setSearch("")
   }
   return (
     <Layout
@@ -241,14 +243,16 @@ const OrdersPage = ({ mainMenu }) => {
                 <Form.Control
                   type="text"
                   placeholder="search"
-                  // onChange={handleInputChange}
-                  onChange={
-                    debounce(
-                      (e) => {
-                        setSearchParams({ search: e.target.value });
-                        queryClient.invalidateQueries({ queryKey: ['searched', search] });
-                      }, 500)
-                  }
+                  onChange={(e) => setSearch(e.target.value)}
+                  value={search}
+                // onChange={
+                //   debounce(
+                //     (e) => {
+                //       // setSearchParams({ search: e.target.value });
+                //       setSearch(e.target.value)
+                //       queryClient.invalidateQueries({ queryKey: ['searched', search] });
+                //     }, 500)
+                // }
                 />
               </FloatingLabel>
             </Form>
