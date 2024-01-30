@@ -15,7 +15,7 @@ import { TbLogout2 } from "react-icons/tb";
 import { CgProfile } from "react-icons/cg";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { FiAlignRight } from "react-icons/fi";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import "./styles.css";
 import { jwtDecode } from "jwt-decode";
 import "../../App.css";
@@ -31,24 +31,31 @@ import { useNavigate } from "react-router-dom";
 import ProfileDetails from "../user/profileDetails";
 const TopNavBar = ({ selectedMenu, defaultMenu, setCurrentActiveMenu }) => {
   const navigate = useNavigate();
-  const businessData = useSelector((state) => state.business.value);
-  // const iconStyles = {
-  //   marginLeft: 10,
-  //   marginRight: 10,
-  // };
+  // const businessData = useSelector((state) => state.business.value);
+  const businessData = useSelector(
+    useMemo(() => (state) => state.business.value, [])
+  );
   const [businessName, setBusinessName] = useState("");
   const [showMenu1, setShowMenu1] = useState(false);
   const [showMenu2, setShowMenu2] = useState(false);
   const [showMenu3, setShowMenu3] = useState(false);
   const [showMenu4, setShowMenu4] = useState(false);
   const [showMenu5, setShowMenu5] = useState(false);
-  const handleMenuClick = (menuNumber) => {
+
+  // const handleMenuClick = (menuNumber) => {
+  //   setShowMenu1(menuNumber === 1 ? !showMenu1 : false);
+  //   setShowMenu2(menuNumber === 2 ? !showMenu2 : false);
+  //   setShowMenu3(menuNumber === 3 ? !showMenu3 : false);
+  //   setShowMenu4(menuNumber === 4 ? !showMenu4 : false);
+  //   setShowMenu5(menuNumber === 5 ? !showMenu5 : false);
+  // };
+  const handleMenuClick = useCallback((menuNumber) => {
     setShowMenu1(menuNumber === 1 ? !showMenu1 : false);
     setShowMenu2(menuNumber === 2 ? !showMenu2 : false);
     setShowMenu3(menuNumber === 3 ? !showMenu3 : false);
     setShowMenu4(menuNumber === 4 ? !showMenu4 : false);
     setShowMenu5(menuNumber === 5 ? !showMenu5 : false);
-  };
+  });
   const divStyle = {
     borderTopLeftRadius: "10px",
     borderTopRightRadius: "10px",
@@ -263,5 +270,6 @@ const TopNavBar = ({ selectedMenu, defaultMenu, setCurrentActiveMenu }) => {
     </>
   );
 };
-
-export default TopNavBar;
+const MemoizedMyComponent = React.memo(TopNavBar);
+export default MemoizedMyComponent;
+// export default TopNavBar;
