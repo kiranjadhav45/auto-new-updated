@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import { Form, Table, Button, FloatingLabel, Col, Row } from "react-bootstrap";
 import ListGroup from 'react-bootstrap/ListGroup';
 import Layout from "../../components/common/Layout";
@@ -73,11 +73,13 @@ const OrdersPage = ({ mainMenu }) => {
   })
 
   const handleSaveBill = () => {
-    const PostPayload = {
-      data: bill,
-      url: "//v1/billing"
+    if (bill.length > 0) {
+      const PostPayload = {
+        data: bill,
+        url: "//v1/billing"
+      }
+      mutationSaveBill.mutate(PostPayload)
     }
-    mutationSaveBill.mutate(PostPayload)
   }
   // console.log(bill, "bill") 
   console.log(billsFromServer, "billsFromServer")
