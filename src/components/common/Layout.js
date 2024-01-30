@@ -1,6 +1,6 @@
 // Layout.js
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import TopNavBar from "./TopNavbar";
 import bundleData from "../../data.json";
 // import mainData from "../../business.json";
@@ -24,14 +24,21 @@ const Layout = ({ children, currentActiveMenu, setCurrentActiveMenu }) => {
     title: businessData.name,
     defaultMenu: businessData.defaultMenu,
   });
-  const handleSelect = (menu, index) => {
+
+  // const handleSelect = (menu, index) => {
+  //   setSelectedMenu(menu);
+  //   navigate(menu?.path);
+
+  //   // setSelectedMenu(menu);
+  //   // navigate(menu?.path, { state: { selectedMenu: menu } });
+  // };
+  const handleSelect = useCallback((menu, index) => {
     // setSelectedMenu(menu);
     // navigate(menu?.path);
 
     setSelectedMenu(menu);
-    // Update URL with selected menu information
     navigate(menu?.path, { state: { selectedMenu: menu } });
-  };
+  })
 
 
   useEffect(() => {
