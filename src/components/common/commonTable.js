@@ -258,7 +258,7 @@ const CommonTable = ({ data, handleEditTable, handleDelete, headerData }) => {
           {filteredData?.length <= 0 ? <div className="text-center">Records Not Found</div> : ""}
         </Table >
       </div>
-      <Pagination className="mt-3">{renderPaginationItems()}</Pagination>
+      <Pagination className="mt-2">{renderPaginationItems()}</Pagination>
     </div >
   );
 };
