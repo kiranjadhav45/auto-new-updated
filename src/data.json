@@ -354,7 +354,7 @@
             {
               "name": "ingredients",
               "title": "Ingredients",
-              "isActive": true,
+              "isActive": false,
               "type": "DropDown",
               "validationType": "text",
               "values": ["category 1", "category 2"],
@@ -363,7 +363,7 @@
             {
               "name": "recipe",
               "title": "Food Recipe",
-              "isActive": true,
+              "isActive": false,
               "type": "DropDown",
               "validationType": "text",
               "values": ["category one", "category 2"],
@@ -372,7 +372,7 @@
             {
               "name": "allergen",
               "title": "Allergen Information",
-              "isActive": true,
+              "isActive": false,
               "type": "text",
               "validationType": "text",
               "placeholder": "Something allergic"
@@ -380,7 +380,7 @@
             {
               "name": "portionSize",
               "title": "Portion Size",
-              "isActive": true,
+              "isActive": false,
               "type": "text",
               "validationType": "text",
               "placeholder": "How Many It Can Serve"
@@ -388,7 +388,7 @@
             {
               "name": "status",
               "title": "Status",
-              "isActive": true,
+              "isActive": false,
               "type": "text",
               "validationType": "text",
               "placeholder": "Is It Available"
@@ -396,7 +396,7 @@
             {
               "name": "tax",
               "title": "Taxable",
-              "isActive": true,
+              "isActive": false,
               "type": "number",
               "validationType": "number",
               "placeholder": "Enter Tax"
@@ -404,7 +404,7 @@
             {
               "name": "discount",
               "title": "Discount",
-              "isActive": true,
+              "isActive": false,
               "type": "number",
               "validationType": "number",
               "placeholder": "Enter Discount"
@@ -412,7 +412,7 @@
             {
               "name": "images",
               "title": "Images",
-              "isActive": true,
+              "isActive": false,
               "value": [{}],
               "type": "upload",
               "validationType": "image",
@@ -421,7 +421,7 @@
             {
               "name": "currentStock",
               "title": "Current Stock",
-              "isActive": true,
+              "isActive": false,
               "type": "number",
               "validationType": "number",
               "placeholder": "Items in stock"
@@ -429,7 +429,7 @@
             {
               "name": "barcode",
               "title": "Bar Code",
-              "isActive": true,
+              "isActive": false,
               "type": "number",
               "validationType": "number",
               "placeholder": "Enter Barcode"
@@ -437,14 +437,14 @@
             {
               "name": "salesHistory",
               "title": "Sales History",
-              "isActive": true,
+              "isActive": false,
               "validationType": "number",
               "value": [{}]
             },
             {
               "name": "customNotes",
               "title": "Notes",
-              "isActive": true,
+              "isActive": false,
               "type": "text",
               "validationType": "text",
               "placeholder": "Enter more details"
