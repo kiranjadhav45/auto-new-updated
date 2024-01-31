@@ -31,6 +31,7 @@ const CommonTable = ({ data, handleEditTable, handleDelete, headerData }) => {
   const recordsPerPage = 10;
 
   const handleSearch = (e) => {
+
     const term = e.target.value;
     setSearchTerm(term);
     setCurrentPage(1);
@@ -44,7 +45,11 @@ const CommonTable = ({ data, handleEditTable, handleDelete, headerData }) => {
     setFilteredData(filtered);
     setExpandedRowIndex(null); // Close any expanded row when searching
   };
-
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+    }
+  };
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
   const currentRecords = filteredData?.slice(
@@ -124,6 +129,7 @@ const CommonTable = ({ data, handleEditTable, handleDelete, headerData }) => {
                 placeholder="Search"
                 className=" mr-sm-2"
                 onChange={handleSearch}
+                onKeyPress={handleKeyPress}
               />
             </Col>
           </Row>
