@@ -232,6 +232,21 @@ const Items = () => {
     mutationFn: PostApi,
     onSuccess: (data, variable, context) => {
       if (data) {
+        // if (data.statusCode == 201) {
+        //   setTimeout(() => {
+        //     toast.success("item created successfully", { AlertMessage });
+        //   }, 100);
+        // }
+        // if (data.statusCode == 200) {
+        //   setTimeout(() => {
+        //     toast.success("item created successfully", { AlertMessage });
+        //   }, 100);
+        // }
+        // if (data.statusCode == 401) {
+        //   setTimeout(() => {
+        //     toast.success("Item Not Found", { AlertMessage });
+        //   }, 100);
+        // }
         if (data.status == "success") {
           setTimeout(() => {
             toast.success(data.message, { AlertMessage });
@@ -273,6 +288,21 @@ const Items = () => {
     mutationFn: PutApi,
     onSuccess: (data, variable, context) => {
       if (data) {
+        // if (data.statusCode == 201) {
+        //   setTimeout(() => {
+        //     toast.success("item created successfully", { AlertMessage });
+        //   }, 100);
+        // }
+        // if (data.statusCode == 200) {
+        //   setTimeout(() => {
+        //     toast.success("item updated successfully", { AlertMessage });
+        //   }, 100);
+        // }
+        // if (data.statusCode == 401) {
+        //   setTimeout(() => {
+        //     toast.success("Item Not Found", { AlertMessage });
+        //   }, 100);
+        // }
         if (data.status == "success") {
           setTimeout(() => {
             toast.success(data.message, { AlertMessage });
@@ -326,6 +356,21 @@ const Items = () => {
     mutationFn: DeleteApi,
     onSuccess: (data, variable, context) => {
       if (data) {
+        // if (data.statusCode == 201) {
+        //   setTimeout(() => {
+        //     toast.success("item created successfully", { AlertMessage });
+        //   }, 100);
+        // }
+        // if (data.statusCode == 200) {
+        //   setTimeout(() => {
+        //     toast.success("item deleted successfully", { AlertMessage });
+        //   }, 100);
+        // }
+        // if (data.statusCode == 401) {
+        //   setTimeout(() => {
+        //     toast.success("Item Not Found", { AlertMessage });
+        //   }, 100);
+        // }
         if (data.status == "success") {
           setTimeout(() => {
             toast.success(data.message, { AlertMessage });
