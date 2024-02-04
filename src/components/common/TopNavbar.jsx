@@ -82,7 +82,7 @@ const TopNavBar = ({ selectedMenu, defaultMenu, setCurrentActiveMenu }) => {
         >
           <Nav>
             {businessData && businessData.name && (
-              <Nav.Link href="#home" className="bussness-name">
+              <Nav.Link href="/home" className="bussness-name">
                 {businessName && businessName}
               </Nav.Link>
             )}
@@ -104,9 +104,8 @@ const TopNavBar = ({ selectedMenu, defaultMenu, setCurrentActiveMenu }) => {
                   ))}
             </ButtonGroup>
           </Nav>
-
           <Nav style={{ marginRight: 25 }}>
-            <Nav.Link className="top-nav-icon-search" href="#login">
+            <Nav.Link className="top-nav-icon-search" href="#">
               {showMenu1 && (
                 <div className="search-input-box-container-navbar">
                   <input placeholder="Search..." className="top-nav-input" />
@@ -120,7 +119,7 @@ const TopNavBar = ({ selectedMenu, defaultMenu, setCurrentActiveMenu }) => {
                 />
               </div>
             </Nav.Link>
-            <Nav.Link href="#login" className="top-nav-icons bag-navbar">
+            <Nav.Link href="#" className="top-nav-icons bag-navbar">
               <div className="d-flex justify-content-center align-items-center">
                 <FcBriefcase
                   className="icons-navbar"
@@ -134,7 +133,7 @@ const TopNavBar = ({ selectedMenu, defaultMenu, setCurrentActiveMenu }) => {
                 </ListGroup>
               )}
             </Nav.Link>
-            <Nav.Link href="#login" className="top-nav-icons">
+            <Nav.Link href="#" className="top-nav-icons">
               <FcAdvertising
                 className="icons-navbar"
                 size={25}
@@ -162,7 +161,7 @@ const TopNavBar = ({ selectedMenu, defaultMenu, setCurrentActiveMenu }) => {
                 </>
               )}
             </Nav.Link>
-            <Nav.Link href="#login" className="top-nav-icons">
+            <Nav.Link href="#" className="top-nav-icons">
               <div
                 className="d-flex profile-image-container"
                 onClick={() => handleMenuClick(4)}
@@ -222,7 +221,7 @@ const TopNavBar = ({ selectedMenu, defaultMenu, setCurrentActiveMenu }) => {
                 </>
               )}
             </Nav.Link>
-            <Nav.Link href="#login" className=" menu-button-navbar">
+            <Nav.Link href="#" className=" menu-button-navbar">
               <div
                 className="d-flex profile-image-container"
                 onClick={() => handleMenuClick(5)}
