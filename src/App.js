@@ -26,6 +26,7 @@ import { jwtDecode } from "jwt-decode";
 import data from './data.json';
 import ProfileDetails from "./components/user/profileDetails";
 import Report from "./pages/reports";
+import Home from "./pages/home/Home";
 
 function App() {
   console.time('App render Time');
@@ -102,6 +103,7 @@ function App() {
         <Route path="/customer" element={<CustomerPage />} />
         <Route path="/profile" element={<ProfileDetails />} />
         <Route path="/reports" element={<Report />} />
+        <Route path="/home" element={<Home />} />
       </Routes>
     </BrowserRouter>
   );

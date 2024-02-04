@@ -39,6 +39,7 @@ const LoginComponent = () => {
     url: "/v1/login",
     data: formData
   }
+
   const handleLogin = async (e) => {
     e.preventDefault();
     const newErrors = { ...errors };
@@ -99,7 +100,7 @@ const LoginComponent = () => {
               // Handle the case where data.body.bundle is not available
               console.error("Missing or invalid data.body.bundle");
             }
-            navigate("/vendors")
+            navigate("/home")
           }
         }
       } else {
