@@ -5,6 +5,7 @@ import CurrentStock from "../../components/reports/CurrentStock";
 import Supplier from "../../components/reports/Supplier";
 import Purchase from "../../components/reports/Purchase";
 import Consumption from "../../components/reports/Consumption";
+import ItemReports from "../../components/reports/ItemReports";
 
 const Report = () => {
   return (
@@ -13,7 +14,8 @@ const Report = () => {
       {/* <CurrentStock /> */}
       {/* <Supplier /> */}
       {/* <Purchase /> */}
-      <Consumption />
+      {/* <Consumption /> */}
+      <ItemReports />
     </Layout>
   );
 };
