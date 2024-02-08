@@ -309,6 +309,7 @@ const OrdersPage = ({ mainMenu }) => {
                   <th>Name</th>
                   <th>Price</th>
                   <th>Quantity</th>
+                  <th>Amount</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -318,6 +319,7 @@ const OrdersPage = ({ mainMenu }) => {
                     <td>{product?.itemName}</td>
                     <td>{product?.itemPrice}</td>
                     <td>{product?.quantity}</td>
+                    <td>{product?.quantity * product?.itemPrice}</td>
                     <td>
                       <div className="d-flex align-items-center">
                         <div className="d-flex align-items-center">
@@ -334,7 +336,7 @@ const OrdersPage = ({ mainMenu }) => {
                 ))}
               </tbody>
             </Table>
-            <div>
+            <div className="mb-3">
               <strong>Total Items:
                 {totalBill}
               </strong>
@@ -362,8 +364,4 @@ const OrdersPage = ({ mainMenu }) => {
 };
 
 export default OrdersPage;
-
-
-
-
 

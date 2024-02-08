@@ -75,8 +75,8 @@ const LoginComponent = () => {
           }, 100);
         }
         if (data?.status == "success" && data?.statusCode == 200) {
-          if (data?.access_token) {
-            localStorage.setItem("token", data.access_token)
+          if (data?.accessToken) {
+            localStorage.setItem("token", data.accessToken)
             if (data?.body && data?.body?.bundle) {
               try {
                 const bundleFromData = data.body.bundle;
