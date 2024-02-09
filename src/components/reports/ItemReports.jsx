@@ -25,10 +25,10 @@ const ItemReports = () => {
 
   useEffect(() => {
     const handleStartDate = async () => {
-      const date = await new Date();
-      const year = await date.getFullYear();
-      const months = await date.getMonth();
-      const day = await date.getDate();
+      const date = new Date();
+      const year = date.getFullYear();
+      const months = date.getMonth();
+      const day = date.getDate();
       setFromDate(`${year - 1}-${months + 1}-${day}`);
       setToDate(`${year}-${months + 1}-${day}`);
       refetch();
