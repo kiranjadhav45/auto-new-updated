@@ -24,26 +24,32 @@ const ItemReports = () => {
   // console.log(startDate, "startDate");
 
   useEffect(() => {
-    const date = new Date();
-    const year = date.getFullYear();
-    const months = date.getMonth();
-    const day = date.getDate();
-    setFromDate(`${year - 1}-${months + 1}-${day}`);
-    setToDate(`${year}-${months + 1}-${day}`);
+    const handleStartDate = async () => {
+      const date = await new Date();
+      const year = await date.getFullYear();
+      const months = await date.getMonth();
+      const day = await date.getDate();
+      setFromDate(`${year - 1}-${months + 1}-${day}`);
+      setToDate(`${year}-${months + 1}-${day}`);
+      refetch();
+    };
+    handleStartDate();
   });
 
-  const { isLoading, data, error, refetch } = useQuery({
+  const {
+    isLoading,
+    data: itemReportData,
+    error,
+    refetch,
+  } = useQuery({
     queryKey: ["itemReports"],
     queryFn: () =>
       GetApi(
         // `//v1/reports?startDate=${startDate}&endDate=${endDate}&sort=${sort}&column=${column}`
-        `//v1/reports/overview?start_date=${fromDate}&end_date=${toDate}&sort=${sort}&column=${column}`
+        `//v1/reports/overview?start-date=${fromDate}&end-date=${toDate}&sort=${sort}&column=${column}`
       ),
     placeholderData: keepPreviousData,
   });
-  console.log(isLoading);
-
-  // console.log(data);
   const handleStartDate = (date) => {
     const year = date.getFullYear();
     const months = date.getMonth();
@@ -51,7 +57,6 @@ const ItemReports = () => {
     const finalDate = `${year}-${months + 1}-${day}`;
     setFromDate(finalDate);
     setStartDate(date);
-    // console.log(finalDate);
   };
   const handleEndDate = (date) => {
     const year = date.getFullYear();
@@ -60,20 +65,20 @@ const ItemReports = () => {
     const finalDate = `${year}-${months + 1}-${day}`;
     setToDate(finalDate);
     setEndDate(date);
-    // console.log(finalDate);
   };
 
   const handleAscDesc = (value) => {
     setColumn(value);
     if (sort == "asc") {
       setSort("desc");
-      queryClient.invalidateQueries(["itemReports"]);
+      console.log(sort, "from 1st condition");
+      refetch();
     }
     if (sort == "desc") {
       setSort("asc");
-      queryClient.invalidateQueries(["itemReports"]);
+      console.log(sort, "from 2st condition");
+      refetch();
     }
-    // console.log(sort);
   };
   return (
     <div className="mx-4">
@@ -118,24 +123,56 @@ const ItemReports = () => {
             <thead>
               <tr>
                 <th>Sr no</th>
-                <th>Item</th>
-                <th>Most Sold (₹)</th>
-                <th>Least Sold (₹)</th>
-                <th className="px-2 d-flex justify-content-between">
-                  <span>Qty Remaining</span>
-                  <span
-                    onClick={() => handleAscDesc("quantityRemaining")}
-                    className="cursor-pointer"
-                  >
-                    <FaSort />
-                  </span>
+                <th>
+                  <div className="px-2 d-flex justify-content-between">
+                    <span>Items</span>
+                    <span
+                      onClick={() => handleAscDesc("itemName")}
+                      className="cursor-pointer"
+                    >
+                      <FaSort />
+                    </span>
+                  </div>
+                </th>
+                <th>
+                  <div className="px-2 d-flex justify-content-between">
+                    <span>Most Sold (₹)</span>
+                    <span
+                      onClick={() => handleAscDesc("mostSold")}
+                      className="cursor-pointer"
+                    >
+                      <FaSort />
+                    </span>
+                  </div>
+                </th>
+                <th>
+                  <div className="px-2 d-flex justify-content-between">
+                    <span>Least Sold (₹)</span>
+                    <span
+                      onClick={() => handleAscDesc("leastSold")}
+                      className="cursor-pointer"
+                    >
+                      <FaSort />
+                    </span>
+                  </div>
+                </th>
+                <th>
+                  <div className="px-2 d-flex justify-content-between">
+                    <span>Qty Remaining</span>
+                    <span
+                      onClick={() => handleAscDesc("quantityRemaining")}
+                      className="cursor-pointer"
+                    >
+                      <FaSort />
+                    </span>
+                  </div>
                 </th>
               </tr>
             </thead>
             <tbody>
-              {data &&
-                data?.items &&
-                data?.items.map((item, index) => (
+              {itemReportData &&
+                itemReportData?.items &&
+                itemReportData?.items.map((item, index) => (
                   <tr class="">
                     <td>{index + 1}</td>
                     <td>{item.itemName}</td>
