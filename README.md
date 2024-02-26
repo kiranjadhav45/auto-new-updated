@@ -1,83 +1,89 @@
-# Getting Started with Create React App
+## How to contribute
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Run Locally
 
-## Available Scripts
+1 Fork the repository on GitHub and Clone the project
 
-In the project directory, you can run:
+```bash
+  git clone https://github.com/kiranjadhav45/web_autopilot.git
+```
 
-### `npm start`
+2 Go to the project directory
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```bash
+  cd web_autopilot
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+3 Install dependencies
 
-### `npm test`
+```bash
+  npm install
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+4 Start the server
 
-### `npm run build`
+```bash
+  npm run dev
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Contributing
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1 Create a new branch for your contribution:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+2 git checkout -b feature/your-feature-name
 
-### `npm run eject`
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3 Make your changes and commit them:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+  git add .
+  git commit -m "Add your commit message here"
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+4 Push your changes to your forked repository:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```bash
+  git push origin feature/your-feature-name
 
-## Learn More
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+5 Create a pull request (PR) from your branch to the main branch of the main repository.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+6 Wait for feedback and iterate on your changes if needed. Once your PR is approved, it will be merged.
 
-### Code Splitting
+<!-- ## ⚙️ Tech Skills
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-x. Copy redux to localStorage
-1. copy redux to tempStore
-2. Update original Redux
-3. call the backend {
-    if(true){
-
-    }
-    else{
-        false
-        revert ( tempStore -> main Store)
-    }
-}
+<table>
+  <tr>
+    <td align="center" width="96">
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" width="48" height="48" alt="Java" />
+      <br>Java<br>(⭐️⭐️⭐️)<br><img src="https://badges.fw-web.space/endpoint?url=https://wakapi.dev/api/compat/shields/v1/n1try/interval:any/language:Java&style=flat-square&color=blue&label=time"/>
+    </td>
+    <td align="center" width="96">
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/go/go-original.svg" width="48" height="48" alt="Go" />
+      <br>Go<br>(⭐️⭐️⭐️)<br><img src="https://badges.fw-web.space/endpoint?url=https://wakapi.dev/api/compat/shields/v1/n1try/interval:any/language:Go&style=flat-square&color=blue&label=time"/>
+    </td>
+    <td align="center" width="96">
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" width="48" height="48" alt="JavaScript" />
+      <br>JavaScript<br>(⭐️⭐️⭐️)<br><img src="https://badges.fw-web.space/endpoint?url=https://wakapi.dev/api/compat/shields/v1/n1try/interval:any/language:JavaScript&style=flat-square&color=blue&label=time"/>
+    </td>
+    <td align="center" width="96">
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg" width="48" height="48" alt="TypeScript" />
+      <br>TypeScript<br>(⭐️⭐️)<br><img src="https://badges.fw-web.space/endpoint?url=https://wakapi.dev/api/compat/shields/v1/n1try/interval:any/language:TypeScript&style=flat-square&color=blue&label=time"/>
+    </td>
+    <td align="center" width="96">
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" width="48" height="48" alt="Python" />
+      <br>Python<br>(⭐️⭐️)<br><img src="https://badges.fw-web.space/endpoint?url=https://wakapi.dev/api/compat/shields/v1/n1try/interval:any/language:Python&style=flat-square&color=blue&label=time"/>
+    </td>
+     <td align="center" width="96">
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/vuejs/vuejs-original.svg" width="48" height="48" alt="Vue" />
+      <br>Vue<br>(⭐️⭐️⭐️)<br><img src="https://badges.fw-web.space/endpoint?url=https://wakapi.dev/api/compat/shields/v1/n1try/interval:any/language:Vue&style=flat-square&color=blue&label=time"/>
+    </td>
+    <td align="center" width="96">
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original.svg" width="48" height="48" alt="Docker" />
+      <br>Docker<br>(⭐️⭐️)<br><img src="https://badges.fw-web.space/endpoint?url=https://wakapi.dev/api/compat/shields/v1/n1try/interval:any/language:Docker&style=flat-square&color=blue&label=time"/>
+    </td>
+  </tr>
+</table> -->
