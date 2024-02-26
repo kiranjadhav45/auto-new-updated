@@ -5,13 +5,13 @@
 1 Fork the repository on GitHub and Clone the project
 
 ```bash
-  git clone https://github.com/kiranjadhav45/web_autopilot.git
+  git clone https://github.com/kiranjadhav45/auto-new-updated.git
 ```
 
 2 Go to the project directory
 
 ```bash
-  cd web_autopilot
+  cd auto-new-updated
 ```
 
 3 Install dependencies
